@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Membership',
     'ManageShops',
     'ManageOrders',
+    'ManageReviews',
     
     #REST_FRAMEWORK
     'rest_framework',
