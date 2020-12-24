@@ -1,16 +1,26 @@
+# Django
 from django.shortcuts import render
+from django.contrib.auth import authenticate
+
+# Rest Framework
 from rest_framework import status, generics, viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
-from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
-from Authuser.models import Vendors, Customers, User, Address
-import json
-from Authuser.permissions import IsOwner
-import logging
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK,
+)
 
+# Custom
+from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer
+from Authuser.models import Vendors, Customers, User, Address
+from Authuser.permissions import IsOwner
+from Authuser.authentication import expires_in, is_token_expired, token_expire_handler
 # Create your views here.
 
 
@@ -66,6 +76,49 @@ def vendor_registration_view(request):
     return Response(data)
 
 
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def signin_view(request):
+
+    user = authenticate(
+        username=request.data['username'],
+        password=request.data['password']
+    )
+    if not user:
+        return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
+
+    # TOKEN STUFF
+    token, _ = Token.objects.get_or_create(user=user)
+
+    # token_expire_handler will check, if the token is expired it will generate new one
+    is_expired, token = token_expire_handler(token)
+    user_serialized = UserSerializer(user)
+    user_serialized.fields.pop('password')
+
+    return Response({
+        'user': user_serialized.data,
+        'expires_in': expires_in(token),
+        'token': token.key
+    }, status=HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes((IsAuthenticated,))
+def logout(request):
+    Token.delete(request.data['token'])
+    return Response({
+        'message': 'Logged Out successfully'
+    }, status=HTTP_200_OK)
+
+
+class AddressViewSet(viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwner]
+
+
+"""
 class AddressDetail(APIView):
 
     def get_object(self, pk):
@@ -101,10 +154,8 @@ class AddressDetail(APIView):
 
 
 class AddressList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-
+    
+    
     def get(self, request, format=None):
         address = Address.objects.all()
         serializer = AddressSerializer(address, many=True)
@@ -116,3 +167,4 @@ class AddressList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+"""
