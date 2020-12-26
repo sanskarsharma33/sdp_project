@@ -20,7 +20,7 @@ from rest_framework.status import (
 from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer
 from Authuser.models import Vendors, Customers, User, Address
 from Authuser.permissions import IsOwner
-from Authuser.authentication import expires_in, is_token_expired, token_expire_handler
+from Authuser.authentication import expires_in, is_token_expired, token_expire_handler, ExpiringTokenAuthentication
 # Create your views here.
 
 
@@ -69,6 +69,7 @@ def vendor_registration_view(request):
             data['email'] = user.email
             token = Token.objects.get(user=user).key
             data['token'] = token
+
         else:
             data = serializer1.errors
     else:
@@ -102,69 +103,33 @@ def signin_view(request):
     }, status=HTTP_200_OK)
 
 
-@api_view(["POST"])
+@api_view(["GET", "POST"])
+def testing(request):
+    print(request.user)
+    return Response()
+
+
+@api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def logout(request):
-    Token.delete(request.data['token'])
+    Token.delete(request.auth)
     return Response({
         'message': 'Logged Out successfully'
     }, status=HTTP_200_OK)
 
 
 class AddressViewSet(viewsets.ModelViewSet):
-    queryset = Address.objects.all()
+    authentication_classes = (ExpiringTokenAuthentication,)
     serializer_class = AddressSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsOwner]
+    # get all products on DB
+    queryset = Address.objects.all()
+    permission_classes = (IsAuthenticated, )
 
+    def perform_create(self, serializer):
+        # when a product is saved, its saved how it is the owner
+        serializer.save(user=self.request.user)
 
-"""
-class AddressDetail(APIView):
-
-    def get_object(self, pk):
-        try:
-            address = Address.objects.get(pk=pk)
-            if address.user == request.user:
-                return address
-            else:
-                return None
-        except Snippet.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        address = self.get_object(pk)
-        if address != None:
-            serializer = AddressSerializer(address)
-        else:
-            return Response({'error': 'Bad Request'}, 400)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        address = self.get_object(pk)
-        serializer = AddressSerializer(address, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        address = self.get_object(pk)
-        address.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class AddressList(APIView):
-    
-    
-    def get(self, request, format=None):
-        address = Address.objects.all()
-        serializer = AddressSerializer(address, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = AddressSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-"""
+    def get_queryset(self):
+        # after get all products on DB it will be filtered by its owner and return the queryset
+        owner_queryset = self.queryset.filter(user=self.request.user)
+        return owner_queryset

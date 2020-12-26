@@ -88,3 +88,6 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ['user', 'address', 'address_title', 'pincode']
+
+    def create(self, validated_data):
+        return Address.objects.create(**validated_data)
