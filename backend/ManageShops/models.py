@@ -11,6 +11,7 @@ class Products(models.Model):
     catagory = models.CharField(max_length=10)
     vender = models.ForeignKey(Venders, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField()
     discount = models.PositiveIntegerField()
     details = models.CharField(max_length=100)
 
