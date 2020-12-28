@@ -37,31 +37,57 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     #Django App
     'Authuser',
-    'Membership',
-    'ManageShops',
-    'ManageOrders',
-    'ManageReviews',
+    'Membership.apps.MembershipConfig',
+    'ManageShops.apps.ManageshopsConfig',
+    'ManageOrders.apps.ManageordersConfig',
+    'ManageReviews.apps.ManagereviewsConfig',
     
     #REST_FRAMEWORK
     'rest_framework',
+    # 'rest_auth',
+    # 'allauth',
+    # 'allauth.account',
+    # 'rest_auth.registration',
+    'rest_framework.authtoken',
 ]
+
+TOKEN_EXPIRED_AFTER_SECONDS = 86400
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'Authuser.authentication.ExpiringTokenAuthentication',  # custom authentication class
+    ),
+    
+}
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'Authuser.serializers.UserSerializer',
+}
+
 
 AUTH_USER_MODEL = 'Authuser.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',     
 ]
 
 ROOT_URLCONF = 'backend.urls'
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+CORS_REPLACE_HTTPS_REFERER = True
+
 
 TEMPLATES = [
     {
