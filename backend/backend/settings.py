@@ -1,3 +1,4 @@
+
 """
 Django settings for backend project.
 
@@ -25,7 +26,9 @@ SECRET_KEY = 'tt$&n%_^cp*u=78uxs!y@m8dre5*-!&leorw+9uk%gdybs_q=_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 
 
 # Application definition
@@ -37,56 +40,51 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
-    #Django App
+
+    # Django App
     'Authuser',
-    'Membership.apps.MembershipConfig',
-    'ManageShops.apps.ManageshopsConfig',
-    'ManageOrders.apps.ManageordersConfig',
-    'ManageReviews.apps.ManagereviewsConfig',
-    
-    #REST_FRAMEWORK
+    'Membership',
+    'ManageShops',
+    'ManageOrders',
+
+    # REST_FRAMEWORK
     'rest_framework',
-    # 'rest_auth',
-    # 'allauth',
-    # 'allauth.account',
-    # 'rest_auth.registration',
     'rest_framework.authtoken',
+
+    # External Libraries
+    'corsheaders',
 ]
 
 TOKEN_EXPIRED_AFTER_SECONDS = 86400
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'Authuser.authentication.ExpiringTokenAuthentication',  # custom authentication class
-    ),
-    
-}
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'Authuser.serializers.UserSerializer',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'Authuser.authentication.ExpiringTokenAuthentication',
+    ]
 }
 
 
 AUTH_USER_MODEL = 'Authuser.User'
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',   
+
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+
+    # External Libraries
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',     
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
-
-
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
-CORS_REPLACE_HTTPS_REFERER = True
 
 
 TEMPLATES = [
@@ -156,3 +154,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+=======
