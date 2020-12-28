@@ -1,8 +1,10 @@
 from rest_framework import serializers
 from .models import (Products, ProductImage)
+from Authuser.models import User
 
 class ProductSerializer(serializers.ModelSerializer):
-    
+    user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = Products
         fields = '__all__'  

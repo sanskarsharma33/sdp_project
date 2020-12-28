@@ -1,8 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import Products_all_view
+from rest_framework.routers import DefaultRouter
+from .views import Products
+
+router = DefaultRouter()
+router.register(r'products', Products)
 
 urlpatterns = [
-    path('products', Products_all_view.as_view(), name="products"),
+    path('', include(router.urls)),
     
 ]
