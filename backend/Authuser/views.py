@@ -26,7 +26,7 @@ from Authuser.authentication import expires_in, is_token_expired, token_expire_h
 
 @api_view(['POST', ])
 def customer_registration_view(request):
-    if request.data['is_vendor']:
+    if request.data['is_vendor']=="True":
         raise serializers.ValidationError(
             {'error': 'Customer cannot be Vendor'})
     serializer = UserSerializer(data=request.data)
@@ -133,3 +133,12 @@ class AddressViewSet(viewsets.ModelViewSet):
         # after get all products on DB it will be filtered by its owner and return the queryset
         owner_queryset = self.queryset.filter(user=self.request.user)
         return owner_queryset
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def get_user(request):
+    user = UserSerializer(request.user)
+    print(user.data)
+    return Response({
+        'username': user.data['email']
+    }, status=HTTP_200_OK)
