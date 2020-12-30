@@ -7,9 +7,7 @@ import Login from './Components/Login'
 import CustomerRegister from './Components/CustomerRegister'
 import VendorRegister from './Components/VendorRegister'
 import Header from './Components/Header'
-import Navbar from './Components/Navbar'
-import axios from 'axios'
-import http from './http-common'
+import Home from './Components/Home'
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
@@ -25,6 +23,7 @@ export default class App extends Component {
                     <Header />
                     <div className="container">
                         <Switch>
+                            <Route exact path="/" component={Home}/>
                             <Route exact path="/login/" component={Login} />
                             <Route path="/register/customer" component={CustomerRegister} />
                             <Route path="/register/vendor" component={VendorRegister} />

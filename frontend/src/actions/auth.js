@@ -22,7 +22,7 @@ export const loadUser = () => (dispatch, getState) => {
     .then((res) => {
         dispatch({
             type: USER_LOADED,
-            payload: res.data['first_name'],
+            payload: res.data,
         });
     })
     .catch((err) => {
@@ -48,6 +48,7 @@ export const login = (username, password) => (dispatch) => {
     http
     .post('/Authuser/signin', body, config)
     .then((res) => {
+        console.log(res.data);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
@@ -102,7 +103,6 @@ export const registerVendor = (data) => (dispatch) => {
 
   // Request Body
   const body = JSON.stringify(data);
-  console.log(body);
   http
   .post('/Authuser/vendor/register', body, config)
   .then((res) => {

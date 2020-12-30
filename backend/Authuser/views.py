@@ -65,10 +65,7 @@ def vendor_registration_view(request):
             vendor.user = user
             vendor.save()
             data['response'] = "Succesfully registered Vendor"
-            data['shop_name'] = vendor.shop_name
-            data['username'] = user.username
-            data['first_name'] = user.first_name
-            data['email'] = user.email
+            data['user'] = serializer1.data
             token = Token.objects.get(user=user).key
             data['token'] = token
 
@@ -140,6 +137,7 @@ class AddressViewSet(viewsets.ModelViewSet):
 @permission_classes((IsAuthenticated,))
 def get_user(request):
     user = UserSerializer(request.user)
+    print(user.data)
     return Response(
         user.data
     , status=HTTP_200_OK)
