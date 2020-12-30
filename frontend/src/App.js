@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import { Provider as AlertProvider } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
+
 import Login from './Components/Login'
+import Alert from './Components/Alert'
 import CustomerRegister from './Components/CustomerRegister'
 import VendorRegister from './Components/VendorRegister'
 import Header from './Components/Header'
@@ -12,24 +15,37 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 
+
+// Alert Options
+const alertOptions = {
+    timeout: 5000,
+    position: 'top center',
+};
+
 export default class App extends Component {
     componentDidMount() {
         store.dispatch(loadUser());
     }
+
     render() {
         return (
             <Provider store={store}>
-                <Router>
-                    <Header />
-                    <div className="container">
-                        <Switch>
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/login/" component={Login} />
-                            <Route path="/register/customer" component={CustomerRegister} />
-                            <Route path="/register/vendor" component={VendorRegister} />
-                        </Switch>
-                    </div>
-                </Router>
+                <AlertProvider template={AlertTemplate} {...alertOptions}>
+                    <Router>
+                        <Fragment>
+                            <Header />
+                            <Alert/>
+                            <div className="container">
+                                <Switch>
+                                    <Route exact path="/" component={Home}/>
+                                    <Route exact path="/login/" component={Login} />
+                                    <Route path="/register/customer" component={CustomerRegister} />
+                                    <Route path="/register/vendor" component={VendorRegister} />
+                                </Switch>
+                            </div>
+                        </Fragment>
+                    </Router>
+                </AlertProvider>
             </Provider>
         )
     }

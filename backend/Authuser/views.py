@@ -47,7 +47,7 @@ def customer_registration_view(request):
         token = Token.objects.get(user=user).key
         data['token'] = token
     else:
-        data = serializer.errors
+        return Response(serializer.errors,HTTP_400_BAD_REQUEST)
     return Response(data)
 
 

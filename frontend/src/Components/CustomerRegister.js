@@ -8,14 +8,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 export class CustomerRegister extends Component {
     state = {
-        username: '',
-        email: '',
-        first_name: '',
-        last_name: '',
-        phone: '',
+        username: null,
+        email: null,
+        first_name: null,
+        last_name: null,
+        phone: null,
         is_vendor: false,
-        password: '',
-        password2: '',
+        password: null,
+        password2: null,
     };
     
     static propTypes = {
