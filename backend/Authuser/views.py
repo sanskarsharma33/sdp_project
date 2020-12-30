@@ -70,9 +70,9 @@ def vendor_registration_view(request):
             data['token'] = token
 
         else:
-            data = serializer1.errors
+            return Response(serializer1.errors,HTTP_400_BAD_REQUEST)
     else:
-        data = serializer.errors
+        return Response(serializer.errors,HTTP_400_BAD_REQUEST)
     return Response(data)
 
 
