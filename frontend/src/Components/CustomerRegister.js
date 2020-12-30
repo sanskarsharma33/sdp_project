@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import http from './../http-common';
+import http from '../http-common';
 import {connect} from 'react-redux';
 import { registerCustomer } from '../actions/auth';
 import { Link, Redirect } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
-export class Register extends Component {
+export class CustomerRegister extends Component {
     state = {
         username: '',
         email: '',
@@ -22,10 +22,11 @@ export class Register extends Component {
         registerCustomer: PropTypes.func.isRequired,
         isAuthenticated: PropTypes.bool,
     };
+    // this.state.first_name, this.state.last_name,this.state.password,this.state.email, this.state.is_vendor, this.state.password2, this.state.username, this.state.phone
     onSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);
-        this.props.registerCustomer(this.state.first_name, this.state.last_name,this.state.password,this.state.email, this.state.is_vendor, this.state.password2, this.state.username, this.state.phone);
+        this.props.registerCustomer(this.state);
     };
     
     onChange = (e) =>{ 
@@ -131,4 +132,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
   });
   
-  export default connect(mapStateToProps, { registerCustomer})(Register);
+  export default connect(mapStateToProps, { registerCustomer})(CustomerRegister);

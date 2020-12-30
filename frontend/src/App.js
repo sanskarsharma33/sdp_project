@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import { Provider as AlertProvider } from 'react-alert';
 import Login from './Components/Login'
-import Register from './Components/Register'
+import CustomerRegister from './Components/CustomerRegister'
+import VendorRegister from './Components/VendorRegister'
 import Header from './Components/Header'
 import Navbar from './Components/Navbar'
 import axios from 'axios'
@@ -25,7 +26,8 @@ export default class App extends Component {
                     <div className="container">
                         <Switch>
                             <Route exact path="/login/" component={Login} />
-                            <Route path="/Register" component={Register} />
+                            <Route path="/register/customer" component={CustomerRegister} />
+                            <Route path="/register/vendor" component={VendorRegister} />
                         </Switch>
                     </div>
                 </Router>

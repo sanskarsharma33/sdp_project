@@ -17,7 +17,7 @@ export class Header extends Component {
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <span className="navbar-text mr-3">
             {console.log(user)}
-          <strong>{user ? `Welcome ${user.email}` : ''}</strong>
+          <strong>{user ? `Welcome ${user}` : ''}</strong>
         </span>
         <li className="nav-item">
           <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">
@@ -30,8 +30,13 @@ export class Header extends Component {
     const guestLinks = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <li className="nav-item">
-          <Link to="/register" className="nav-link">
-            Register
+          <Link to="/register/customer" className="nav-link">
+            Register Customer
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/register/vendor" className="nav-link">
+            Register Vendor
           </Link>
         </li>
         <li className="nav-item">

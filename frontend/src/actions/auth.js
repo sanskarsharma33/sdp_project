@@ -22,7 +22,7 @@ export const loadUser = () => (dispatch, getState) => {
     .then((res) => {
         dispatch({
             type: USER_LOADED,
-            payload: res.data,
+            payload: res.data['first_name'],
         });
     })
     .catch((err) => {
@@ -62,7 +62,7 @@ export const login = (username, password) => (dispatch) => {
 };
 
 // REGISTER CUSTOMER
-export const registerCustomer = (first_name, last_name, password, email, is_vendor, password2, username, phone ) => (dispatch) => {
+export const registerCustomer = (data) => (dispatch) => {
     // Headers
     const config = {
         headers: {
@@ -71,7 +71,7 @@ export const registerCustomer = (first_name, last_name, password, email, is_vend
     };
 
     // Request Body
-    const body = JSON.stringify({ first_name, last_name, email, password, is_vendor, password2, username, phone });
+    const body = JSON.stringify(data);
     console.log(body);
     http
     .post('/Authuser/customer/register', body, config)
@@ -89,6 +89,36 @@ export const registerCustomer = (first_name, last_name, password, email, is_vend
         type: REGISTER_FAIL,
       });
     });
+};
+
+// REGISTER VENDOR
+export const registerVendor = (data) => (dispatch) => {
+  // Headers
+  const config = {
+      headers: {
+      'Content-Type': 'application/json',
+      },
+  };
+
+  // Request Body
+  const body = JSON.stringify(data);
+  console.log(body);
+  http
+  .post('/Authuser/vendor/register', body, config)
+  .then((res) => {
+    console.log(res);
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    dispatch(returnErrors(err.response.data, err.response.status));
+    dispatch({
+      type: REGISTER_FAIL,
+    });
+  });
 };
 
 // LOGOUT USER
