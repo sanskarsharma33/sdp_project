@@ -1,34 +1,78 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import http from './../http-common'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import http from './../http-common';
+import {connect} from 'react-redux';
+import { login } from '../actions/auth';
+import { Link, Redirect } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
-export default class Login extends Component {
+class Login extends Component {
+    state = {
+        username: '',
+        password: '',
+    };
+    
     static propTypes = {
-        prop: PropTypes
-    }
-    handleSignIn(e) {
-        e.preventDefault()
-        let username = this.refs.username.value
-        let password = this.refs.password.value
-        http.post('Authuser/signin', {
-            "username":username,
-            "password":password
-        })
-        .then(response => {
-            console.log(response.data['token'])
-            localStorage.setItem('token',response.data['token'])
-        });
-    }
+        login: PropTypes.func.isRequired,
+        isAuthenticated: PropTypes.bool,
+    };
+    
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.props.login(this.state.username, this.state.password);
+    };
+    
+    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/" />;
+        }
+        const { username, password } = this.state;
         return (
-            <div>
-                <form onSubmit={this.handleSignIn.bind(this)}>
-                    <h3>Sign in</h3>
-                    <input type="text" ref="username" placeholder="enter you username" />
-                    <input type="password" ref="password" placeholder="enter password" />
-                    <input type="submit" value="Login" />
+            <div className="col-md-6 m-auto">
+                <div className="card card-body mt-5">
+                <h2 className="text-center">Login</h2>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        name="username"
+                        onChange={this.onChange}
+                        value={username}
+                    />
+                    </div>
+
+                    <div className="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        className="form-control"
+                        name="password"
+                        onChange={this.onChange}
+                        value={password}
+                    />
+                    </div>
+
+                    <div className="form-group">
+                    <button type="submit" className="btn btn-primary">
+                        Login
+                    </button>
+                    </div>
+                    <p>
+                    Don't have an account? 
+                    </p>
                 </form>
+                </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+  });
+  
+  export default connect(mapStateToProps, { login })(Login);

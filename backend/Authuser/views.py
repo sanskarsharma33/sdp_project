@@ -26,6 +26,7 @@ from Authuser.authentication import expires_in, is_token_expired, token_expire_h
 
 @api_view(['POST', ])
 def customer_registration_view(request):
+    # print(request.data)
     if request.data['is_vendor']=="True":
         raise serializers.ValidationError(
             {'error': 'Customer cannot be Vendor'})
@@ -112,6 +113,7 @@ def testing(request):
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def logout(request):
+    print(request.auth)
     Token.delete(request.auth)
     return Response({
         'message': 'Logged Out successfully'
@@ -139,6 +141,6 @@ class AddressViewSet(viewsets.ModelViewSet):
 def get_user(request):
     user = UserSerializer(request.user)
     print(user.data)
-    return Response({
-        'username': user.data['email']
-    }, status=HTTP_200_OK)
+    return Response(
+        user.data
+    , status=HTTP_200_OK)
