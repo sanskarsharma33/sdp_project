@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from Authuser.models import Customers, Vendors, User, Address
 
@@ -8,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'password2', 'phone', 'is_vendor']
+        fields = ['email', 'password', 'password2', 'phone', 'is_vendor', 'first_name', 'last_name']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -18,7 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
             username=self.validated_data['email'],
             is_vendor=self.validated_data['is_vendor'],
-            phone=self.validated_data['phone']
+            phone=self.validated_data['phone'],
+            first_name=self.validated_data['first_name'],
+            last_name=self.validated_data['last_name']
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
@@ -31,38 +34,29 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-    # Testing Pending
+    # Pending API reserved to be extended
     def update(self, instance, validated_data):
-        instance.email = validated_data.get('email', instance.email)
-        instance.username = validated_data.get('username', instance.username)
+        instance.email = instance.email
+        instance.username = instance.username
         instance.is_vendor = validated_data.get(
             'is_vendor', instance.is_vendor)
         instance.phone = validated_data.get('phone', instance.phone)
-        instance.password = validated_data.get('phone', instance.password)
+        instance.password = instance.password
         instance.save()
         return instance
 
 
 class VendorSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Vendors
-        fields = ['shop_name', 'address',
+        fields = ['user', 'shop_name', 'address',
                   'location_long', 'location_lat', 'pincode', 'cod_available', 'is_active']
 
-    def save(self):
-        vendor = Vendors(
-            shop_name=self.validated_data['shop_name'],
-            address=self.validated_data['address'],
-            location_lat=self.validated_data['location_lat'],
-            location_long=self.validated_data['location_long'],
-            pincode=self.validated_data['pincode'],
-            cod_available=self.validated_data['cod_available'],
-            is_active=False
-        )
-        return vendor
+    def create(self, validated_data):
+        return Vendors.objects.create(**validated_data)
 
-    # Testing Pending
     def update(self, instance, validated_data):
         instance.shop_name = validated_data.get(
             'shop_name', instance.shop_name)
@@ -90,4 +84,12 @@ class AddressSerializer(serializers.ModelSerializer):
         fields = ['user', 'address', 'address_title', 'pincode']
 
     def create(self, validated_data):
+        print(validated_data)
         return Address.objects.create(**validated_data)
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
