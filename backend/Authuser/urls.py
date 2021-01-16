@@ -15,6 +15,12 @@ urlpatterns = [
     path('signin', views.signin_view, name="signin"),
     path('vendor/register', views.vendor_registration_view, name="vendor_register"),
     path('logout', views.logout, name="logout"),
+    #path('customer/update', views.customer_update_view, name="customer_update"),
+    path('vendor/update', views.vendor_update_view, name="vendor_update"),
+    path('change-password/', views.ChangePasswordView.as_view(),
+         name='change-password'),
+    path('password_reset/',
+         include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('get_user', views.get_user, name="get_user"),
     path('', include(router.urls)),
 ]

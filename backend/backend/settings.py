@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # REST_FRAMEWORK
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
 
     # External Libraries
     'corsheaders',
@@ -158,3 +159,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'backend')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

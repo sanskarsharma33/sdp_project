@@ -1,5 +1,9 @@
 # Django
-from django.shortcuts import render
+from django.core.mail import send_mail
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.urls import reverse
+from django.dispatch import receiver
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 
 # Rest Framework
@@ -17,7 +21,7 @@ from rest_framework.status import (
 )
 
 # Custom
-from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer
+from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer, ChangePasswordSerializer
 from Authuser.models import Vendors, Customers, User, Address
 from Authuser.permissions import IsOwner
 from Authuser.authentication import expires_in, is_token_expired, token_expire_handler, ExpiringTokenAuthentication
@@ -26,7 +30,7 @@ from Authuser.authentication import expires_in, is_token_expired, token_expire_h
 
 @api_view(['POST', ])
 def customer_registration_view(request):
-    if request.data['is_vendor']=="True":
+    if request.data['is_vendor'] == "True":
         raise serializers.ValidationError(
             {'error': 'Customer cannot be Vendor'})
     serializer = UserSerializer(data=request.data)
@@ -47,33 +51,52 @@ def customer_registration_view(request):
         token = Token.objects.get(user=user).key
         data['token'] = token
     else:
-        return Response(serializer.errors,HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, HTTP_400_BAD_REQUEST)
     return Response(data)
 
 
 @api_view(['POST', ])
 def vendor_registration_view(request):
+
     serializer = UserSerializer(data=request.data)
     serializer1 = VendorSerializer(data=request.data)
+
     if User.objects.filter(email=request.data['email']).exists():
         raise serializers.ValidationError({'error': 'User already Exist'})
     data = {}
     if serializer.is_valid():
         if serializer1.is_valid():
             user = serializer.save()
-            vendor = serializer1.save()
-            vendor.user = user
-            vendor.save()
+            vendor = serializer1.save(user=user)
             data['response'] = "Succesfully registered Vendor"
             data['user'] = serializer1.data
             token = Token.objects.get(user=user).key
             data['token'] = token
 
         else:
-            return Response(serializer1.errors,HTTP_400_BAD_REQUEST)
+            return Response(serializer1.errors, HTTP_400_BAD_REQUEST)
     else:
-        return Response(serializer.errors,HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, HTTP_400_BAD_REQUEST)
     return Response(data)
+
+
+@api_view(['POST', ])
+@permission_classes((IsAuthenticated,))
+def vendor_update_view(request):
+    print(request.user.is_vendor)
+    if not request.user.is_vendor:
+        return Response({'message': 'User is not a Vendor'}, status=HTTP_400_BAD_REQUEST)
+    try:
+        vendor = Vendors.objects.get(user=request.user)
+    except Snippet.DoesNotExist:
+        return HttpResponse(status=404)
+
+    serializer = VendorSerializer(vendor, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors, HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -104,8 +127,8 @@ def signin_view(request):
 
 @api_view(["GET", "POST"])
 def testing(request):
-    print(request.user)
-    return Response()
+    print(request)
+    return Response(request.user)
 
 
 @api_view(["GET"])
@@ -133,11 +156,63 @@ class AddressViewSet(viewsets.ModelViewSet):
         owner_queryset = self.queryset.filter(user=self.request.user)
         return owner_queryset
 
+
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
+            return Response(response)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+
+    email_plaintext_message = "{}?token={}".format(
+        reverse('password_reset:reset-password-request'), reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "noreply@somehost.local",
+        # to:
+        [reset_password_token.user.email]
+    )
+
+
 @api_view(["GET"])
 @permission_classes((IsAuthenticated,))
 def get_user(request):
     user = UserSerializer(request.user)
     print(user.data)
     return Response(
-        user.data
-    , status=HTTP_200_OK)
+        user.data, status=HTTP_200_OK)
