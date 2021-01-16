@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { returnErrors } from './messages';
 import http from '../http-common';
 
@@ -55,7 +54,7 @@ export const login = (username, password) => (dispatch) => {
         });
     })
     .catch((err) => {
-        dispatch(returnErrors(err.response.data, err.response.status));
+        // dispatch(returnErrors(err.response.data, err.response.status));
         dispatch({
             type: LOGIN_FAIL,
         });

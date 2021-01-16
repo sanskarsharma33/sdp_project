@@ -5,9 +5,20 @@ from Authuser.serializers import VendorSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
 
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Products
-        fields = ['id','title','catagory','amount','discount','quantity','details']
+        # fields = '__all__'
+        fields = ['id','title','catagory','amount','discount','quantity','details', 'image']
+
+    def get_image(self, obj):
+        img_set = obj.productimage_set.all()
+        if(len(img_set)!=0):
+            imgs_url = []
+            for img in img_set:
+                imgs_url.append(img.image.url)
+            return imgs_url
+        return []
 
     # def create(self, validated_data):
     #     return Products.objects.create(** validated_data)
