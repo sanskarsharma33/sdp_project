@@ -55,6 +55,8 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.quantity = validated_data.get('quantity',instance.quantity)
         instance.discount = validated_data.get('discount',instance.discount)
         instance.details = validated_data.get('details',instance.details)
+        instance.save()
+        return instance
 
 
 class ProductImageSerializer(serializers.ModelSerializer):

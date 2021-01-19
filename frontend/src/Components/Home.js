@@ -46,7 +46,7 @@ export class Home extends Component {
                                 // console.log(element)
                                 return (
                                     <div className="col-12 col-sm-4 col-md-6 col-lg-4">
-                                    <ProductCard element={element}/>
+                                    <ProductCard element={element} canEdit={true}/>
                                     </div>
                                 )
                             }
@@ -54,7 +54,7 @@ export class Home extends Component {
                             {
                                 return (
                                     <div className="col-12 col-sm-4 col-md-6 col-lg-4">
-                                    <ProductCard element={element}/>
+                                    <ProductCard element={element} canEdit={false}/>
                                     </div>
                                 )
                             }
@@ -66,7 +66,7 @@ export class Home extends Component {
                 </div>
             )
         }
-        return(<div></div>)
+        return(<div>HERE</div>)
     }
 }
 const mapStateToProps = (state) => ({

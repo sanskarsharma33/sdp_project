@@ -19,11 +19,20 @@ class ProductCard extends Component {
     }
     state ={
         redirect: false,
+        Editredirect: false
     }
     onClick = (e) =>
     {
         e.preventDefault();
         this.setState({redirect: true}, () =>{
+            this.renderRedirect();
+        })
+    }
+    onEditClick = (e) =>
+    {
+        e.preventDefault();
+        console.log("Edit")
+        this.setState({Editredirect: true}, () =>{
             this.renderRedirect();
         })
     }
@@ -33,50 +42,56 @@ class ProductCard extends Component {
             console.log("renderRedirect");
             return <Redirect to={`/Product/${this.props.element.id}`} />;
         }
+        if(this.state.Editredirect)
+            return <Redirect to={`/Product/Edit/${this.props.element.id}`} />;
     }
     render() {
         
         return (
             <div>
                 {this.renderRedirect()}
-            <div className="product" style={{minHeight:"30rem", maxHeight:"35rem", maxWidth:"25rem", minWidth:"15rem"}}>
-              <div className="product__info">
-                <p>{this.props.element.title}</p>
-                <p className="product__price">
-                  <small>$</small>
-                  <strong>{this.props.element.amount}</strong>
-                </p>
-                
-              </div>
-        
-              <img src={`http://127.0.0.1:8000${this.props.element.image[0]}`} alt="" />
-        
-              <button onClick={this.onClick}>Show</button>
-            </div></div>
-          );
-        return (
-            <div style={{margin:"20px 10px 10px"}}>
-                    <div className="card">
-                        <img className="card-img" src={`http://127.0.0.1:8000${this.props.element.image[0]}`} style={{height: "20rem", width: "20rem"}} alt="Vans" ></img>
-                        <div className="card-img-overlay d-flex justify-content-end">
-                        <a href="#" className="card-link text-danger like" style={{fontSize: "1.5rem"}}>
-                            <i className="fas fa-heart"></i>
-                        </a>
-                        </div>
-                        <div className="card-body">
-                            <h4 className="card-title">{this.props.element.title}</h4>
-                            {/* <h6 className="card-subtitle mb-2 text-muted">Style: VA33TXRJ5</h6> */}
-                            <p className="card-text">
-                                {this.props.element.details}
-                            </p>
-                            <div className="buy d-flex justify-content-between align-items-center">
-                                <div className="price text-success"><h5 className="mt-4">${this.props.element.amount}</h5></div>
-                                <a href="#" className="btn btn-danger mt-3"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
-                            </div>
-                        </div>
+                <div className="product" style={{minHeight:"30rem", maxHeight:"35rem", maxWidth:"25rem", minWidth:"15rem"}}>
+                    <div className="product__info">
+                        <p>{this.props.element.title}</p>
+                        <p className="product__price">
+                            <small>$</small>
+                            <strong>{this.props.element.amount}</strong>
+                        </p>
                     </div>
+                    <img src={`http://127.0.0.1:8000${this.props.element.image[0]}`} alt="" />
+                    {
+                        this.props.canEdit ?
+                            <div><button onClick={this.onEditClick}>Edit</button> <button onClick={this.onDeleteClick}>Delete</button></div>
+                            : <button onClick={this.onClick}>Show</button>
+                        
+                    }
+                </div>
             </div>
-        )
+          );
+        // return (
+        //     <div style={{margin:"20px 10px 10px"}}>
+        //     {this.renderRedirect()}
+        //         <div className="card" style={{maxWidth: "20rem"}}>
+        //             <img className="card-img" src={`http://127.0.0.1:8000${this.props.element.image[0]}`} style={{maxHeight: "20rem", maxWidth: "20rem"}} alt="Vans" ></img>
+        //             <div className="card-img-overlay d-flex justify-content-end">
+        //             <a href="#" className="card-link text-danger like" style={{fontSize: "1.5rem"}}>
+        //                 <i className="fas fa-heart"></i>
+        //             </a>
+        //             </div>
+        //             <div className="card-body">
+        //                 <h4 className="card-title">{this.props.element.title}</h4>
+        //                 {/* <h6 className="card-subtitle mb-2 text-muted">Style: VA33TXRJ5</h6> */}
+        //                 <p className="card-text">
+        //                     {this.props.element.details}
+        //                 </p>
+        //                 <div className="buy d-flex justify-content-between align-items-center">
+        //                     <div className="price text-success"><h5 className="mt-4">${this.props.element.amount}</h5></div>
+        //                     <a href="#" className="btn btn-danger mt-3"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
+        //                 </div>
+        //             </div>
+        //         </div>
+        // </div>
+        // )
         
     }
 }

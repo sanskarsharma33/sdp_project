@@ -7,7 +7,9 @@ import {
   PRODUCT_LOADING_FAIL,
   PRODUCT_ADDED,
   PRODUCT_ADDING_FAIL,
-  PRODUCT_ADDING
+  PRODUCT_ADDING,
+  PRODUCT_EDITED,
+  PRODUCT_EDIT_FAIL
 } from './types';
 
 export const add_Product = (Product) => (dispatch, getState) => {
@@ -36,6 +38,31 @@ export const add_Product = (Product) => (dispatch, getState) => {
     });
 };
 
+export const edit_Product = (Product) => (dispatch, getState) => {
+  // Product List Loading
+  dispatch({ type: PRODUCT_ADDING });
+
+  // Request Body
+  const body = JSON.stringify(Product);
+
+  console.log(body)
+  
+  http
+  .put(`/ManageShops/products/${Product.id}/`, body, tokenConfig(getState))
+  .then((res) => {
+      dispatch({
+          type: PRODUCT_EDITED,
+          payload: res.data,
+      });
+  })
+  .catch((err) => {
+      // dispatch(returnErrors(err.response.data, err.response.status));
+      // console.log(err)
+      dispatch({
+          type: PRODUCT_EDIT_FAIL,
+      });
+  });
+};
 
 export const getProduct = (id) => (dispatch, getState) => {
   // Product List Loading

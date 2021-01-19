@@ -3,7 +3,9 @@ import {
     PRODUCT_LOADED,
     PRODUCT_LOADING_FAIL,
     PRODUCT_ADDED, 
-    PRODUCT_REMOVED
+    PRODUCT_REMOVED,
+    PRODUCT_EDITED,
+    PRODUCT_EDIT_FAIL
   } from '../actions/types';
 
   
@@ -12,6 +14,7 @@ const initialState = {
     isProductAdded: false,
     isProductLoaded: false,
     product: null,
+    isProductUpdated: false,
 };
   
 export default function (state = initialState, action) {
@@ -41,6 +44,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isProductAdded: true,
+            };
+        case PRODUCT_EDITED:
+            return {
+                ...state,
+                isProductUpdated: true,
+            };
+        case PRODUCT_EDIT_FAIL:
+            return {
+                ...state,
+                isProductUpdated: false,
             };
         default:
             return state;

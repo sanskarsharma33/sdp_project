@@ -49,11 +49,11 @@ class Product extends Component {
                                     if(img == this.props.product.image[0])
                                         return(
                                         <div className="carousel-item active">
-                                            <img className="d-block w-100" src={`http://127.0.0.1:8000${img}`} />
+                                            <img className="d-block w-100" src={`http://127.0.0.1:8000${img}`} style={{height:"30rem", width:"10rem"}}/>
                                         </div>) 
                                     return(
                                         <div className="carousel-item ">
-                                            <img className="d-block w-100" src={`http://127.0.0.1:8000${img}`} />
+                                            <img className="d-block w-100" src={`http://127.0.0.1:8000${img}`} style={{height:"30rem"}}/>
                                         </div>
                                     )})
                             }
