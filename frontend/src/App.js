@@ -14,6 +14,8 @@ import Home from './Components/Home'
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
+import addProduct from './Components/addProduct';
+import Product from './Components/Product';
 
 
 // Alert Options
@@ -28,6 +30,7 @@ export default class App extends Component {
     }
 
     render() {
+        
         return (
             <Provider store={store}>
                 <AlertProvider template={AlertTemplate} {...alertOptions}>
@@ -37,8 +40,10 @@ export default class App extends Component {
                             <Alert/>
                             <div className="container">
                                 <Switch>
-                                    <Route exact path="/" component={Home}/>
+                                    <Route exact path="/Home/" component={Home}/>
                                     <Route exact path="/login/" component={Login} />
+                                    <Route exact path="/addProduct/" component={addProduct} />
+                                    <Route exact path="/Product/:id" component={Product} />
                                     <Route path="/register/customer" component={CustomerRegister} />
                                     <Route path="/register/vendor" component={VendorRegister} />
                                 </Switch>

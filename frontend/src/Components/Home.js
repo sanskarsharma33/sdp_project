@@ -4,79 +4,75 @@ import {connect} from 'react-redux';
 import { login } from '../actions/auth';
 import store from '../store';
 import { getAllProductList } from '../actions/productList';
-import { Link, Redirect } from 'react-router-dom';
+import { Switch, Link, Redirect, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-// import productList from '../reducers/productList';
+import ProductCard from './productCard';
+import '../style/home.css';
+import { PRODUCT_LOADING_FAIL } from '../actions/types';
 
 export class Home extends Component {
 
     static propTypes = {
+        auth: PropTypes.object,
         productList : PropTypes.object,
+        isProductListLoaded: PropTypes.bool
     };
-
-    componentDidMount(){
+    constructor(props){
+        super(props)
         store.dispatch(getAllProductList());
+    }
+    componentDidMount(){
+        // store.dispatch(getAllProductList());
+        // store.dispatch({type:PRODUCT_LOADING_FAIL})
     }
 
     render() {
         const productList = this.props.productList;
-        return (
-            <div>
-                <div className="container">
+        const {user} = this.props.auth;
+        if(this.props.isProductListLoaded)
+        {
+            return (
+                <div>
+                    <div style={{marginTop:"20px"}}>
                         <div className="row">
-                {
-                    productList ?
-                    
-                    productList.map(element => element.image.map(image=>{
-                        return (
-                            <div className="col-12 col-sm-8 col-md-6 col-lg-4">
-                            <div className="card">
-                                <img className="card-img" src={`http://127.0.0.1:8000${image}`} style={{height: "20rem"}} alt="Vans" ></img>
-                                <div className="card-img-overlay d-flex justify-content-end">
-                                <a href="#" className="card-link text-danger like" style={{fontSize: "1.5rem"}}>
-                                    <i className="fas fa-heart"></i>
-                                </a>
-                                </div>
-                                <div className="card-body">
-                                    <h4 className="card-title">Vans Sk8-Hi MTE Shoes</h4>
-                                    <h6 className="card-subtitle mb-2 text-muted">Style: VA33TXRJ5</h6>
-                                    <p className="card-text">
-                                        The Vans All-Weather MTE Collection features footwear and apparel designed to withstand the elements whilst still looking cool.             </p>
-                                    <div className="options d-flex flex-fill">
-                                        <select className="custom-select mr-1">
-                                            <option selected>Color</option>
-                                            <option value="1">Green</option>
-                                            <option value="2">Blue</option>
-                                            <option value="3">Red</option>
-                                        </select>
-                                        <select className="custom-select ml-1">
-                                            <option selected>Size</option>
-                                            <option value="1">41</option>
-                                            <option value="2">42</option>
-                                            <option value="3">43</option>
-                                        </select>
+                    {
+                        productList ?
+                        
+                        productList.map(element => {
+                            // console.log(element)
+                            // console.log(user.email)
+                            if(user.is_vendor && element.vendor_email === user.email)
+                            {
+                                // console.log(element)
+                                return (
+                                    <div className="col-12 col-sm-4 col-md-6 col-lg-4">
+                                    <ProductCard element={element}/>
                                     </div>
-                                    <div className="buy d-flex justify-content-between align-items-center">
-                                        <div className="price text-success"><h5 className="mt-4">$125</h5></div>
-                                        <a href="#" className="btn btn-danger mt-3"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
+                                )
+                            }
+                            else if(!user.is_vendor)
+                            {
+                                return (
+                                    <div className="col-12 col-sm-4 col-md-6 col-lg-4">
+                                    <ProductCard element={element}/>
                                     </div>
-                                </div>
-                            </div>
+                                )
+                            }
+                        })
+                        : "No products"
+                    }
                         </div>
-                            
-                        )
-                    {/* //  <img src={`http://127.0.0.1:8000${image}`} /> */}
-                    }))
-                     : "No products"
-                }
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
+        return(<div></div>)
     }
 }
 const mapStateToProps = (state) => ({
     // console.log(state)
+    auth: state.auth,
     productList: state.productList.productList,
-  });
+    isProductListLoaded: state.productList.isProductListLoaded
+});
 export default connect(mapStateToProps)(Home);

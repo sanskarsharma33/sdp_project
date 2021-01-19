@@ -15,20 +15,25 @@ from rest_framework.status import (
 # Custom
 from .permissions import IsVendor,IsProductOwner
 from .models import Products as ProductModel, ProductImage
-from .serializers import ProductSerializer,ProductImageSerializer
+from .serializers import ProductSerializer,ProductImageSerializer,ProductViewSerializer
 
 
 
 
 class get_all_products(generics.ListCreateAPIView):
     queryset = ProductModel.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductViewSerializer
+    permission_classes = [IsAuthenticated]
+
+class get_product(generics.RetrieveAPIView):
+    queryset = ProductModel.objects.all()
+    serializer_class = ProductViewSerializer
     permission_classes = [IsAuthenticated]
 
 
 class get_all_products_by_catagory(generics.ListCreateAPIView):
     queryset = ProductModel.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductViewSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -46,15 +51,17 @@ class Products(viewsets.ModelViewSet):
     def get_queryset(self):
         # after get all products on DB it will be filtered by its owner and return the queryset
         owner_queryset = self.queryset.filter(vendor=self.request.user.vendors)
+        # print(owner_queryset)
         return owner_queryset
 
     def perform_create(self, serializer):
         # when a product is saved, its saved how it is the owned
+        # print(serializer)
         serializer.save(vendor=self.request.user.vendors)
 
 
 
-class ProductImage(viewsets.ModelViewSet):
+class ProductImage(viewsets.ModelViewSet):  
 
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer

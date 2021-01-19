@@ -1,7 +1,8 @@
 import {
     PRODUCT_LIST_LOADED,
     PRODUCT_LIST_LOADING,
-    PRODUCT_LIST_LOADING_FAIL
+    PRODUCT_LIST_LOADING_FAIL,
+    LOGOUT_SUCCESS
   } from '../actions/types';
 
   
@@ -25,6 +26,7 @@ export default function (state = initialState, action) {
                 isProductListLoading: false,
                 productList: action.payload,
             };
+        case LOGOUT_SUCCESS:
         case PRODUCT_LIST_LOADING_FAIL:
             return {
                 ...state,
