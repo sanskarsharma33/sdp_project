@@ -5,7 +5,9 @@ import {
     PRODUCT_ADDED, 
     PRODUCT_REMOVED,
     PRODUCT_EDITED,
-    PRODUCT_EDIT_FAIL
+    PRODUCT_EDIT_FAIL,
+    PRODUCT_DELETED,
+    PRODUCT_DELETION_FAIL
   } from '../actions/types';
 
   
@@ -15,6 +17,7 @@ const initialState = {
     isProductLoaded: false,
     product: null,
     isProductUpdated: false,
+    isProductDeleted: false,
 };
   
 export default function (state = initialState, action) {

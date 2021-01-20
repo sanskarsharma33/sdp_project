@@ -9,7 +9,9 @@ import {
   PRODUCT_ADDING_FAIL,
   PRODUCT_ADDING,
   PRODUCT_EDITED,
-  PRODUCT_EDIT_FAIL
+  PRODUCT_EDIT_FAIL,
+  PRODUCT_DELETED,
+  PRODUCT_DELETION_FAIL
 } from './types';
 
 export const add_Product = (Product) => (dispatch, getState) => {
@@ -89,6 +91,32 @@ export const getProduct = (id) => (dispatch, getState) => {
       });
   });
 };
+
+export const delete_Product = (id) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({ type: PRODUCT_LOADING });
+  
+    // Request Body
+    const body = JSON.stringify(id);
+  
+    console.log(body)
+    http
+    .delete(`/ManageShops/products/${id}/`, tokenConfig(getState))
+    .then((res) => {
+        // console.log("PP")
+        dispatch({
+            type: PRODUCT_DELETED,
+            payload: id
+        });
+    })
+    .catch((err) => {
+        // dispatch(returnErrors(err.response.data, err.response.status));
+        // console.log(err)
+        dispatch({
+            type: PRODUCT_DELETION_FAIL,
+        });
+    });
+  };
 
 
 // Setup config with token - helper function

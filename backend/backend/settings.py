@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     # External Libraries
     'corsheaders',
+    'django_cleanup',
 ]
 
 TOKEN_EXPIRED_AFTER_SECONDS = 86400

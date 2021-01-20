@@ -30,7 +30,7 @@ class addProduct extends Component {
     render() {
         const { title, catagory, amount, discount, details, quantity} = this.state;
         if (this.props.isProductAdded) {
-            return <Redirect to="/" />;
+            return <Redirect to="/Home/" />;
         }
         return (
             <div className="col-md-6 m-auto">

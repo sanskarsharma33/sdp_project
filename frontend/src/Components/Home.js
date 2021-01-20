@@ -15,21 +15,20 @@ export class Home extends Component {
     static propTypes = {
         auth: PropTypes.object,
         productList : PropTypes.object,
-        isProductListLoaded: PropTypes.bool
+        isProductListLoaded: PropTypes.bool,
+        isProductListUpdated: PropTypes.bool,
     };
     constructor(props){
         super(props)
         store.dispatch(getAllProductList());
     }
-    componentDidMount(){
-        // store.dispatch(getAllProductList());
-        // store.dispatch({type:PRODUCT_LOADING_FAIL})
+    handler(){
+        store.dispatch(getAllProductList());
     }
-
     render() {
         const productList = this.props.productList;
         const {user} = this.props.auth;
-        if(this.props.isProductListLoaded)
+        if(this.props.isProductListLoaded && user!=null)
         {
             return (
                 <div>
@@ -46,7 +45,7 @@ export class Home extends Component {
                                 // console.log(element)
                                 return (
                                     <div className="col-12 col-sm-4 col-md-6 col-lg-4">
-                                    <ProductCard element={element} canEdit={true}/>
+                                    <ProductCard element={element} canEdit={true} handler={this.handler}/>
                                     </div>
                                 )
                             }
@@ -66,13 +65,18 @@ export class Home extends Component {
                 </div>
             )
         }
-        return(<div>HERE</div>)
+        else if(this.props.isProductListUpdated)
+        {
+            return(<div>{this.handler()}</div>)
+        }
+        return (<div></div>)
     }
 }
 const mapStateToProps = (state) => ({
     // console.log(state)
     auth: state.auth,
     productList: state.productList.productList,
-    isProductListLoaded: state.productList.isProductListLoaded
+    isProductListLoaded: state.productList.isProductListLoaded,
+    isProductListUpdated: state.productList.isProductListUpdated
 });
 export default connect(mapStateToProps)(Home);

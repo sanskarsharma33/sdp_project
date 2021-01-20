@@ -11,11 +11,13 @@ import {
     PRODUCT_LOADING_FAIL,
     PRODUCT_ADDED
   } from '../actions/types';
+import { delete_Product } from '../actions/product';
 
 class ProductCard extends Component {
     static propTypes = {
         prop: PropTypes,
         isProductLoaded: PropTypes.bool,
+        isProductDeleted: PropTypes.bool,
     }
     state ={
         redirect: false,
@@ -36,6 +38,11 @@ class ProductCard extends Component {
             this.renderRedirect();
         })
     }
+    onDeleteClick = (e) =>{
+        // e.preventDefault();
+        // store.dispatch({type:PRODUCT_LIST_UPDATING})
+        this.props.delete_Product(this.props.element.id);
+    }
     renderRedirect = () =>{
         if(this.state.redirect)
         {
@@ -44,6 +51,8 @@ class ProductCard extends Component {
         }
         if(this.state.Editredirect)
             return <Redirect to={`/Product/Edit/${this.props.element.id}`} />;
+        if(this.props.isProductDeleted)
+            this.props.handler();
     }
     render() {
         
@@ -97,7 +106,8 @@ class ProductCard extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isProductLoaded: state.product.isProductLoaded
+    isProductLoaded: state.product.isProductLoaded,
+    isProductListUpdating: state.product.isProductDeleted,
 });
 
-export default connect(mapStateToProps)(ProductCard);
+export default connect(mapStateToProps, {delete_Product})(ProductCard);
