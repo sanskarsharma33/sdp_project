@@ -1,0 +1,6 @@
+.image:hover {
+filter: gray;
+-webkit-filter: grayscale(1); 
+-webkit-transition: all .4s ease-in-out;  
+-webkit-transform: scale(0.9);  
+}

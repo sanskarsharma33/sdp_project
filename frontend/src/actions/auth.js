@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { returnErrors } from './messages';
 import http from '../http-common';
 
@@ -17,6 +16,7 @@ import {
 export const loadUser = () => (dispatch, getState) => {
     // User Loading
     dispatch({ type: USER_LOADING });
+    console.log(localStorage.getItem('token'));
     http
     .get('/Authuser/get_user', tokenConfig(getState))
     .then((res) => {
@@ -48,14 +48,16 @@ export const login = (username, password) => (dispatch) => {
     http
     .post('/Authuser/signin', body, config)
     .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
+        const {user} = res.data;
+        console.log(user);
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: res.data,
+            payload: res.data
         });
     })
     .catch((err) => {
-        dispatch(returnErrors(err.response.data, err.response.status));
+        // dispatch(returnErrors(err.response.data, err.response.status));
         dispatch({
             type: LOGIN_FAIL,
         });
@@ -80,7 +82,7 @@ export const registerCustomer = (data) => (dispatch) => {
       console.log(res);
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data,
+        payload:  res.data,
       });
     })
     .catch((err) => {
@@ -109,7 +111,7 @@ export const registerVendor = (data) => (dispatch) => {
     console.log(res);
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload:  res.data,
     });
   })
   .catch((err) => {
@@ -126,7 +128,7 @@ export const logout = () => (dispatch, getState) => {
     http
     .get('/Authuser/logout', tokenConfig(getState))
     .then((res) => {
-      dispatch({ type: 'CLEAR_LEADS' });
+      // dispatch({ type: 'CLEAR_LEADS' });
       dispatch({
         type: LOGOUT_SUCCESS,
       });

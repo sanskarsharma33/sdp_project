@@ -30,6 +30,7 @@ export class VendorRegister extends Component {
         registerVendor: PropTypes.func.isRequired,
         isAuthenticated: PropTypes.bool,
     };
+    
     onSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);

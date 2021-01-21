@@ -118,6 +118,8 @@ def signin_view(request):
     user_serialized = UserSerializer(user)
     user_serialized.fields.pop('password')
 
+    # print(user_serialized.data.get_contect_data())
+
     return Response({
         'user': user_serialized.data,
         'expires_in': expires_in(token),
@@ -214,5 +216,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 def get_user(request):
     user = UserSerializer(request.user)
     print(user.data)
+    data = user.data
     return Response(
-        user.data, status=HTTP_200_OK)
+        data, status=HTTP_200_OK)
