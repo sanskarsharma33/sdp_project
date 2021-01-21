@@ -2,20 +2,21 @@
 from django.shortcuts import render
 
 # Rest Framework
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, views
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
-    HTTP_204_NO_CONTENT
+    HTTP_204_NO_CONTENT,
+    HTTP_201_CREATED
 )
 
 # Custom
 from .permissions import IsVendor,IsProductOwner
 from .models import Products as ProductModel, ProductImage
-from .serializers import ProductSerializer,ProductImageSerializer,ProductViewSerializer
+from .serializers import ProductSerializer,ProductImageSerializer,ProductViewSerializer, ProductViewImageSerializer
 
 
 
@@ -59,21 +60,32 @@ class Products(viewsets.ModelViewSet):
         # print(serializer)
         serializer.save(vendor=self.request.user.vendors)
 
+# class ProductImage(viewsets.ModelViewSet):  
 
+#     queryset = ProductImage.objects.all()
+#     serializer_class = ProductImageSerializer
+#     permission_classes = [IsAuthenticated,IsProductOwner,]
 
-class ProductImage(viewsets.ModelViewSet):  
+#     def get_queryset(self):
+#         # after get all product's images on DB it will be filtered by its related product and return the queryset
+#         product = ProductModel.objects.get(pk=self.request.data.get('pid'))
+#         owner_queryset = self.queryset.filter(product=product)
+#         return owner_queryset
 
-    queryset = ProductImage.objects.all()
-    serializer_class = ProductImageSerializer
+#     def perform_create(self, serializer):
+#         # when a product image is saved, its saved how it is the owned
+#         product = ProductModel.objects.get(pk=self.request.data.get('pid'))
+#         serializer.save(product=product)
+
+class ProductImage(views.APIView):
     permission_classes = [IsAuthenticated,IsProductOwner,]
 
-    def get_queryset(self):
-        # after get all product's images on DB it will be filtered by its related product and return the queryset
+    def post(self, request, *args, **kwargs):
         product = ProductModel.objects.get(pk=self.request.data.get('pid'))
-        owner_queryset = self.queryset.filter(product=product)
-        return owner_queryset
-
-    def perform_create(self, serializer):
-        # when a product image is saved, its saved how it is the owned
-        product = ProductModel.objects.get(pk=self.request.data.get('pid'))
-        serializer.save(product=product)
+        for image in self.request.FILES.getlist('images'):
+            product_image = ProductImageSerializer(data={'product':product.id, 'image':image})
+            if(product_image.is_valid()):
+                product_image.save()
+            else: 
+                return Response(product_image.errors, status=HTTP_400_BAD_REQUEST)
+        return Response(ProductViewSerializer(product).data, status=HTTP_201_CREATED)

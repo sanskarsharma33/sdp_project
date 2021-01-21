@@ -11,7 +11,9 @@ import {
   PRODUCT_EDITED,
   PRODUCT_EDIT_FAIL,
   PRODUCT_DELETED,
-  PRODUCT_DELETION_FAIL
+  PRODUCT_DELETION_FAIL,
+  PRODUCT_IMAGES_UPLOAD_FAIL,
+  PRODUCT_IMAGES_UPLOADED
 } from './types';
 
 export const add_Product = (Product) => (dispatch, getState) => {
@@ -117,6 +119,52 @@ export const delete_Product = (id) => (dispatch, getState) => {
         });
     });
   };
+
+export const addImages = (obj) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({ type: PRODUCT_LOADING });
+
+    // Request Body
+    const body = JSON.stringify(obj);
+    const formData = new FormData();
+    obj.images.map(image => formData.append('images',image))
+    formData.append('pid',obj.pid);
+
+    // Get token from state
+    const token = getState().auth.token;
+
+    // Headers
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            "Accept": "application/json",
+            "type": "formData",
+            "Access-Control-Allow-Origin" : "*"
+        },
+      };
+    
+    // If token, add to headers config
+    if (token) {
+        config.headers['Authorization'] = `Token ${token}`;
+    }
+
+    // console.log(formData)
+    http
+    .post(`/ManageShops/productimage`, formData, config)
+    .then((res) => {
+        // console.log("PP")
+        dispatch({
+            type: PRODUCT_IMAGES_UPLOADED,
+        });
+    })
+    .catch((err) => {
+        // dispatch(returnErrors(err.response.data, err.response.status));
+        // console.log(err)
+        dispatch({
+            type: PRODUCT_IMAGES_UPLOAD_FAIL,
+        });
+    });
+};
 
 
 // Setup config with token - helper function

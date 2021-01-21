@@ -27,17 +27,6 @@ class ProductViewSerializer(serializers.ModelSerializer):
         email = vendor['user']
         return email
 
-    # def create(self, validated_data):
-    #     return Products.objects.create(** validated_data)
-
-    # def update(self, instance, validated_data):
-    #     instance.title = validated_data.get('title',instance.title)
-    #     instance.catagory = validated_data.get('catagory',instance.catagory)
-    #     instance.amount = validated_data.get('amount',instance.amount)
-    #     instance.quantity = validated_data.get('quantity',instance.quantity)
-    #     instance.discount = validated_data.get('discount',instance.discount)
-    #     instance.details = validated_data.get('details',instance.details)
-
 class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -59,7 +48,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
+class ProductViewImageSerializer(serializers.ModelSerializer):
 
     image_url = serializers.SerializerMethodField('get_image_url')
 
@@ -69,3 +58,8 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
     def get_image_url(self, obj):
         return obj.image.url
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['image', 'product']

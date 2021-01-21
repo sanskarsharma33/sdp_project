@@ -7,7 +7,9 @@ import {
     PRODUCT_EDITED,
     PRODUCT_EDIT_FAIL,
     PRODUCT_DELETED,
-    PRODUCT_DELETION_FAIL
+    PRODUCT_DELETION_FAIL,
+    PRODUCT_IMAGES_UPLOADED,
+    PRODUCT_IMAGES_UPLOAD_FAIL
   } from '../actions/types';
 
   
@@ -18,6 +20,7 @@ const initialState = {
     product: null,
     isProductUpdated: false,
     isProductDeleted: false,
+    areProductImagesUploaded: false,
 };
   
 export default function (state = initialState, action) {
@@ -26,6 +29,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isProductLoading: true,
+                areProductImagesUploaded: false,
             };
         case PRODUCT_LOADED:
             console.log("LOADED");
@@ -34,6 +38,7 @@ export default function (state = initialState, action) {
                 isProductLoaded: true,
                 isProductLoading: false,
                 product: action.payload,
+                areProductImagesUploaded: false,
             };
         case PRODUCT_REMOVED:
         case PRODUCT_LOADING_FAIL:
@@ -42,22 +47,31 @@ export default function (state = initialState, action) {
                 product: null,
                 isProductLoaded: false,
                 isProductLoading: false,
+                areProductImagesUploaded: false,
             };
         case PRODUCT_ADDED:
             return {
                 ...state,
+                areProductImagesUploaded: false,
                 isProductAdded: true,
             };
         case PRODUCT_EDITED:
             return {
                 ...state,
+                areProductImagesUploaded: false,
                 isProductUpdated: true,
             };
         case PRODUCT_EDIT_FAIL:
             return {
                 ...state,
+                areProductImagesUploaded: false,
                 isProductUpdated: false,
             };
+        case PRODUCT_IMAGES_UPLOADED:
+            return {
+                ...state,
+                areProductImagesUploaded: true,
+            }
         default:
             return state;
     }
