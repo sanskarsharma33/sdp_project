@@ -161,3 +161,24 @@ export const tokenConfig = (getState) => {
   return config;
 };
 
+export const updateCustomer = (data) => (dispatch,getState) => {
+  
+  // Request Body
+  const body = JSON.stringify(data);
+  http
+  .post('/Authuser/customer/update', body, tokenConfig(getState))
+  .then((res) => {
+    console.log(res);
+    dispatch({
+      type: UPDATE_SUCCESS,
+      payload: res.data,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+    dispatch(returnErrors(err.response.data, err.response.status));
+    dispatch({
+      type: UPDATE_FAIL,
+    });
+  });
+};

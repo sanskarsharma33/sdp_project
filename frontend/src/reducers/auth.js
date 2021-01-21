@@ -8,8 +8,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     UPDATE_SUCCESS,
-    FETCHING_DATA,
-    FETCHING_COMPLETE,
+    UPDATE_FAIL,
   } from '../actions/types';
 
   
@@ -18,6 +17,7 @@ const initialState = {
     isAuthenticated: null,
     isLoading: false,
     user: null,
+    is_vendor : false,
 };
   
 export default function (state = initialState, action) {
@@ -41,6 +41,7 @@ export default function (state = initialState, action) {
                 ...state,
                 user:action.payload.user,
                 token:action.payload.token,
+                is_vendor : action.payload.user.is_vendor,
                 isAuthenticated: true,
                 isLoading: false,
             };
@@ -59,10 +60,8 @@ export default function (state = initialState, action) {
         case UPDATE_SUCCESS:
             return{
                 ...state,
-                user : action.payload.user,
                 isLoading:false,
             };
-        
         default:
             return state;
     }

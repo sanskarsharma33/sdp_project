@@ -19,6 +19,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isFetching: false,
+                isUpdated:false,
             };
         case UPDATE_SUCCESS:
             return{
@@ -36,7 +37,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching : false,
                 vendor : action.payload,
-
             }
         
         default:
