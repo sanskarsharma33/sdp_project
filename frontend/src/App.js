@@ -9,11 +9,13 @@ import Login from './Components/Login'
 import Alert from './Components/Alert'
 import CustomerRegister from './Components/CustomerRegister'
 import VendorRegister from './Components/VendorRegister'
+import VendorUpdate from './Components/VendorUpdate'
 import Header from './Components/Header'
 import Home from './Components/Home'
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
+import  VendorProfile  from './Components/VendorProfile';
 
 
 // Alert Options
@@ -41,6 +43,9 @@ export default class App extends Component {
                                     <Route exact path="/login/" component={Login} />
                                     <Route path="/register/customer" component={CustomerRegister} />
                                     <Route path="/register/vendor" component={VendorRegister} />
+                                    <Route exact path="/update/vendor" component={VendorUpdate} />
+                                    <Route exact path="/profile/vendor" component={VendorProfile} />
+                                    
                                 </Switch>
                             </div>
                         </Fragment>

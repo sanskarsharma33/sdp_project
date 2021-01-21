@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 
 export class Header extends Component {
   static propTypes = {
@@ -22,6 +24,20 @@ export class Header extends Component {
           <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">
             Logout
           </button>
+        </li>
+        
+        <li class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"> 
+              <FontAwesomeIcon icon={faUser}/>   <b class="caret"></b>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <Link to="/update/vendor" className="nav-link">
+                  Update Profile
+                </Link>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </li>
       </ul>
     );

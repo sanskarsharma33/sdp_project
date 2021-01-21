@@ -21,7 +21,7 @@ from rest_framework.status import (
 )
 
 # Custom
-from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer, ChangePasswordSerializer
+from Authuser.serializers import UserSerializer, VendorSerializer, UserUpdateSerializer, AddressSerializer, ChangePasswordSerializer
 from Authuser.models import Vendors, Customers, User, Address
 from Authuser.permissions import IsOwner
 from Authuser.authentication import expires_in, is_token_expired, token_expire_handler, ExpiringTokenAuthentication
@@ -83,20 +83,27 @@ def vendor_registration_view(request):
 @api_view(['POST', ])
 @permission_classes((IsAuthenticated,))
 def vendor_update_view(request):
-    print(request.user.is_vendor)
+    data = {}
     if not request.user.is_vendor:
         return Response({'message': 'User is not a Vendor'}, status=HTTP_400_BAD_REQUEST)
     try:
         vendor = Vendors.objects.get(user=request.user)
-    except Snippet.DoesNotExist:
+        user = User.objects.get(email=request.user.email)
+    except Vendors.DoesNotExist:
         return HttpResponse(status=404)
-
-    serializer = VendorSerializer(vendor, data=request.data)
-    if serializer.is_valid():
+    serializer = UserUpdateSerializer(user, data=request.data)
+    serializer1 = VendorSerializer(vendor, data=request.data)
+    if serializer.is_valid() and serializer1.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        serializer1.save()
+        data['response'] = "Succesfully registered Vendor"
+        data['user'] = serializer1.data
+        token = Token.objects.get(user=user).key
+        data['token'] = token
     else:
+        print(serializer.errors)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+    return Response(data)
 
 
 @api_view(["POST"])
@@ -216,3 +223,13 @@ def get_user(request):
     print(user.data)
     return Response(
         user.data, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def get_vendor(request):
+    user = User.objects.get(username=request.user)
+    vendor = VendorSerializer(Vendors.objects.get(user=request.user))
+    print(vendor.data)
+    return Response(
+        vendor.data, status=HTTP_200_OK)

@@ -11,7 +11,12 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  UPDATE_FAIL,
+  UPDATE_SUCCESS,
+  FETCHING_DATA,
+  FETCHING_COMPLETE
 } from './types';
+import { Redirect } from 'react-router-dom';
 
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
@@ -155,3 +160,4 @@ export const tokenConfig = (getState) => {
 
   return config;
 };
+

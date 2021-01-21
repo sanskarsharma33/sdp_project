@@ -9,7 +9,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'password2', 'phone', 'is_vendor', 'first_name', 'last_name']
+        fields = ['email', 'password', 'password2',
+                  'phone', 'is_vendor', 'first_name', 'last_name']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -93,3 +94,25 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['email', 'phone',  'first_name', 'last_name']
+
+    # Pending API reserved to be extended
+
+    def update(self, instance, validated_data):
+        instance.email = instance.email
+        instance.username = instance.username
+        instance.first_name = validated_data.get(
+            'first_name', instance.first_name)
+        instance.last_name = validated_data.get(
+            'last_name', instance.last_name)
+        instance.is_vendor = True
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.password = instance.password
+        instance.save()
+        return instance

@@ -22,5 +22,6 @@ urlpatterns = [
     path('password_reset/',
          include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('get_user', views.get_user, name="get_user"),
+    path('get_vendor', views.get_vendor, name="get_vendor"),
     path('', include(router.urls)),
 ]

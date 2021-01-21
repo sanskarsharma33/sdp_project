@@ -7,6 +7,9 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
     REGISTER_FAIL,
+    UPDATE_SUCCESS,
+    FETCHING_DATA,
+    FETCHING_COMPLETE,
   } from '../actions/types';
 
   
@@ -53,6 +56,13 @@ export default function (state = initialState, action) {
                 isAuthenticated: false,
                 isLoading: false,
             };
+        case UPDATE_SUCCESS:
+            return{
+                ...state,
+                user : action.payload.user,
+                isLoading:false,
+            };
+        
         default:
             return state;
     }
