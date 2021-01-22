@@ -15,9 +15,16 @@ import Home from './Components/Home'
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
+<<<<<<< HEAD
 import  VendorProfile from './Components/VendorProfile';
 import  CustomerUpdate  from './Components/CustomerUpdate';
 import  CustomerProfile  from './Components/CustomerProfile';
+=======
+import addProduct from './Components/addProduct';
+import Product from './Components/Product';
+import editProduct from './Components/editProduct';
+import ProductImages from './Components/ProductImages';
+>>>>>>> 1884c14d534b0ab86b4ba196e9326f5ea34b9db4
 
 
 // Alert Options
@@ -32,6 +39,7 @@ export default class App extends Component {
     }
 
     render() {
+        
         return (
             <Provider store={store}>
                 <AlertProvider template={AlertTemplate} {...alertOptions}>
@@ -41,8 +49,12 @@ export default class App extends Component {
                             <Alert/>
                             <div className="container">
                                 <Switch>
-                                    <Route exact path="/" component={Home}/>
+                                    <Route exact path="/Home/" component={Home}/>
                                     <Route exact path="/login/" component={Login} />
+                                    <Route exact path="/addProduct/" component={addProduct} />
+                                    <Route exact path="/Product/:id" component={Product} />
+                                    <Route exact path="/Product/UploadImages/:id" component={ProductImages} />
+                                    <Route exact path="/Product/Edit/:id" component={editProduct} />
                                     <Route path="/register/customer" component={CustomerRegister} />
                                     <Route path="/register/vendor" component={VendorRegister} />
                                     <Route exact path="/update/vendor" component={VendorUpdate} />
