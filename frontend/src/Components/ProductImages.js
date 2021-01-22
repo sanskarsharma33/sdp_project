@@ -69,6 +69,12 @@ class ProductImages extends Component {
         }
         return (
             <form>
+                <h1><center>Upload Images</center></h1>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
                 <div className="form-group multi-preview">
                     {(this.fileArray || []).map(element => (
                         <img src={element.url} className="image" id={element.id} style={{height:"10rem", margin:"20px 20px 20px"}} onClick={this.removeImage} alt="..." />
