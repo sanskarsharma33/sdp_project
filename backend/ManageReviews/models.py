@@ -8,8 +8,8 @@ def review_img_directory_path(instance, filename):
     return 'reviews/img/user_{0}/{1}'.format(instance.user.id, filename) 
 
 class Reviews(models.Model):
-    discription = models.CharField(max_length=1000)
-    Product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    description = models.CharField(max_length=1000)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class ReviewImages(models.Model):
