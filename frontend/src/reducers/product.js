@@ -12,6 +12,7 @@ import {
     PRODUCT_IMAGES_UPLOAD_FAIL,
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
+    LOGOUT_SUCCESS,
   } from '../actions/types';
 
   
@@ -90,7 +91,21 @@ export default function (state = initialState, action) {
                 areImagesLoaded:true,
                 areImagesLoading: false,
                 productImages: action.payload
-            }
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isProductLoading: false,
+                isProductAdded: false,
+                isProductLoaded: false,
+                product: null,
+                isProductUpdated: false,
+                isProductDeleted: false,
+                areProductImagesUploaded: false,
+                areImagesLoading: false,
+                areImagesLoaded: false,
+                productImages: null
+            };
         default:
             return state;
     }

@@ -7,8 +7,8 @@ import { getAllProductList } from '../actions/productList';
 import { Switch, Link, Redirect, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import ProductCard from './productCard';
-import '../style/home.css';
 import { PRODUCT_LOADING_FAIL } from '../actions/types';
+import '../style/home.css';
 
 export class Home extends Component {
 

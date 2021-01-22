@@ -4,6 +4,7 @@ import {
     FETCHING_DATA,
     FETCHING_COMPLETE,
     UPDATE_FAIL,
+    LOGOUT_SUCCESS,
   } from '../actions/types';
 
   
@@ -38,7 +39,13 @@ export default function (state = initialState, action) {
                 isFetching : false,
                 vendor : action.payload,
             }
-        
+        case LOGOUT_SUCCESS:
+            return{
+                ...state,
+                isFetching : true,
+                vendor:null,
+                isUpdated : false,
+            }
         default:
             return state;
     }

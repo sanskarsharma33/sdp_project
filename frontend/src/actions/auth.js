@@ -92,7 +92,7 @@ export const registerCustomer = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      dispatch(returnErrors(err.response.data, err.response.status));
+      // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: REGISTER_FAIL,
       });
