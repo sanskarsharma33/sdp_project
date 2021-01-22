@@ -43,6 +43,11 @@ class ProductCard extends Component {
         // store.dispatch({type:PRODUCT_LIST_UPDATING})
         this.props.delete_Product(this.props.element.id);
     }
+    onUploadImagesClick = (e) =>{
+        // e.preventDefault();
+        // store.dispatch({type:PRODUCT_LIST_UPDATING})
+        return <Redirect to={`/Product/UploadImages/${this.props.element.id}`} />;
+    }
     renderRedirect = () =>{
         if(this.state.redirect)
         {
@@ -70,7 +75,7 @@ class ProductCard extends Component {
                     <img src={`http://127.0.0.1:8000${this.props.element.image[0]}`} alt="" />
                     {
                         this.props.canEdit ?
-                            <div><button onClick={this.onEditClick}>Edit</button> <button onClick={this.onDeleteClick}>Delete</button></div>
+                            <div><Link to={`/Product/Images/${this.props.element.id}`}><button> Images</button></Link><Link to={`/Product/UploadImages/${this.props.element.id}`}><button> Add Images</button></Link><button onClick={this.onEditClick}>Edit</button> <button onClick={this.onDeleteClick}>Delete</button></div>
                             : <button onClick={this.onClick}>Show</button>
                         
                     }

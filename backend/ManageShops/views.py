@@ -15,7 +15,7 @@ from rest_framework.status import (
 
 # Custom
 from .permissions import IsVendor,IsProductOwner
-from .models import Products as ProductModel, ProductImage
+from .models import Products as ProductModel, ProductImage as ProductImageModel
 from .serializers import ProductSerializer,ProductImageSerializer,ProductViewSerializer, ProductViewImageSerializer
 
 
@@ -89,3 +89,15 @@ class ProductImage(views.APIView):
             else: 
                 return Response(product_image.errors, status=HTTP_400_BAD_REQUEST)
         return Response(ProductViewSerializer(product).data, status=HTTP_201_CREATED)
+
+class getProductImage(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        # print(kwargs)
+        product = ProductModel.objects.get(pk=kwargs['id'])
+        print(product)
+        image = ProductImageModel.objects.all().filter(product=product)
+        product_images = ProductViewImageSerializer(image, many=True)
+        print(product_images.data)
+        return Response(product_images.data)

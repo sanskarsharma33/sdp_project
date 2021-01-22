@@ -13,7 +13,10 @@ import {
   PRODUCT_DELETED,
   PRODUCT_DELETION_FAIL,
   PRODUCT_IMAGES_UPLOAD_FAIL,
-  PRODUCT_IMAGES_UPLOADED
+  PRODUCT_IMAGES_UPLOADED,
+  PRODUCT_IMAGES_LOADED,
+  PRODUCT_IMAGES_LOADING,
+  PRODUCT_IMAGES_LOAD_FAIL
 } from './types';
 
 export const add_Product = (Product) => (dispatch, getState) => {
@@ -162,6 +165,60 @@ export const addImages = (obj) => (dispatch, getState) => {
         // console.log(err)
         dispatch({
             type: PRODUCT_IMAGES_UPLOAD_FAIL,
+        });
+    });
+};
+
+
+export const getImages = (obj) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({ type: PRODUCT_IMAGES_LOADING });
+
+    // Request Body
+    const body = JSON.stringify(obj);
+
+    console.log(body)
+    http
+    .get(`/ManageShops/getproductimage/${obj}`, tokenConfig(getState))
+    .then((res) => {
+        console.log(res.data)
+        // console.log("PP")
+        dispatch({
+            type: PRODUCT_IMAGES_LOADED,
+            payload: res.data,
+        });
+    })
+    .catch((err) => {
+        // dispatch(returnErrors(err.response.data, err.response.status));
+        // console.log(err)
+        dispatch({
+            type: PRODUCT_IMAGES_LOAD_FAIL,
+        });
+    });
+};
+
+export const deleteImages = (obj) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({ type: PRODUCT_IMAGES_LOADING });
+
+    // Request Body
+    const body = JSON.stringify(obj);
+    
+    // console.log(formData)
+    http
+    .get(`/ManageShops/productimage`, body, tokenConfig(getState))
+    .then((res) => {
+        // console.log("PP")
+        dispatch({
+            type: PRODUCT_IMAGES_LOADED,
+            payload: res.data
+        });
+    })
+    .catch((err) => {
+        // dispatch(returnErrors(err.response.data, err.response.status));
+        // console.log(err)
+        dispatch({
+            type: PRODUCT_IMAGES_LOAD_FAIL,
         });
     });
 };

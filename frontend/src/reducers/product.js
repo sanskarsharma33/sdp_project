@@ -9,7 +9,10 @@ import {
     PRODUCT_DELETED,
     PRODUCT_DELETION_FAIL,
     PRODUCT_IMAGES_UPLOADED,
-    PRODUCT_IMAGES_UPLOAD_FAIL
+    PRODUCT_IMAGES_UPLOAD_FAIL,
+    PRODUCT_IMAGES_LOADING,
+    PRODUCT_IMAGES_LOADED,
+    LOGOUT_SUCCESS,
   } from '../actions/types';
 
   
@@ -21,6 +24,9 @@ const initialState = {
     isProductUpdated: false,
     isProductDeleted: false,
     areProductImagesUploaded: false,
+    areImagesLoading: false,
+    areImagesLoaded: false,
+    productImages: null
 };
   
 export default function (state = initialState, action) {
@@ -72,6 +78,34 @@ export default function (state = initialState, action) {
                 ...state,
                 areProductImagesUploaded: true,
             }
+        case PRODUCT_IMAGES_LOADING:
+            return{
+                ...state,
+                areImagesLoaded:false,
+                areImagesLoading: true,
+            }
+        case PRODUCT_IMAGES_LOADED:
+            console.log(action.payload)
+            return{
+                ...state,
+                areImagesLoaded:true,
+                areImagesLoading: false,
+                productImages: action.payload
+            };
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isProductLoading: false,
+                isProductAdded: false,
+                isProductLoaded: false,
+                product: null,
+                isProductUpdated: false,
+                isProductDeleted: false,
+                areProductImagesUploaded: false,
+                areImagesLoading: false,
+                areImagesLoaded: false,
+                productImages: null
+            };
         default:
             return state;
     }

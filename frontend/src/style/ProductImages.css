@@ -1,6 +1,13 @@
+.Combimage{
+    /* background-color: blanchedalmond; */
+}
 .image:hover {
-filter: gray;
--webkit-filter: grayscale(1); 
--webkit-transition: all .4s ease-in-out;  
--webkit-transform: scale(0.9);  
+    /* position: absolute; */
+    filter: gray;
+    /* background-image: url('https://www.iconsdb.com/icons/preview/red/cancel-xxl.png'); */
+    opacity: 0.5;
+    transition: 1s ease-in-out;
+    -webkit-filter: grayscale(1); 
+    -webkit-transition: all .4s ease-in-out;  
+    -webkit-transform: scale(0.9);  
 }

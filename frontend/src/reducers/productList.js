@@ -5,7 +5,7 @@ import {
     LOGOUT_SUCCESS,
     PRODUCT_DELETED,
     PRODUCT_DELETION_FAIL,
-    PRODUCT_LIST_UPDATING
+    PRODUCT_LIST_UPDATING,
   } from '../actions/types';
 
   
@@ -35,7 +35,6 @@ export default function (state = initialState, action) {
                 isProductListUpdating: false,
                 productList: action.payload,
             };
-        case LOGOUT_SUCCESS:
         case PRODUCT_LIST_LOADING_FAIL:
             return {
                 ...state,
@@ -57,6 +56,16 @@ export default function (state = initialState, action) {
                 isProductListLoading: false,
                 isProductListUpdated: true,
                 isProductListUpdating: false,
+            };
+        case LOGOUT_SUCCESS:
+            localStorage.removeItem('token');   
+            return {
+                ...state,
+                isProductListLoading: false,
+                isProductListLoaded: false,
+                isProductListUpdated: false,
+                isProductListUpdating: false,
+                productList: null,
             };
         default:
             return state;

@@ -38,11 +38,11 @@ export class Header extends Component {
               <FontAwesomeIcon icon={faUser}/>   <b class="caret"></b>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                {this.props.auth.is_vendor ? <Link to="/update/vendor" className="nav-link">
+                {this.props.auth.is_vendor ? (<Link to="/update/vendor" className="nav-link">
                   Update Profile Vendor
-                </Link> : <Link to="/update/customer" className="nav-link">
+                </Link>) : (<Link to="/update/customer" className="nav-link">
                   Update Profile Customer
-                </Link> 
+                </Link> )
                 }
                 {this.props.auth.is_vendor ? <Link to="/profile/vendor" className="nav-link">
                   Profile Vendor
@@ -50,9 +50,7 @@ export class Header extends Component {
                   Profile Customer
                 </Link> 
                 }
-                <a class="dropdown-item" href="#">Another action</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
             </div>
         </li> 
       </ul>
@@ -79,6 +77,7 @@ export class Header extends Component {
     );
     if(!isLoading)
     {
+      console.log(this.props.auth.user)
       return (
         <nav className="navbar navbar-expand-sm navbar-light bg-light">
           <div className="container">
@@ -97,6 +96,13 @@ export class Header extends Component {
               <a className="navbar-brand" href="#">
                 SDP
               </a>
+              {console.log(isAuthenticated)}
+              {console.log(this.props.auth)}
+              {
+                isAuthenticated ? (this.props.auth.is_vendor ? <Link to="/addProduct/" className="nav-link">
+                  Add Product
+                </Link> : "") : ""
+              }
             </div>
             {isAuthenticated ? authLinks : guestLinks}
           </div>

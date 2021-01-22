@@ -22,6 +22,8 @@ import addProduct from './Components/addProduct';
 import Product from './Components/Product';
 import editProduct from './Components/editProduct';
 import ProductImages from './Components/ProductImages';
+import allProductImages from './Components/allProductImages';
+
 
 
 // Alert Options
@@ -51,6 +53,7 @@ export default class App extends Component {
                                     <Route exact path="/addProduct/" component={addProduct} />
                                     <Route exact path="/Product/:id" component={Product} />
                                     <Route exact path="/Product/UploadImages/:id" component={ProductImages} />
+                                    <Route exact path="/Product/Images/:id" component={allProductImages} />
                                     <Route exact path="/Product/Edit/:id" component={editProduct} />
                                     <Route path="/register/customer" component={CustomerRegister} />
                                     <Route path="/register/vendor" component={VendorRegister} />

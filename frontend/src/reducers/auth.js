@@ -35,6 +35,7 @@ export default function (state = initialState, action) {
                 user: action.payload,
                 is_vendor : action.payload.is_vendor,
                 isLoading: false,
+                is_vendor: action.payload.is_vendor,
             };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
