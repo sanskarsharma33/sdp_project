@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../actions/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 import store from '../store';
 import { PRODUCT_LOADING_FAIL } from '../actions/types';
 
@@ -30,6 +32,28 @@ export class Header extends Component {
             Logout
           </button>
         </li>
+        <li class="dropdown">
+            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"> 
+              <FontAwesomeIcon icon={faUser}/>   <b class="caret"></b>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                {this.props.auth.is_vendor ? <Link to="/update/vendor" className="nav-link">
+                  Update Profile Vendor
+                </Link> : <Link to="/update/customer" className="nav-link">
+                  Update Profile Customer
+                </Link> 
+                }
+                {this.props.auth.is_vendor ? <Link to="/profile/vendor" className="nav-link">
+                  Profile Vendor
+                </Link> : <Link to="/profile/customer" className="nav-link">
+                  Profile Customer
+                </Link> 
+                }
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </li> 
       </ul>
     );
 

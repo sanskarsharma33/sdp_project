@@ -21,7 +21,7 @@ from rest_framework.status import (
 )
 
 # Custom
-from Authuser.serializers import UserSerializer, VendorSerializer, AddressSerializer, ChangePasswordSerializer
+from Authuser.serializers import UserSerializer, VendorSerializer, UserUpdateSerializer, AddressSerializer, ChangePasswordSerializer
 from Authuser.models import Vendors, Customers, User, Address
 from Authuser.permissions import IsOwner
 from Authuser.authentication import expires_in, is_token_expired, token_expire_handler, ExpiringTokenAuthentication
@@ -33,7 +33,9 @@ def customer_registration_view(request):
     if request.data['is_vendor'] == "True":
         raise serializers.ValidationError(
             {'error': 'Customer cannot be Vendor'})
-    serializer = UserSerializer(data=request.data)
+    d = request.data
+    d['is_vendor'] = False
+    serializer = UserSerializer(data=d)
     if User.objects.filter(email=request.data['email']).exists():
         raise serializers.ValidationError({'user': 'User already Exist'})
     data = {}
@@ -83,20 +85,27 @@ def vendor_registration_view(request):
 @api_view(['POST', ])
 @permission_classes((IsAuthenticated,))
 def vendor_update_view(request):
-    print(request.user.is_vendor)
+    data = {}
     if not request.user.is_vendor:
         return Response({'message': 'User is not a Vendor'}, status=HTTP_400_BAD_REQUEST)
     try:
         vendor = Vendors.objects.get(user=request.user)
-    except Snippet.DoesNotExist:
+        user = User.objects.get(email=request.user.email)
+    except Vendors.DoesNotExist:
         return HttpResponse(status=404)
-
-    serializer = VendorSerializer(vendor, data=request.data)
-    if serializer.is_valid():
+    serializer = UserUpdateSerializer(user, data=request.data)
+    serializer1 = VendorSerializer(vendor, data=request.data)
+    if serializer.is_valid() and serializer1.is_valid():
         serializer.save()
-        return Response(serializer.data)
+        serializer1.save()
+        data['response'] = "Succesfully updated Vendor"
+        data['user'] = serializer1.data
+        token = Token.objects.get(user=user).key
+        data['token'] = token
     else:
+        print(serializer.errors)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+    return Response(data)
 
 
 @api_view(["POST"])
@@ -117,8 +126,6 @@ def signin_view(request):
     is_expired, token = token_expire_handler(token)
     user_serialized = UserSerializer(user)
     user_serialized.fields.pop('password')
-
-    # print(user_serialized.data.get_contect_data())
 
     return Response({
         'user': user_serialized.data,
@@ -216,6 +223,37 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 def get_user(request):
     user = UserSerializer(request.user)
     print(user.data)
-    data = user.data
     return Response(
-        data, status=HTTP_200_OK)
+        user.data, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))
+def get_vendor(request):
+    user = User.objects.get(username=request.user)
+    vendor = VendorSerializer(Vendors.objects.get(user=request.user))
+    print(vendor.data)
+    return Response(
+        vendor.data, status=HTTP_200_OK)
+
+
+@api_view(['POST', ])
+@permission_classes((IsAuthenticated,))
+def customer_update_view(request):
+    data = {}
+    if request.user.is_vendor:
+        return Response({'message': 'User is a Vendor'}, status=HTTP_400_BAD_REQUEST)
+    try:
+        user = User.objects.get(email=request.user.email)
+    except Users.DoesNotExist:
+        return HttpResponse(status=404)
+    serializer = UserUpdateSerializer(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        data['response'] = "Succesfully updated Customer"
+        data['user'] = serializer.data
+        token = Token.objects.get(user=user).key
+        data['token'] = token
+    else:
+        return Response(serializer.errors, HTTP_400_BAD_REQUEST)
+    return Response(data)
