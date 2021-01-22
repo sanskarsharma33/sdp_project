@@ -13,6 +13,7 @@ export class Header extends Component {
     auth: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
   };
+  
   render() {
     const { isAuthenticated, user, isLoading } = this.props.auth;
 

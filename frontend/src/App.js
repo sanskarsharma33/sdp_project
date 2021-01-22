@@ -15,16 +15,13 @@ import Home from './Components/Home'
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
-<<<<<<< HEAD
 import  VendorProfile from './Components/VendorProfile';
 import  CustomerUpdate  from './Components/CustomerUpdate';
 import  CustomerProfile  from './Components/CustomerProfile';
-=======
 import addProduct from './Components/addProduct';
 import Product from './Components/Product';
 import editProduct from './Components/editProduct';
 import ProductImages from './Components/ProductImages';
->>>>>>> 1884c14d534b0ab86b4ba196e9326f5ea34b9db4
 
 
 // Alert Options

@@ -66,6 +66,8 @@ def vendor_registration_view(request):
     if User.objects.filter(email=request.data['email']).exists():
         raise serializers.ValidationError({'error': 'User already Exist'})
     data = {}
+    print(serializer.is_valid())
+    print(serializer.data)
     if serializer.is_valid():
         if serializer1.is_valid():
             user = serializer.save()
@@ -76,6 +78,7 @@ def vendor_registration_view(request):
             data['token'] = token
 
         else:
+            print(serializer1.errors)
             return Response(serializer1.errors, HTTP_400_BAD_REQUEST)
     else:
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)

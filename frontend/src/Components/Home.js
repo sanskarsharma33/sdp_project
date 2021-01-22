@@ -42,7 +42,7 @@ export class Home extends Component {
                             // console.log(user.email)
                             if(user.is_vendor && element.vendor_email === user.email)
                             {
-                                // console.log(element)
+                                 console.log(element.id);
                                 return (
                                     <div className="col-12 col-sm-4 col-md-6 col-lg-4">
                                     <ProductCard element={element} canEdit={true} handler={this.handler}/>

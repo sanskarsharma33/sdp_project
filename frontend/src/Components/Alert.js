@@ -17,6 +17,7 @@ static propTypes = {
 
 async componentDidUpdate(prevProps) {
     const { error, alert, message } = this.props;
+    console.log(error);
     if (error !== prevProps.error) {
         console.log(error.msg);
         if (error.msg.email){
@@ -39,10 +40,15 @@ async componentDidUpdate(prevProps) {
             alert.error(`Message: ${error.msg.message.join()}`);
             await sleep(200);
         }
+        if (error.msg.shop_name){
+            alert.error(`Shop_Name: ${error.msg.shop_name.join()}`);
+            await sleep(200);
+        }
         if (error.msg.non_field_errors){ 
             alert.error(error.msg.non_field_errors.join());
             await sleep(200);
         }
+
         if (error.msg.user) alert.error(error.msg.user);
         // if (error.msg.password) alert.error(error.msg.password);
     }
