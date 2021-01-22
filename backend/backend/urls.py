@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/Authuser/', include('Authuser.urls')),
     path('api/ManageShops/', include('ManageShops.urls')),
     path('api/ManageReviews/', include('ManageReviews.urls')),
+    path('api/ManageOrders/', include('ManageOrders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
