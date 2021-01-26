@@ -59,6 +59,7 @@ class Products(viewsets.ModelViewSet):
         # when a product is saved, its saved how it is the owned
         # print(serializer)
         serializer.save(vendor=self.request.user.vendors)
+        print(serializer.data)
 
 # class ProductImage(viewsets.ModelViewSet):  
 

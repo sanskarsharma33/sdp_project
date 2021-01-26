@@ -28,6 +28,7 @@ export class Home extends Component {
     render() {
         const productList = this.props.productList;
         const {user} = this.props.auth;
+        console.log(user)
         if(this.props.isProductListLoaded && user!=null)
         {
             return (

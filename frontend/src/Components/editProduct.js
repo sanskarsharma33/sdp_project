@@ -24,27 +24,45 @@ class editProduct extends Component {
         isAuthenticated: PropTypes.bool,
         isProductUpdated: PropTypes.bool
     }
+    obj = null
     UpdateState()
     {
         // console.log(this.props.product)
         this.setState(this.props.product);
+        this.obj=this.set
     }
     constructor(props) {
         super(props);
         let id = this.props.match.params.id;
+        console.log("constructor")
         this.props.getProduct(id);
     }
+    // static getDerivedStateFromProps(){
+    //     console.log("hurrey")
+    //     // this.setState(this.props.product)
+    // }
     componentDidUpdate(){
         // console.log(this.state)
         if(this.state.flag)
         {
+            let id = this.props.match.params.id;
+            this.props.getProduct(id);
             this.setState({flag: false});
+            this.obj=this.state
             this.UpdateState();
         }
     }
-    componentWillUnmount() {
-        store.dispatch({type:PRODUCT_REMOVED})
-    }
+    onUnload(event) { 
+        alert('page Refreshed')
+      }
+      
+      componentDidMount() {
+        window.addEventListener("beforeunload", this.onUnload)
+      }
+      
+      componentWillUnmount() {
+         window.removeEventListener("beforeunload", this.onUnload)
+      }
     onChange = (e) =>{ 
         this.setState({ [e.target.name]: e.target.value });
     };
@@ -56,12 +74,14 @@ class editProduct extends Component {
         if (this.props.isProductUpdated) {
             return <Redirect to="/Home/" />;
         }
-        if (this.props.isProductLoaded) {
+        if(this.props.product!=null && this.state.title=='')
+            this.UpdateState();
+        if (this.props.isProductLoaded && !this.state.flag) {
             const { title, catagory, amount, discount, details, quantity} = this.state;
             return (
                 <div className="col-md-6 m-auto">
                     <div className="card card-body mt-5">
-                    <h2 className="text-center">Add Product</h2>
+                    <h2 className="text-center">Edit Product Details</h2>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                         <label>Product Title</label>
@@ -134,7 +154,7 @@ class editProduct extends Component {
                 </div>
             )
         }
-        return (<div>EDIT PRODUCT NOT FOUND</div>)
+        return (<div></div>)
     }
 }
 

@@ -10,7 +10,7 @@ def user_directory_path(instance, filename):
 
 class Products(models.Model):
     title = models.CharField(max_length=20)
-    catagory = models.CharField(max_length=10)
+    catagory = models.CharField(max_length=100)
     vendor = models.ForeignKey(Vendors, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()

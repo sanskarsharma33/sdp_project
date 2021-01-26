@@ -44,7 +44,7 @@ export default function (state = initialState, action) {
                 ...state,
                 user:action.payload.user,
                 token:action.payload.token,
-                is_vendor : action.payload.user.is_vendor,
+                is_vendor : action.payload.is_vendor,
                 isAuthenticated: true,
                 isLoading: false,
             };

@@ -38,7 +38,7 @@ export const add_Product = (Product) => (dispatch, getState) => {
     })
     .catch((err) => {
         // dispatch(returnErrors(err.response.data, err.response.status));
-        // console.log(err)
+        console.log(err)
         dispatch({
             type: PRODUCT_ADDING_FAIL,
         });
@@ -206,7 +206,7 @@ export const deleteImages = (obj) => (dispatch, getState) => {
     
     // console.log(formData)
     http
-    .get(`/ManageShops/productimage`, body, tokenConfig(getState))
+    .delete(`/ManageShops/productimage`, body, tokenConfig(getState))
     .then((res) => {
         // console.log("PP")
         dispatch({

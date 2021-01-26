@@ -24,6 +24,8 @@ class allProductImages extends Component {
 
     removeImage(e){
         e.preventDefault()
+        console.log("delete")
+        this.props.deleteImages(e.target.id)
     }
     handler(){
         // this.props.getImages(this.state.id)
@@ -52,7 +54,7 @@ class allProductImages extends Component {
                     <br></br>
                     <div className="form-group multi-preview">
                         {(this.props.productImages || []).map(element => (
-                            <img src={`http://127.0.0.1:8000${element.image}`} className="image" id={element.id} style={{height:"10rem", margin:"20px 20px 20px"}} onClick={this.removeImage} alt="..." />
+                            <img src={`http://127.0.0.1:8000${element.image}`} className="image" id={element.id} style={{height:"10rem", margin:"20px 20px 20px"}} onClick={(e) => { if (window.confirm('Are you sure you wish to delete this image?')) this.removeImage(e) } } alt="..." />
                         ))}
                     </div>
 

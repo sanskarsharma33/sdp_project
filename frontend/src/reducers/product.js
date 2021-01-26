@@ -13,6 +13,7 @@ import {
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
     LOGOUT_SUCCESS,
+    PRODUCT_LIST_LOADED,
   } from '../actions/types';
 
   
@@ -106,6 +107,11 @@ export default function (state = initialState, action) {
                 areImagesLoaded: false,
                 productImages: null
             };
+        case PRODUCT_LIST_LOADED:
+            return{
+                ...state,
+                isProductAdded: false
+            }
         default:
             return state;
     }
