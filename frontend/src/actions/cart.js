@@ -8,6 +8,8 @@ import {
   CART_LOAD_FAIL,
   CART_ITEM_DELETED,
   CART_ITEM_DELETION_FAIL,
+  CART_ITEM_MODIFIED,
+  CART_ITEM_MODIFY_FAIL,
 } from "./types";
 import cart from "../reducers/cart";
 
@@ -33,7 +35,6 @@ export const addToCart = (data) => (dispatch, getState) => {
 };
 
 export const getCartItems = () => (dispatch, getState) => {
-  console.log("a");
   dispatch({ type: CART_LOADING });
   http
     .get("ManageOrders/cart/", tokenConfig(getState))
@@ -73,6 +74,25 @@ export const deleteCartItem = (id) => (dispatch, getState) => {
       // console.log(err)
       dispatch({
         type: CART_ITEM_DELETION_FAIL,
+      });
+    });
+};
+
+export const modifyItemQuantity = (id, quantity) => (dispatch, getState) => {
+  const body = JSON.stringify({ quantity });
+
+  http
+    .put(`/ManageOrders/cart/${id}/`, body, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: CART_ITEM_MODIFIED,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: CART_ITEM_MODIFY_FAIL,
       });
     });
 };

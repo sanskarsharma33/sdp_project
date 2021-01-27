@@ -7,23 +7,61 @@ import {
   faPlusCircle,
   faMinusCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { Switch, Link, Redirect, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import "bootstrap/dist/css/bootstrap.css";
 import "../../style/Cart.css";
-import { deleteCartItem } from "../../actions/cart";
+import { deleteCartItem, modifyItemQuantity } from "../../actions/cart";
 
 class CartCard extends Component {
   static propTypes = {
     //product : PropTypes.object.isRequired,
   };
 
+  state = {
+    quantity: 0,
+    flag: true,
+  };
+
+  UpdateState() {
+    this.setState(this.props.element);
+  }
+
+  componentDidUpdate() {
+    if (this.state.flag) {
+      //console.log(this.props.vendor);
+      this.setState({ flag: false });
+      this.UpdateState();
+    }
+  }
+
+  async modify(q) {
+    if (q && q > 0) {
+      await this.setState({ quantity: q });
+      this.props.modifyItemQuantity(this.props.element.id, q);
+    }
+  }
+
+  decrease = (e) => {
+    this.modify(parseInt(this.state.quantity) - 1);
+  };
+
+  increase = (e) => {
+    this.modify(parseInt(this.state.quantity) + 1);
+  };
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onBlur = (e) => {
+    this.modify(e.target.value);
+  };
   itemDelete = (e) => {
     console.log("Deleting");
     this.props.deleteCartItem(this.props.element.id);
   };
   render() {
-    console.log(this.props.element);
+    const { quantity } = this.state;
     return (
       <div className="row mb-4">
         <div className="col-3">
@@ -53,18 +91,18 @@ class CartCard extends Component {
               </div>
               <div>
                 <div className="input-group">
-                  <span className="input-group-btn">
+                  <span className="input-group-btn" onClick={this.decrease}>
                     <FontAwesomeIcon icon={faMinusCircle} />
                   </span>
                   <input
-                    type="text"
+                    type="number"
                     name="quantity"
                     className="number"
-                    value={this.props.element.quantity}
-                    min="1"
-                    max="10"
+                    onBlur={this.onBlur}
+                    onChange={this.onChange}
+                    value={quantity}
                   />
-                  <span className="input-group-btn">
+                  <span className="input-group-btn" onClick={this.increase}>
                     <FontAwesomeIcon icon={faPlusCircle} />
                   </span>
                 </div>
@@ -97,4 +135,6 @@ class CartCard extends Component {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { deleteCartItem })(CartCard);
+export default connect(mapStateToProps, { deleteCartItem, modifyItemQuantity })(
+  CartCard
+);

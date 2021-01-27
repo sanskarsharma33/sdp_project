@@ -6,6 +6,8 @@ import {
   CART_LOAD_FAIL,
   CART_ITEM_DELETED,
   CART_ITEM_DELETION_FAIL,
+  CART_ITEM_MODIFIED,
+  CART_ITEM_MODIFY_FAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -43,12 +45,14 @@ export default function (state = initialState, action) {
       };
     case CART_LOAD_FAIL:
     case CART_ITEM_DELETION_FAIL:
+    case CART_ITEM_MODIFY_FAIL:
       return {
         ...state,
         cartItems: null,
         isCartLoading: false,
       };
     case CART_ITEM_DELETED:
+    case CART_ITEM_MODIFIED:
       return {
         ...state,
         cartItems: null,

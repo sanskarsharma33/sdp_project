@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { login } from "../actions/auth";
+import { Redirect } from "react-router-dom";
 import store from "../store";
 import { getAllProductList } from "../actions/productList";
-import { Switch, Link, Redirect, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import ProductCard from "./productCard";
-import { PRODUCT_LOADING_FAIL } from "../actions/types";
 import "../style/home.css";
+import { getCartItems } from "../actions/cart";
 
 export class Home extends Component {
   static propTypes = {
@@ -17,6 +16,7 @@ export class Home extends Component {
     isProductListLoaded: PropTypes.bool,
     isProductListUpdated: PropTypes.bool,
     cartItems: PropTypes.object.isRequired,
+    cartUpdated: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -28,6 +28,12 @@ export class Home extends Component {
   render() {
     const productList = this.props.productList;
     const { user } = this.props.auth;
+    if (!user) {
+      return <Redirect to="/" />;
+    }
+    if (!user.is_vendor && this.props.cartUpdated) {
+      return <div>{this.props.getCartItems()}</div>;
+    }
     if (this.props.isProductListLoaded && user != null) {
       return (
         <div>
@@ -74,5 +80,6 @@ const mapStateToProps = (state) => ({
   isProductListLoaded: state.productList.isProductListLoaded,
   isProductListUpdated: state.productList.isProductListUpdated,
   cartItems: state.cart.cartItems,
+  cartUpdated: state.cart.cartUpdated,
 });
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { getCartItems })(Home);

@@ -15,7 +15,6 @@ import {
   FETCHING_DATA,
   FETCHING_COMPLETE,
 } from "./types";
-import { Redirect } from "react-router-dom";
 
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
@@ -166,6 +165,7 @@ export const tokenConfig = (getState) => {
 export const updateCustomer = (data) => (dispatch, getState) => {
   // Request Body
   const body = JSON.stringify(data);
+  console.log(body);
   http
     .post("/Authuser/customer/update", body, tokenConfig(getState))
     .then((res) => {
