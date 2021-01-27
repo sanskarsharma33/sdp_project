@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { logout } from '../actions/auth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faUser} from '@fortawesome/free-solid-svg-icons'
-import store from '../store';
-import { PRODUCT_LOADING_FAIL } from '../actions/types';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../actions/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import store from "../store";
+import { PRODUCT_LOADING_FAIL } from "../actions/types";
 
 export class Header extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     logout: PropTypes.func.isRequired,
   };
-  
+
   render() {
     const { isAuthenticated, user, isLoading } = this.props.auth;
 
@@ -25,34 +25,60 @@ export class Header extends Component {
           </Link>
         </li>
         <span className="navbar-text mr-3">
-          <strong>{user ? `Welcome ${user['first_name'] ? user['first_name'] : user['email']}` : ''}</strong>
+          <strong>
+            {user
+              ? `Welcome ${
+                  user["first_name"] ? user["first_name"] : user["email"]
+                }`
+              : ""}
+          </strong>
         </span>
-        
+
         <li className="nav-item">
-          <button onClick={this.props.logout} className="nav-link btn btn-info btn-sm text-light">
+          <button
+            onClick={this.props.logout}
+            className="nav-link btn btn-info btn-sm text-light"
+          >
             Logout
           </button>
         </li>
         <li class="dropdown">
-            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false"> 
-              <FontAwesomeIcon icon={faUser}/>   <b class="caret"></b>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                {this.props.auth.is_vendor ? (<Link to="/update/vendor" className="nav-link">
+          <a
+            href="#"
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            data-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <FontAwesomeIcon icon={faUser} /> <b class="caret"></b>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            {this.props.auth.is_vendor ? (
+              <div>
+                <Link to="/update/vendor" className="nav-link">
                   Update Profile Vendor
-                </Link>) : (<Link to="/update/customer" className="nav-link">
-                  Update Profile Customer
-                </Link> )
-                }
-                {this.props.auth.is_vendor ? <Link to="/profile/vendor" className="nav-link">
+                </Link>
+                <Link to="/profile/vendor" className="nav-link">
                   Profile Vendor
-                </Link> : <Link to="/profile/customer" className="nav-link">
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link to="/update/customer" className="nav-link">
+                  Update Profile Customer
+                </Link>
+                <Link to="/profile/customer" className="nav-link">
                   Profile Customer
-                </Link> 
-                }
-                <div class="dropdown-divider"></div>
-            </div>
-        </li> 
+                </Link>
+                <Link to="/cart" className="nav-link">
+                  Cart
+                </Link>
+              </div>
+            )}
+
+            <div class="dropdown-divider"></div>
+          </div>
+        </li>
       </ul>
     );
 
@@ -75,9 +101,7 @@ export class Header extends Component {
         </li>
       </ul>
     );
-    if(!isLoading)
-    {
-      console.log(this.props.auth.user)
+    if (!isLoading) {
       return (
         <nav className="navbar navbar-expand-sm navbar-light bg-light">
           <div className="container">
@@ -96,20 +120,24 @@ export class Header extends Component {
               <a className="navbar-brand" href="#">
                 SDP
               </a>
-              {console.log(isAuthenticated)}
-              {console.log(this.props.auth)}
-              {
-                isAuthenticated ? (this.props.auth.is_vendor ? <Link to="/addProduct/" className="nav-link">
-                  Add Product
-                </Link> : "") : ""
-              }
+              {isAuthenticated ? (
+                this.props.auth.is_vendor ? (
+                  <Link to="/addProduct/" className="nav-link">
+                    Add Product
+                  </Link>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
             </div>
             {isAuthenticated ? authLinks : guestLinks}
           </div>
         </nav>
       );
     }
-    return(<div></div>)
+    return <div></div>;
   }
 }
 
