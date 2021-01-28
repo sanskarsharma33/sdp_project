@@ -8,7 +8,8 @@ import {
   CART_ITEM_DELETION_FAIL,
   CART_ITEM_MODIFIED,
   CART_ITEM_MODIFY_FAIL,
-} from "../actions/types";
+  LOGIN_FAIL,
+} from '../actions/types';
 
 const initialState = {
   isItemAdded: false,
@@ -38,16 +39,16 @@ export default function (state = initialState, action) {
         cartUpdated: false,
       };
     case CART_LOADED:
-      var total= 0;
-      action.payload.map(item=>{
-            total+=item.quantity*item.product.amount
-      })  
+      var total = 0;
+      action.payload.map (item => {
+        total += item.quantity * item.product.amount;
+      });
       return {
         ...state,
         cartItems: action.payload,
         isCartLoading: false,
         cartItemDeleted: false,
-        totalAmt: total
+        totalAmt: total,
       };
     case CART_LOAD_FAIL:
     case CART_ITEM_DELETION_FAIL:
@@ -58,41 +59,37 @@ export default function (state = initialState, action) {
         isCartLoading: false,
       };
     case CART_ITEM_DELETED:
-      state.cartItems.map((item,index)=>{
-        if(item.id==action.payload)
-          state.cartItems.splice(index,1)
-      })
-      var total= 0;
-        state.cartItems.map(item=>{
-            total+=item.quantity*item.product.amount
-      })  
+      state.cartItems.map ((item, index) => {
+        if (item.id == action.payload) state.cartItems.splice (index, 1);
+      });
+      var total = 0;
+      state.cartItems.map (item => {
+        total += item.quantity * item.product.amount;
+      });
       return {
         ...state,
         cartItems: state.cartItems,
         cartUpdated: false,
         isCartLoading: false,
-        totalAmt: total
+        totalAmt: total,
       };
 
     case CART_ITEM_MODIFIED:
-      var obj =action.payload
-      var total= 0;
-      state.cartItems.map(item=>{
-        if(item.id!=obj.id)
-          total+=item.quantity*item.product.amount
-        else
-        {
-          item.quantity=obj.quantity
-          total+=obj.quantity*item.product.amount
+      var obj = action.payload;
+      var total = 0;
+      state.cartItems.map (item => {
+        if (item.id != obj.id) total += item.quantity * item.product.amount;
+        else {
+          item.quantity = obj.quantity;
+          total += obj.quantity * item.product.amount;
         }
-      })
-      state.totalAmt=total
+      });
+      state.totalAmt = total;
       return {
         ...state,
-        totalAmt:total,
-        cartItems:state.cartItems
+        totalAmt: total,
+        cartItems: state.cartItems,
       };
-
     default:
       return state;
   }

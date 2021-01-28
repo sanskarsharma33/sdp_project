@@ -9,11 +9,11 @@ import {
   REGISTER_FAIL,
   UPDATE_SUCCESS,
   UPDATE_FAIL,
-} from "../actions/types";
-import { object } from "prop-types";
+} from '../actions/types';
+import {object} from 'prop-types';
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem ('token'),
   isAuthenticated: false,
   isLoading: false,
   user: null,
@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       // console.log(action.payload.values())
-      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem ('token', action.payload.token);
       return {
         ...state,
         user: action.payload.user,
@@ -52,7 +52,7 @@ export default function (state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      localStorage.removeItem("token");
+      localStorage.removeItem ('token');
       return {
         ...state,
         token: null,
