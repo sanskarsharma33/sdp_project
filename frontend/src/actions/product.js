@@ -1,5 +1,5 @@
-import { returnErrors } from "./messages";
-import http from "../http-common";
+import {returnErrors} from './messages';
+import http from '../http-common';
 
 import {
     PRODUCT_LOADED,
@@ -17,18 +17,18 @@ import {
     PRODUCT_IMAGES_LOADED,
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOAD_FAIL,
-} from "./types";
+} from './types';
 
 export const add_Product = (Product) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_ADDING });
+    dispatch({type: PRODUCT_ADDING});
 
     // Request Body
     const body = JSON.stringify(Product);
 
     console.log(body);
 
-    http.post("/ManageShops/products/", body, tokenConfig(getState))
+    http.post('/ManageShops/products/', body, tokenConfig(getState))
         .then((res) => {
             dispatch({
                 type: PRODUCT_ADDED,
@@ -46,7 +46,7 @@ export const add_Product = (Product) => (dispatch, getState) => {
 
 export const edit_Product = (Product) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_ADDING });
+    dispatch({type: PRODUCT_ADDING});
 
     // Request Body
     const body = JSON.stringify(Product);
@@ -75,7 +75,7 @@ export const edit_Product = (Product) => (dispatch, getState) => {
 
 export const getProduct = (id) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(id);
@@ -100,7 +100,7 @@ export const getProduct = (id) => (dispatch, getState) => {
 
 export const delete_Product = (id) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(id);
@@ -125,13 +125,13 @@ export const delete_Product = (id) => (dispatch, getState) => {
 
 export const addImages = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
     const formData = new FormData();
-    obj.images.map((image) => formData.append("images", image));
-    formData.append("pid", obj.pid);
+    obj.images.map((image) => formData.append('images', image));
+    formData.append('pid', obj.pid);
 
     // Get token from state
     const token = getState().auth.token;
@@ -139,16 +139,16 @@ export const addImages = (obj) => (dispatch, getState) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "multipart/form-data",
-            Accept: "application/json",
-            type: "formData",
-            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
+            type: 'formData',
+            'Access-Control-Allow-Origin': '*',
         },
     };
 
     // If token, add to headers config
     if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
     }
 
     // console.log(formData)
@@ -170,7 +170,7 @@ export const addImages = (obj) => (dispatch, getState) => {
 
 export const getImages = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_IMAGES_LOADING });
+    dispatch({type: PRODUCT_IMAGES_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
@@ -196,7 +196,7 @@ export const getImages = (obj) => (dispatch, getState) => {
 
 export const deleteImages = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_IMAGES_LOADING });
+    dispatch({type: PRODUCT_IMAGES_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
@@ -227,13 +227,13 @@ export const tokenConfig = (getState) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // If token, add to headers config
     if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
     }
 
     return config;

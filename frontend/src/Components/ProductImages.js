@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import { element } from "prop-types";
-import "../style/ProductImages.css";
-import { addImages } from "../actions/product";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
+import React, {Component} from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import {element} from 'prop-types';
+import '../style/ProductImages.css';
+import {addImages} from '../actions/product';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {Link, Redirect} from 'react-router-dom';
 
 class ProductImages extends Component {
     fileObj = [];
@@ -37,7 +37,7 @@ class ProductImages extends Component {
             url: URL.createObjectURL(this.fileObj[index]),
             id: index,
         });
-        this.setState({ images: this.fileObj });
+        this.setState({images: this.fileObj});
         // console.log(this.fileObj)
     }
 
@@ -54,14 +54,14 @@ class ProductImages extends Component {
         for (let i = 0; i < this.fileArray.length; i++) {
             this.fileArray[i].id = i;
         }
-        this.setState({ images: this.fileObj });
+        this.setState({images: this.fileObj});
         console.log(this.fileObj);
-        this.setState({ reload: true });
+        this.setState({reload: true});
     }
 
     render() {
         if (this.state.reload) {
-            this.setState({ reload: false });
+            this.setState({reload: false});
             return <div></div>;
         }
         if (this.props.areProductImagesUploaded) {
@@ -84,8 +84,8 @@ class ProductImages extends Component {
                             className="image"
                             id={element.id}
                             style={{
-                                height: "10rem",
-                                margin: "20px 20px 20px",
+                                height: '10rem',
+                                margin: '20px 20px 20px',
                             }}
                             onClick={this.removeImage}
                             alt="..."
@@ -116,4 +116,4 @@ class ProductImages extends Component {
 const mapStateToProps = (state) => ({
     areProductImagesUploaded: state.product.areProductImagesUploaded,
 });
-export default connect(mapStateToProps, { addImages })(ProductImages);
+export default connect(mapStateToProps, {addImages})(ProductImages);

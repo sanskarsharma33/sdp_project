@@ -13,7 +13,7 @@ import {
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
     LOGOUT_SUCCESS,
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
     isProductLoading: false,
@@ -37,7 +37,7 @@ export default function (state = initialState, action) {
                 areProductImagesUploaded: false,
             };
         case PRODUCT_LOADED:
-            console.log("LOADED");
+            console.log('LOADED');
             return {
                 ...state,
                 isProductLoaded: true,

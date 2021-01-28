@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { add_Product } from "../actions/product";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Link, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {add_Product} from '../actions/product';
 class addProduct extends Component {
     state = {
-        title: "",
-        catagory: "",
+        title: '',
+        catagory: '',
         amount: 0,
         discount: 0,
-        details: "",
+        details: '',
         quantity: 0,
     };
     static propTypes = {
@@ -24,7 +24,7 @@ class addProduct extends Component {
     };
 
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     render() {
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => ({
     isProductAdded: state.product.isProductAdded,
 });
 
-export default connect(mapStateToProps, { add_Product })(addProduct);
+export default connect(mapStateToProps, {add_Product})(addProduct);

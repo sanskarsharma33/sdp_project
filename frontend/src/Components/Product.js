@@ -1,16 +1,16 @@
-import React, { Component, useEffect } from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import product from "../reducers/product";
-import { Link, Redirect, useParams } from "react-router-dom";
-import store from "../store";
+import React, {Component, useEffect} from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import product from '../reducers/product';
+import {Link, Redirect, useParams} from 'react-router-dom';
+import store from '../store';
 import {
     PRODUCT_LOADING,
     PRODUCT_LOADED,
     PRODUCT_REMOVED,
-} from "../actions/types";
-import { getProduct } from "../actions/product";
+} from '../actions/types';
+import {getProduct} from '../actions/product';
 
 class Product extends Component {
     static propTypes = {
@@ -25,7 +25,7 @@ class Product extends Component {
         store.dispatch(getProduct(id));
     }
     componentWillUnmount() {
-        store.dispatch({ type: PRODUCT_REMOVED });
+        store.dispatch({type: PRODUCT_REMOVED});
     }
     render() {
         // if (!this.props.isAuthenticated) {
@@ -61,8 +61,8 @@ class Product extends Component {
                                                 className="d-block w-100"
                                                 src={`http://127.0.0.1:8000${img}`}
                                                 style={{
-                                                    height: "30rem",
-                                                    width: "10rem",
+                                                    height: '30rem',
+                                                    width: '10rem',
                                                 }}
                                             />
                                         </div>
@@ -72,7 +72,7 @@ class Product extends Component {
                                         <img
                                             className="d-block w-100"
                                             src={`http://127.0.0.1:8000${img}`}
-                                            style={{ height: "30rem" }}
+                                            style={{height: '30rem'}}
                                         />
                                     </div>
                                 );

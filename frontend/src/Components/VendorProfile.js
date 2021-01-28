@@ -1,21 +1,21 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { loadVendor } from "../actions/vendor";
-import { Link, Redirect } from "react-router-dom";
+import {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {loadVendor} from '../actions/vendor';
+import {Link, Redirect} from 'react-router-dom';
 
 export class VendorProfile extends Component {
     state = {
-        first_name: "",
-        last_name: "",
-        phone: "",
-        shop_name: "",
-        address: "",
+        first_name: '',
+        last_name: '',
+        phone: '',
+        shop_name: '',
+        address: '',
         location_long: null,
         location_lat: null,
-        pincode: "",
+        pincode: '',
         cod_available: true,
     };
 
@@ -37,7 +37,7 @@ export class VendorProfile extends Component {
         if (this.props.isFetching || this.props.auth.isLoading) {
             return <FontAwesomeIcon icon={faSpinner} />;
         } else {
-            const { first_name, last_name, phone } = this.props.auth.user;
+            const {first_name, last_name, phone} = this.props.auth.user;
             const {
                 shop_name,
                 address,
@@ -55,7 +55,7 @@ export class VendorProfile extends Component {
                             <label>First Name : </label>
 
                             <label className="form-control">
-                                {" "}
+                                {' '}
                                 {first_name}
                             </label>
                         </div>
@@ -79,14 +79,14 @@ export class VendorProfile extends Component {
                         <div className="form-group">
                             <label>Location Longitude : </label>
                             <label className="form-control">
-                                {" "}
+                                {' '}
                                 {location_long}
                             </label>
                         </div>
                         <div className="form-group">
                             <label>Location Lattitude : </label>
                             <label className="form-control">
-                                {" "}
+                                {' '}
                                 {location_lat}
                             </label>
                         </div>
@@ -110,4 +110,4 @@ const mapStateToProps = (state) => ({
     isFetching: state.vendor.isFetching,
 });
 
-export default connect(mapStateToProps, { loadVendor })(VendorProfile);
+export default connect(mapStateToProps, {loadVendor})(VendorProfile);

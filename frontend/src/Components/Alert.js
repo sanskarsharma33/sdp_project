@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
-import { withAlert } from "react-alert";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, {Component, Fragment} from 'react';
+import {withAlert} from 'react-alert';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -14,7 +14,7 @@ export class Alerts extends Component {
     };
 
     async componentDidUpdate(prevProps) {
-        const { error, alert, message } = this.props;
+        const {error, alert, message} = this.props;
         console.log(error);
         if (error !== prevProps.error) {
             console.log(error.msg);

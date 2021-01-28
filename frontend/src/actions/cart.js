@@ -1,5 +1,5 @@
-import { tokenConfig } from "./auth";
-import http from "../http-common";
+import {tokenConfig} from './auth';
+import http from '../http-common';
 import {
     CART_LOADED,
     CART_ITEM_ADDED,
@@ -10,13 +10,13 @@ import {
     CART_ITEM_DELETION_FAIL,
     CART_ITEM_MODIFIED,
     CART_ITEM_MODIFY_FAIL,
-} from "./types";
-import cart from "../reducers/cart";
+} from './types';
+import cart from '../reducers/cart';
 
 export const addToCart = (data) => (dispatch, getState) => {
     //dispatch({ CART_ITEM_ADDING });
     const body = JSON.stringify(data);
-    http.post("ManageOrders/cart/", body, tokenConfig(getState))
+    http.post('ManageOrders/cart/', body, tokenConfig(getState))
         .then((res) => {
             console.log(res);
             dispatch({
@@ -34,8 +34,8 @@ export const addToCart = (data) => (dispatch, getState) => {
 };
 
 export const getCartItems = () => (dispatch, getState) => {
-    dispatch({ type: CART_LOADING });
-    http.get("ManageOrders/cart/", tokenConfig(getState))
+    dispatch({type: CART_LOADING});
+    http.get('ManageOrders/cart/', tokenConfig(getState))
         .then((res) => {
             //console.log(res.data);
             dispatch({
@@ -52,7 +52,7 @@ export const getCartItems = () => (dispatch, getState) => {
 };
 
 export const deleteCartItem = (id) => (dispatch, getState) => {
-    dispatch({ type: CART_LOADING });
+    dispatch({type: CART_LOADING});
 
     // Request Body
     const body = JSON.stringify(id);
@@ -76,7 +76,7 @@ export const deleteCartItem = (id) => (dispatch, getState) => {
 };
 
 export const modifyItemQuantity = (id, quantity) => (dispatch, getState) => {
-    const body = JSON.stringify({ quantity });
+    const body = JSON.stringify({quantity});
 
     http.put(`/ManageOrders/cart/${id}/`, body, tokenConfig(getState))
         .then((res) => {

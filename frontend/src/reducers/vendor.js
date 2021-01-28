@@ -5,7 +5,7 @@ import {
     UPDATE_FAIL,
     LOGOUT_SUCCESS,
     LOGIN_FAIL,
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
     isFetching: true,

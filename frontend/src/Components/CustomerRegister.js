@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import http from "../http-common";
-import { connect } from "react-redux";
-import { registerCustomer } from "../actions/auth";
-import { Link, Redirect } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import http from '../http-common';
+import {connect} from 'react-redux';
+import {registerCustomer} from '../actions/auth';
+import {Link, Redirect} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export class CustomerRegister extends Component {
     state = {
@@ -31,7 +31,7 @@ export class CustomerRegister extends Component {
 
     onChange = (e) => {
         console.log(e.target.name);
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     render() {
@@ -145,4 +145,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { registerCustomer })(CustomerRegister);
+export default connect(mapStateToProps, {registerCustomer})(CustomerRegister);

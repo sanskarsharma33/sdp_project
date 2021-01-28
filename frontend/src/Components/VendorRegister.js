@@ -1,28 +1,28 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import http from "../http-common";
-import { connect } from "react-redux";
-import { registerVendor } from "../actions/auth";
-import { Link, Redirect } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import http from '../http-common';
+import {connect} from 'react-redux';
+import {registerVendor} from '../actions/auth';
+import {Link, Redirect} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export class VendorRegister extends Component {
     state = {
-        username: "",
-        email: "",
-        first_name: "",
-        last_name: "",
-        phone: "",
+        username: '',
+        email: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
         is_vendor: true,
-        password: "",
-        password2: "",
-        shop_name: "",
-        address: "",
+        password: '',
+        password2: '',
+        shop_name: '',
+        address: '',
         location_long: null,
         location_lat: null,
-        pincode: "",
+        pincode: '',
         cod_available: true,
-        transaction_id: "",
+        transaction_id: '',
         is_active: false,
     };
 
@@ -39,7 +39,7 @@ export class VendorRegister extends Component {
 
     onChange = (e) => {
         console.log(e.target.name);
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     render() {
@@ -221,4 +221,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { registerVendor })(VendorRegister);
+export default connect(mapStateToProps, {registerVendor})(VendorRegister);

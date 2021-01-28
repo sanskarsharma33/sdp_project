@@ -1,14 +1,14 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { Switch, Link, Redirect, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import "../../style/Cart.css";
-import CartCard from "./CartCard";
-import { getCartItems } from "../../actions/cart";
-import { loadUser } from "../../actions/auth";
+import {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {Switch, Link, Redirect, Route} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../../style/Cart.css';
+import CartCard from './CartCard';
+import {getCartItems} from '../../actions/cart';
+import {loadUser} from '../../actions/auth';
 
 class Cart extends Component {
     static propTypes = {
@@ -74,4 +74,4 @@ export const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCartItems, loadUser })(Cart);
+export default connect(mapStateToProps, {getCartItems, loadUser})(Cart);

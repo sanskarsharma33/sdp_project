@@ -1,24 +1,24 @@
-import React, { Component, useEffect } from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import product from "../reducers/product";
-import { Link, Redirect, useParams } from "react-router-dom";
-import store from "../store";
+import React, {Component, useEffect} from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import product from '../reducers/product';
+import {Link, Redirect, useParams} from 'react-router-dom';
+import store from '../store';
 import {
     PRODUCT_LOADING,
     PRODUCT_LOADED,
     PRODUCT_REMOVED,
-} from "../actions/types";
-import { getProduct, edit_Product } from "../actions/product";
+} from '../actions/types';
+import {getProduct, edit_Product} from '../actions/product';
 
 class editProduct extends Component {
     state = {
-        title: "",
-        catagory: "",
+        title: '',
+        catagory: '',
         amount: 0,
         discount: 0,
-        details: "",
+        details: '',
         quantity: 0,
         flag: true,
     };
@@ -40,15 +40,15 @@ class editProduct extends Component {
     componentDidUpdate() {
         // console.log(this.state)
         if (this.state.flag) {
-            this.setState({ flag: false });
+            this.setState({flag: false});
             this.UpdateState();
         }
     }
     componentWillUnmount() {
-        store.dispatch({ type: PRODUCT_REMOVED });
+        store.dispatch({type: PRODUCT_REMOVED});
     }
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
     onSubmit = (e) => {
         e.preventDefault();
@@ -157,6 +157,6 @@ const mapStateToProps = (state) => ({
     isProductUpdated: state.product.isProductUpdated,
 });
 
-export default connect(mapStateToProps, { edit_Product, getProduct })(
+export default connect(mapStateToProps, {edit_Product, getProduct})(
     editProduct
 );

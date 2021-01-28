@@ -1,16 +1,16 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { loadUser } from "../actions/auth";
-import { Link, Redirect } from "react-router-dom";
+import {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {loadUser} from '../actions/auth';
+import {Link, Redirect} from 'react-router-dom';
 
 export class CustomerProfile extends Component {
     state = {
-        first_name: "",
-        last_name: "",
-        phone: "",
+        first_name: '',
+        last_name: '',
+        phone: '',
     };
 
     constructor(props) {
@@ -24,13 +24,13 @@ export class CustomerProfile extends Component {
 
     render() {
         if (!this.props.auth.isAuthenticated) {
-            console.log("a");
+            console.log('a');
             return <Redirect to="/" />;
         }
         if (this.props.auth.isLoading) {
             return <FontAwesomeIcon icon={faSpinner} />;
         } else {
-            const { first_name, last_name, phone } = this.props.auth.user;
+            const {first_name, last_name, phone} = this.props.auth.user;
             return (
                 <div className="col-md-6 m-auto">
                     <div className="card card-body mt-5">
@@ -39,7 +39,7 @@ export class CustomerProfile extends Component {
                             <label>First Name : </label>
 
                             <label className="form-control">
-                                {" "}
+                                {' '}
                                 {first_name}
                             </label>
                         </div>
@@ -69,4 +69,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { loadUser })(CustomerProfile);
+export default connect(mapStateToProps, {loadUser})(CustomerProfile);

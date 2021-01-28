@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { loadVendor, updateVendor } from "../actions/vendor";
-import { Redirect } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {loadVendor, updateVendor} from '../actions/vendor';
+import {Redirect} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 export class VendorUpdate extends Component {
     state = {
-        first_name: "",
-        last_name: "",
-        phone: "",
-        shop_name: "",
-        address: "",
+        first_name: '',
+        last_name: '',
+        phone: '',
+        shop_name: '',
+        address: '',
         location_long: null,
         location_lat: null,
-        pincode: "",
+        pincode: '',
         cod_available: true,
-        transaction_id: "",
+        transaction_id: '',
         isLoading: true,
         flag: true,
     };
@@ -45,7 +45,7 @@ export class VendorUpdate extends Component {
     componentDidUpdate() {
         if (this.state.flag) {
             //console.log(this.props.vendor);
-            this.setState({ flag: false });
+            this.setState({flag: false});
             this.UpdateState();
         }
     }
@@ -58,7 +58,7 @@ export class VendorUpdate extends Component {
 
     onChange = (e) => {
         console.log(e.target.value);
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     render() {
@@ -202,6 +202,6 @@ const mapStateToProps = (state) => ({
     isUpdated: state.vendor.isUpdated,
 });
 
-export default connect(mapStateToProps, { updateVendor, loadVendor })(
+export default connect(mapStateToProps, {updateVendor, loadVendor})(
     VendorUpdate
 );
