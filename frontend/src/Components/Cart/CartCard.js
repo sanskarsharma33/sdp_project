@@ -116,6 +116,7 @@ class CartCard extends Component {
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
                             <div>
+                                <br />
                                 <button
                                     className="btn btn-danger btn-lg rounded-0"
                                     onClick={this.itemDelete}

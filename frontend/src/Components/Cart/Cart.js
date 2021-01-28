@@ -65,6 +65,22 @@ class Cart extends Component {
                 {items}
 
                 <h3>Total Amount {this.props.cart.totalAmt}</h3>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <Link to={`/Address`}>
+                    <button
+                        className="btn btn-success"
+                        style={{width: '70rem'}}
+                    >
+                        Select Address
+                    </button>
+                </Link>
             </div>
         );
     }
