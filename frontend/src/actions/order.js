@@ -17,7 +17,7 @@ export const getAddress = (temp) => (dispatch, getState) => {
     dispatch({type: ADDRESS_LOADING});
     http.get('/Authuser/address/', tokenConfig(getState))
         .then((res) => {
-            console.log(res);
+            console.log(res.data);
             dispatch({type: ADDRESS_LOADED, payload: res.data});
         })
         .catch((err) => {
@@ -43,7 +43,8 @@ export const addAddress = (obj) => (dispatch, getState) => {
 
 export const deleteAddress = (id) => (dispatch, getState) => {
     dispatch({type: ADDRESS_DELETING});
-
+    console.log(id);
+    console.log('DELETING');
     http.delete(`/Authuser/address/${id}/`, tokenConfig(getState))
         .then((res) => {
             console.log('DELETED');

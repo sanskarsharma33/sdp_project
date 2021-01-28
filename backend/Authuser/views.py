@@ -21,7 +21,7 @@ from rest_framework.status import (
 )
 
 # Custom
-from Authuser.serializers import UserSerializer, VendorSerializer, UserUpdateSerializer, AddressSerializer, ChangePasswordSerializer
+from Authuser.serializers import UserSerializer, VendorSerializer, UserUpdateSerializer, AddressSerializer, ChangePasswordSerializer, AddressViewSerializer
 from Authuser.models import Vendors, Customers, User, Address
 from Authuser.permissions import IsOwner
 from Authuser.authentication import expires_in, is_token_expired, token_expire_handler, ExpiringTokenAuthentication
@@ -156,6 +156,13 @@ class AddressViewSet(viewsets.ModelViewSet):
     # get all products on DB
     queryset = Address.objects.all()
     permission_classes = (IsAuthenticated, )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return AddressViewSerializer
+        if self.action == 'retrieve':
+            return AddressViewSerializer
+        return AddressSerializer
 
     def perform_create(self, serializer):
         # when a product is saved, its saved how it is the owner

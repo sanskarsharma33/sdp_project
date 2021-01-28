@@ -33,6 +33,7 @@ class addProduct extends Component {
 
     onAddressDelete = (e) => {
         e.preventDefault();
+        console.log(e.target.id);
         this.props.deleteAddress(e.target.id);
         // console.log(e.target.id)
     };
