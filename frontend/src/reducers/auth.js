@@ -18,6 +18,7 @@ const initialState = {
   isLoading: false,
   user: null,
   is_vendor: false,
+  isUpdated: false,
 };
 
 export default function (state = initialState, action) {
@@ -35,6 +36,7 @@ export default function (state = initialState, action) {
         is_vendor: action.payload.is_vendor,
         isLoading: false,
         is_vendor: action.payload.is_vendor,
+        isUpdated: false,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -47,6 +49,7 @@ export default function (state = initialState, action) {
         is_vendor: action.payload.user.is_vendor,
         isAuthenticated: true,
         isLoading: false,
+        isUpdated: false,
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:
@@ -59,11 +62,13 @@ export default function (state = initialState, action) {
         user: null,
         isAuthenticated: false,
         isLoading: false,
+        isUpdated: false,
       };
     case UPDATE_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        isUpdated: true,
       };
     default:
       return state;

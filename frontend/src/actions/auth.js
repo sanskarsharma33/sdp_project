@@ -79,11 +79,9 @@ export const registerCustomer = (data) => (dispatch) => {
 
   // Request Body
   const body = JSON.stringify(data);
-  console.log(body);
   http
     .post("/Authuser/customer/register", body, config)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data,
@@ -91,7 +89,7 @@ export const registerCustomer = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: REGISTER_FAIL,
       });

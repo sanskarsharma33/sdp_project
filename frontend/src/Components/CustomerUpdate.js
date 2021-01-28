@@ -19,7 +19,6 @@ export class CustomerUpdate extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     updateCustomer: PropTypes.func.isRequired,
-    isUpdated: PropTypes.bool,
   };
 
   constructor(props) {
@@ -52,7 +51,7 @@ export class CustomerUpdate extends Component {
     if (!this.props.auth || !this.props.auth.isAuthenticated) {
       return <Redirect to="/" />;
     }
-    if (this.props.isUpdated) {
+    if (this.props.auth.isUpdated) {
       return <Redirect to="/profile/customer" />;
     }
     if (this.props.auth.isLoading) {
@@ -110,7 +109,6 @@ export class CustomerUpdate extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  isUpdated: state.vendor.isUpdated,
 });
 
 export default connect(mapStateToProps, { updateCustomer, loadUser })(

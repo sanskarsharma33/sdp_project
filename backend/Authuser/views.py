@@ -47,9 +47,7 @@ def customer_registration_view(request):
         )
         customer.save()
         data['response'] = "Succesfully registered Customer"
-        data['username'] = user.username
-        data['email'] = user.email
-        data['first_name'] = user.first_name
+        data['user'] = serializer.data
         token = Token.objects.get(user=user).key
         data['token'] = token
     else:
@@ -73,7 +71,7 @@ def vendor_registration_view(request):
             user = serializer.save()
             vendor = serializer1.save(user=user)
             data['response'] = "Succesfully registered Vendor"
-            data['user'] = serializer1.data
+            data['user'] = serializer.data
             token = Token.objects.get(user=user).key
             data['token'] = token
 
@@ -244,6 +242,7 @@ def get_vendor(request):
 @permission_classes((IsAuthenticated,))
 def customer_update_view(request):
     data = {}
+    print(request.data)
     if request.user.is_vendor:
         return Response({'message': 'User is a Vendor'}, status=HTTP_400_BAD_REQUEST)
     try:
@@ -253,11 +252,13 @@ def customer_update_view(request):
     serializer = UserUpdateSerializer(user, data=request.data)
 
     if serializer.is_valid():
-        serializer.save()
+        print(serializer.data)
+        # serializer.save()
         data['response'] = "Succesfully updated Customer"
         data['user'] = serializer.data
         token = Token.objects.get(user=user).key
         data['token'] = token
     else:
+        print(serializer.errors)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
     return Response(data)
