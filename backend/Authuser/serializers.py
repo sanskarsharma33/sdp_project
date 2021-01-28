@@ -107,4 +107,4 @@ class AddressViewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Address
-        fields = ['address', 'address_title', 'pincode']
+        fields = ['id', 'address', 'address_title', 'pincode']
