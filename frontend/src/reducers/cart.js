@@ -9,7 +9,7 @@ import {
     CART_ITEM_MODIFIED,
     CART_ITEM_MODIFY_FAIL,
     LOGIN_FAIL,
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
     isItemAdded: false,

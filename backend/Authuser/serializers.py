@@ -101,3 +101,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'phone',  'first_name', 'last_name']
+
+
+class AddressViewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Address
+        fields = ['address', 'address_title', 'pincode']
