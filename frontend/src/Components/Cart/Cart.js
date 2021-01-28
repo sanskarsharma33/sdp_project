@@ -63,7 +63,7 @@ class Cart extends Component {
           Cart (<span>{len}</span> items)
         </h5>
         {items}
-        <h3>Total Amount {totalAmt}</h3>
+        <h3>Total Amount {this.props.cart.totalAmt}</h3>
       </div>
     );
   }

@@ -80,13 +80,13 @@ export const deleteCartItem = (id) => (dispatch, getState) => {
 
 export const modifyItemQuantity = (id, quantity) => (dispatch, getState) => {
   const body = JSON.stringify({ quantity });
-
+  var obj={id:id, quantity:quantity}
   http
     .put(`/ManageOrders/cart/${id}/`, body, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: CART_ITEM_MODIFIED,
-        payload: res.data,
+        payload: obj,
       });
     })
     .catch((err) => {

@@ -16,6 +16,7 @@ const initialState = {
   cartItems: null,
   cartItemDeleted: false,
   cartUpdated: false,
+  totalAmt: 0,
 };
 
 export default function (state = initialState, action) {
@@ -37,11 +38,16 @@ export default function (state = initialState, action) {
         cartUpdated: false,
       };
     case CART_LOADED:
+      var total= 0;
+      action.payload.map(item=>{
+            total+=item.quantity*item.product.amount
+      })  
       return {
         ...state,
         cartItems: action.payload,
         isCartLoading: false,
         cartItemDeleted: false,
+        totalAmt: total
       };
     case CART_LOAD_FAIL:
     case CART_ITEM_DELETION_FAIL:
@@ -52,12 +58,39 @@ export default function (state = initialState, action) {
         isCartLoading: false,
       };
     case CART_ITEM_DELETED:
-    case CART_ITEM_MODIFIED:
+      state.cartItems.map((item,index)=>{
+        if(item.id==action.payload)
+          state.cartItems.splice(index,1)
+      })
+      var total= 0;
+        state.cartItems.map(item=>{
+            total+=item.quantity*item.product.amount
+      })  
       return {
         ...state,
-        cartItems: null,
-        cartUpdated: true,
+        cartItems: state.cartItems,
+        cartUpdated: false,
         isCartLoading: false,
+        totalAmt: total
+      };
+
+    case CART_ITEM_MODIFIED:
+      var obj =action.payload
+      var total= 0;
+      state.cartItems.map(item=>{
+        if(item.id!=obj.id)
+          total+=item.quantity*item.product.amount
+        else
+        {
+          item.quantity=obj.quantity
+          total+=obj.quantity*item.product.amount
+        }
+      })
+      state.totalAmt=total
+      return {
+        ...state,
+        totalAmt:total,
+        cartItems:state.cartItems
       };
 
     default:
