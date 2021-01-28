@@ -7,63 +7,66 @@ import { loadUser } from "../actions/auth";
 import { Link, Redirect } from "react-router-dom";
 
 export class CustomerProfile extends Component {
-  state = {
-    first_name: "",
-    last_name: "",
-    phone: "",
-  };
+    state = {
+        first_name: "",
+        last_name: "",
+        phone: "",
+    };
 
-  constructor(props) {
-    super(props);
-    this.props.loadUser();
-  }
-
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-  };
-
-  render() {
-    if (!this.props.auth.isAuthenticated) {
-      console.log("a");
-      return <Redirect to="/" />;
+    constructor(props) {
+        super(props);
+        this.props.loadUser();
     }
-    if (this.props.auth.isLoading) {
-      return <FontAwesomeIcon icon={faSpinner} />;
-    } else {
-      const { first_name, last_name, phone } = this.props.auth.user;
-      return (
-        <div className="col-md-6 m-auto">
-          <div className="card card-body mt-5">
-            <h2 className="text-center">Profile</h2>
-            <div className="form-group">
-              <label>First Name : </label>
 
-              <label className="form-control"> {first_name}</label>
-            </div>
-            <div className="form-group">
-              <label>Last Name : </label>
-              <label className="form-control"> {last_name}</label>
-            </div>
+    static propTypes = {
+        auth: PropTypes.object.isRequired,
+    };
 
-            <div className="form-group">
-              <label>Phone : </label>
-              <label className="form-control"> {phone}</label>
-            </div>
+    render() {
+        if (!this.props.auth.isAuthenticated) {
+            console.log("a");
+            return <Redirect to="/" />;
+        }
+        if (this.props.auth.isLoading) {
+            return <FontAwesomeIcon icon={faSpinner} />;
+        } else {
+            const { first_name, last_name, phone } = this.props.auth.user;
+            return (
+                <div className="col-md-6 m-auto">
+                    <div className="card card-body mt-5">
+                        <h2 className="text-center">Profile</h2>
+                        <div className="form-group">
+                            <label>First Name : </label>
 
-            <Link to="/update/customer">
-              <button type="submit" className="btn btn-dark">
-                Make Changes
-              </button>
-            </Link>
-          </div>
-        </div>
-      );
+                            <label className="form-control">
+                                {" "}
+                                {first_name}
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label>Last Name : </label>
+                            <label className="form-control"> {last_name}</label>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Phone : </label>
+                            <label className="form-control"> {phone}</label>
+                        </div>
+
+                        <Link to="/update/customer">
+                            <button type="submit" className="btn btn-dark">
+                                Make Changes
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+            );
+        }
     }
-  }
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, { loadUser })(CustomerProfile);

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Redirect,
 } from "react-router-dom";
 
 import { Provider as AlertProvider } from "react-alert";
@@ -32,73 +32,100 @@ import Cart from "./Components/Cart/Cart";
 
 // Alert Options
 const alertOptions = {
-  timeout: 5000,
-  position: "top center",
+    timeout: 5000,
+    position: "top center",
 };
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    store.dispatch(loadUser());
-  }
+    constructor(props) {
+        super(props);
+        store.dispatch(loadUser());
+    }
 
-  render() {
-    return (
-      <Provider store={store}>
-        <AlertProvider template={AlertTemplate} {...alertOptions}>
-          <Router>
-            <Fragment>
-              <Header />
-              <Alert />
-              <div className="container">
-                <Switch>
-                  <Route exact path="/Home/" component={Home} />
-                  <Route exact path="/login/" component={Login} />
-                  <Route exact path="/addProduct/" component={addProduct} />
-                  <Route exact path="/Product/:id" component={Product} />
-                  <Route
-                    exact
-                    path="/Product/UploadImages/:id"
-                    component={ProductImages}
-                  />
-                  <Route
-                    exact
-                    path="/Product/Images/:id"
-                    component={allProductImages}
-                  />
-                  <Route
-                    exact
-                    path="/Product/Edit/:id"
-                    component={editProduct}
-                  />
-                  <Route
-                    path="/register/customer"
-                    component={CustomerRegister}
-                  />
-                  <Route path="/register/vendor" component={VendorRegister} />
-                  <Route exact path="/update/vendor" component={VendorUpdate} />
-                  <Route
-                    exact
-                    path="/profile/vendor"
-                    component={VendorProfile}
-                  />
-                  <Route
-                    exact
-                    path="/update/customer"
-                    component={CustomerUpdate}
-                  />
-                  <Route
-                    exact
-                    path="/profile/customer"
-                    component={CustomerProfile}
-                  />
-                  <Route exact path="/cart" component={Cart} />
-                </Switch>
-              </div>
-            </Fragment>
-          </Router>
-        </AlertProvider>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <AlertProvider template={AlertTemplate} {...alertOptions}>
+                    <Router>
+                        <Fragment>
+                            <Header />
+                            <Alert />
+                            <div className="container">
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path="/Home/"
+                                        component={Home}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/login/"
+                                        component={Login}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/addProduct/"
+                                        component={addProduct}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/Product/:id"
+                                        component={Product}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/Product/UploadImages/:id"
+                                        component={ProductImages}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/Product/Images/:id"
+                                        component={allProductImages}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/Product/Edit/:id"
+                                        component={editProduct}
+                                    />
+                                    <Route
+                                        path="/register/customer"
+                                        component={CustomerRegister}
+                                    />
+                                    <Route
+                                        path="/register/vendor"
+                                        component={VendorRegister}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/update/vendor"
+                                        component={VendorUpdate}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/profile/vendor"
+                                        component={VendorProfile}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/update/customer"
+                                        component={CustomerUpdate}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/profile/customer"
+                                        component={CustomerProfile}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/cart"
+                                        component={Cart}
+                                    />
+                                </Switch>
+                            </div>
+                        </Fragment>
+                    </Router>
+                </AlertProvider>
+            </Provider>
+        );
+    }
 }

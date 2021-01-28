@@ -8,11 +8,11 @@ import productList from "./productList";
 import cart from "./cart";
 
 export default combineReducers({
-  errors,
-  messages,
-  auth,
-  vendor,
-  product,
-  productList,
-  cart,
+    errors,
+    messages,
+    auth,
+    vendor,
+    product,
+    productList,
+    cart,
 });

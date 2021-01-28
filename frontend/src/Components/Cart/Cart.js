@@ -11,67 +11,67 @@ import { getCartItems } from "../../actions/cart";
 import { loadUser } from "../../actions/auth";
 
 class Cart extends Component {
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-    cart: PropTypes.object.isRequired,
-  };
+    static propTypes = {
+        auth: PropTypes.object.isRequired,
+        cart: PropTypes.object.isRequired,
+    };
 
-  constructor(props) {
-    super(props);
-    this.props.getCartItems();
-  }
+    constructor(props) {
+        super(props);
+        this.props.getCartItems();
+    }
 
-  calculateTotalAmount() {}
+    calculateTotalAmount() {}
 
-  handler() {
-    this.props.getCartItems();
-  }
-  render() {
-    if (!this.props.auth.isAuthenticated) {
-      console.log(this.props.auth);
-      return <Redirect to="/" />;
+    handler() {
+        this.props.getCartItems();
     }
-    if (this.props.auth.user.is_vendor) {
-      return <Redirect to="/" />;
-    }
-    if (this.props.cart.isCartLoading) {
-      return <FontAwesomeIcon icon={faSpinner} />;
-    }
-    if (this.props.cart.cartUpdated) {
-      return <div>{this.props.getCartItems()}</div>;
-    }
-    let totalAmt = 0;
-    const cart = this.props.cart.cartItems;
-    const items =
-      cart && cart.length ? (
-        cart.map((element) => {
-          totalAmt += element.product.amount * element.quantity;
-          return (
+    render() {
+        if (!this.props.auth.isAuthenticated) {
+            console.log(this.props.auth);
+            return <Redirect to="/" />;
+        }
+        if (this.props.auth.user.is_vendor) {
+            return <Redirect to="/" />;
+        }
+        if (this.props.cart.isCartLoading) {
+            return <FontAwesomeIcon icon={faSpinner} />;
+        }
+        if (this.props.cart.cartUpdated) {
+            return <div>{this.props.getCartItems()}</div>;
+        }
+        let totalAmt = 0;
+        const cart = this.props.cart.cartItems;
+        const items =
+            cart && cart.length ? (
+                cart.map((element) => {
+                    totalAmt += element.product.amount * element.quantity;
+                    return (
+                        <div>
+                            <CartCard element={element} />
+                        </div>
+                    );
+                })
+            ) : (
+                /**/
+                <div>No Items In Cart</div>
+            );
+        const len = cart && cart.length ? cart.length : 0;
+        return (
             <div>
-              <CartCard element={element} />
+                <h5 class="mb-4">
+                    Cart (<span>{len}</span> items)
+                </h5>
+                {items}
+                <h3>Total Amount {totalAmt}</h3>
             </div>
-          );
-        })
-      ) : (
-        /**/
-        <div>No Items In Cart</div>
-      );
-    const len = cart && cart.length ? cart.length : 0;
-    return (
-      <div>
-        <h5 class="mb-4">
-          Cart (<span>{len}</span> items)
-        </h5>
-        {items}
-        <h3>Total Amount {totalAmt}</h3>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export const mapStateToProps = (state) => ({
-  cart: state.cart,
-  auth: state.auth,
+    cart: state.cart,
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getCartItems, loadUser })(Cart);

@@ -2,7 +2,7 @@ import {
     PRODUCT_LOADING,
     PRODUCT_LOADED,
     PRODUCT_LOADING_FAIL,
-    PRODUCT_ADDED, 
+    PRODUCT_ADDED,
     PRODUCT_REMOVED,
     PRODUCT_EDITED,
     PRODUCT_EDIT_FAIL,
@@ -13,9 +13,8 @@ import {
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
     LOGOUT_SUCCESS,
-  } from '../actions/types';
+} from "../actions/types";
 
-  
 const initialState = {
     isProductLoading: false,
     isProductAdded: false,
@@ -26,9 +25,9 @@ const initialState = {
     areProductImagesUploaded: false,
     areImagesLoading: false,
     areImagesLoaded: false,
-    productImages: null
+    productImages: null,
 };
-  
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case PRODUCT_LOADING:
@@ -77,20 +76,20 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 areProductImagesUploaded: true,
-            }
+            };
         case PRODUCT_IMAGES_LOADING:
-            return{
+            return {
                 ...state,
-                areImagesLoaded:false,
+                areImagesLoaded: false,
                 areImagesLoading: true,
-            }
+            };
         case PRODUCT_IMAGES_LOADED:
-            console.log(action.payload)
-            return{
+            console.log(action.payload);
+            return {
                 ...state,
-                areImagesLoaded:true,
+                areImagesLoaded: true,
                 areImagesLoading: false,
-                productImages: action.payload
+                productImages: action.payload,
             };
         case LOGOUT_SUCCESS:
             return {
@@ -104,7 +103,7 @@ export default function (state = initialState, action) {
                 areProductImagesUploaded: false,
                 areImagesLoading: false,
                 areImagesLoaded: false,
-                productImages: null
+                productImages: null,
             };
         default:
             return state;

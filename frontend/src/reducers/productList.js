@@ -6,9 +6,8 @@ import {
     PRODUCT_DELETED,
     PRODUCT_DELETION_FAIL,
     PRODUCT_LIST_UPDATING,
-  } from '../actions/types';
+} from "../actions/types";
 
-  
 const initialState = {
     isProductListLoading: false,
     isProductListLoaded: false,
@@ -16,7 +15,7 @@ const initialState = {
     isProductListUpdating: false,
     productList: null,
 };
-  
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case PRODUCT_LIST_LOADING:
@@ -46,8 +45,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isProductListUpdating: true,
-                isProductListLoaded: false
-            }
+                isProductListLoaded: false,
+            };
         case PRODUCT_DELETED:
             return {
                 ...state,
@@ -58,7 +57,7 @@ export default function (state = initialState, action) {
                 isProductListUpdating: false,
             };
         case LOGOUT_SUCCESS:
-            localStorage.removeItem('token');   
+            localStorage.removeItem("token");
             return {
                 ...state,
                 isProductListLoading: false,
