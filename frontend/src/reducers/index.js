@@ -6,6 +6,7 @@ import vendor from "./vendor";
 import product from "./product";
 import productList from "./productList";
 import cart from "./cart";
+import order from "./order";
 
 export default combineReducers({
   errors,
@@ -15,4 +16,5 @@ export default combineReducers({
   product,
   productList,
   cart,
+  order,
 });

@@ -29,6 +29,7 @@ import editProduct from "./Components/editProduct";
 import ProductImages from "./Components/ProductImages";
 import allProductImages from "./Components/allProductImages";
 import Cart from "./Components/Cart/Cart";
+import address from "./Components/address";
 
 // Alert Options
 const alertOptions = {
@@ -56,6 +57,7 @@ export default class App extends Component {
                   <Route exact path="/login/" component={Login} />
                   <Route exact path="/addProduct/" component={addProduct} />
                   <Route exact path="/Product/:id" component={Product} />
+                  <Route exact path="/Address" component={address} />
                   <Route
                     exact
                     path="/Product/UploadImages/:id"

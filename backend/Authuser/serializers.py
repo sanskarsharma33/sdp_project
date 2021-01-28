@@ -82,12 +82,18 @@ class AddressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Address
-        fields = ['user', 'address', 'address_title', 'pincode']
+        fields = ['id','user', 'address', 'address_title', 'pincode']
 
     def create(self, validated_data):
         print(validated_data)
         return Address.objects.create(**validated_data)
 
+class AddressViewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Address
+        fields = ['address', 'address_title', 'pincode']
+        
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = User

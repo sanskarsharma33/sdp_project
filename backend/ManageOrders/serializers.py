@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (CartDetails, ProductOrder, Orders)
 from Authuser.models import User
-from Authuser.serializers import VendorSerializer
+from Authuser.serializers import VendorSerializer, AddressViewSerializer
 from ManageShops.serializers import ProductViewSerializer
 
 class CartDetailsSerializer(serializers.ModelSerializer):
@@ -20,3 +20,20 @@ class CartDetailsViewSerializer(serializers.ModelSerializer):
     def get_product(self, obj):
         product = ProductViewSerializer(obj.product).data
         return product
+
+class OrderViewSerializer(serializers.ModelSerializer):
+
+    address = serializers.SerializerMethodField()
+    class Meta:
+        model= Orders
+        fields = ['delivery_date','total_amount', 'address']
+
+    def get_address(self, obj):
+        address = AddressViewSerializer(obj.address).data
+        return address
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model= Orders
+        fields = ['delivery_date','total_amount']
