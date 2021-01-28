@@ -81,6 +81,14 @@ class Cart extends Component {
                         Select Address
                     </button>
                 </Link>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
             </div>
         );
     }
