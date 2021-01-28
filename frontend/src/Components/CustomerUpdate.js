@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {loadUser} from '../actions/auth';
+import store from '../store';
+import {UPDATE_FAIL} from '../actions/types';
 
 export class CustomerUpdate extends Component {
     state = {
@@ -19,6 +21,7 @@ export class CustomerUpdate extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired,
         updateCustomer: PropTypes.func.isRequired,
+        isUpdated: PropTypes.bool,
     };
 
     constructor(props) {
@@ -51,7 +54,8 @@ export class CustomerUpdate extends Component {
         if (!this.props.auth || !this.props.auth.isAuthenticated) {
             return <Redirect to="/" />;
         }
-        if (this.props.auth.isUpdated) {
+        if (this.props.isUpdated) {
+            store.dispatch({type: UPDATE_FAIL});
             return <Redirect to="/profile/customer" />;
         }
         if (this.props.auth.isLoading) {
@@ -112,6 +116,7 @@ export class CustomerUpdate extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
+    isUpdated: state.vendor.isUpdated,
 });
 
 export default connect(mapStateToProps, {updateCustomer, loadUser})(

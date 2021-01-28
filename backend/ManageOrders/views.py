@@ -15,11 +15,11 @@ from rest_framework.status import (
 
 # Custom
 from .permissions import IsCartOwner
-from .models import Orders, CartDetails as CartDetailsModel, ProductOrder
-from .serializers import CartDetailsSerializer, CartDetailsViewSerializer
+from .models import Orders as OrdersModel, CartDetails as CartDetailsModel, ProductOrder
+from .serializers import CartDetailsSerializer, CartDetailsViewSerializer, OrderSerializer, OrderViewSerializer
 from ManageShops.serializers import ProductSerializer
 from ManageShops.models import Products
-
+from Authuser.models import User, Address
 
 class CartDetails(viewsets.ModelViewSet):
 
@@ -43,3 +43,26 @@ class CartDetails(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         product = Products.objects.get(pk=self.request.data['pid'])
         serializer.save(customer=self.request.user.customers, product=product)
+
+class Orders(viewsets.ModelViewSet):
+
+    queryset = OrdersModel.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return OrderViewSerializer
+        if self.action == 'retrieve':
+            return OrderViewSerializer
+        return OrderSerializer
+
+
+    def get_queryset(self):
+        owner_queryset = self.queryset.filter(customer=self.request.user.customers)
+        return owner_queryset
+
+
+    def perform_create(self, serializer):
+        address = Address.objects.get(pk=self.request.data['aid'])
+        serializer.save(address=address, customer=self.request.user.customers)

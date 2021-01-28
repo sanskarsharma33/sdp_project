@@ -8,7 +8,6 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
         case GET_ERRORS:
-            console.log(action.payload.msg);
             return {
                 msg: action.payload.msg,
                 status: action.payload.status,

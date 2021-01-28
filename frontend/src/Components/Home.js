@@ -76,7 +76,7 @@ export class Home extends Component {
         } else if (this.props.isProductListUpdated) {
             return <div>{this.handler()}</div>;
         }
-        return <div></div>;
+        return <div />;
     }
 }
 const mapStateToProps = (state) => ({
