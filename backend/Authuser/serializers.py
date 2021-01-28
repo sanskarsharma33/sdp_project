@@ -117,7 +117,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             'first_name', instance.first_name)
         instance.last_name = validated_data.get(
             'last_name', instance.last_name)
-        instance.is_vendor = True
+        instance.is_vendor = validated_data.get(
+            'last_name', instance.is_vendor)
         instance.phone = validated_data.get('phone', instance.phone)
         instance.password = instance.password
         instance.save()

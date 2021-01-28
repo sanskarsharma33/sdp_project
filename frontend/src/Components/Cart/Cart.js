@@ -9,7 +9,6 @@ import "../../style/Cart.css";
 import CartCard from "./CartCard";
 import { getCartItems } from "../../actions/cart";
 import { loadUser } from "../../actions/auth";
-import ProductCard from "../productCard";
 
 class Cart extends Component {
   static propTypes = {
@@ -21,11 +20,13 @@ class Cart extends Component {
     super(props);
     this.props.getCartItems();
   }
+
+  calculateTotalAmount() {}
+
   handler() {
     this.props.getCartItems();
   }
   render() {
-    console.log(this.props.cart);
     if (!this.props.auth.isAuthenticated) {
       console.log(this.props.auth);
       return <Redirect to="/" />;
@@ -37,14 +38,14 @@ class Cart extends Component {
       return <FontAwesomeIcon icon={faSpinner} />;
     }
     if (this.props.cart.cartUpdated) {
-      console.log("a");
       return <div>{this.props.getCartItems()}</div>;
     }
-    console.log(this.props.cart.cartItems);
+    let totalAmt = 0;
     const cart = this.props.cart.cartItems;
     const items =
       cart && cart.length ? (
         cart.map((element) => {
+          totalAmt += element.product.amount * element.quantity;
           return (
             <div>
               <CartCard element={element} />
@@ -55,12 +56,14 @@ class Cart extends Component {
         /**/
         <div>No Items In Cart</div>
       );
+    const len = cart && cart.length ? cart.length : 0;
     return (
       <div>
         <h5 class="mb-4">
-          Cart (<span>{this.props.cart.cartItems.length}</span> items)
+          Cart (<span>{len}</span> items)
         </h5>
         {items}
+        <h3>Total Amount {totalAmt}</h3>
       </div>
     );
   }

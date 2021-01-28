@@ -40,12 +40,10 @@ class ProductCard extends Component {
   async UpdateState() {
     await this.props.cartItems.forEach((e) => {
       if (e.product.id === this.props.element.id) {
-        console.log("a");
         this.setState({ isInCart: true });
         this.setState({ quantity: e.quantity });
       }
     });
-    console.log(this.state);
   }
 
   componentDidUpdate() {
