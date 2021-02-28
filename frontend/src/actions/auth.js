@@ -19,6 +19,7 @@ import {
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
     // User Loading
+    console.log("a");
     dispatch({ type: USER_LOADING });
     http.get("/Authuser/get_user", tokenConfig(getState))
         .then((res) => {

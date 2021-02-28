@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {logout} from '../actions/auth';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
-import store from '../store';
-import {PRODUCT_LOADING_FAIL} from '../actions/types';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../actions/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import store from "../store";
+import { PRODUCT_LOADING_FAIL } from "../actions/types";
 
 export class Header extends Component {
     static propTypes = {
@@ -15,7 +15,7 @@ export class Header extends Component {
     };
 
     render() {
-        const {isAuthenticated, user, isLoading} = this.props.auth;
+        const { isAuthenticated, user, isLoading } = this.props.auth;
 
         const authLinks = (
             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
@@ -28,11 +28,11 @@ export class Header extends Component {
                     <strong>
                         {user
                             ? `Welcome ${
-                                  user['first_name']
-                                      ? user['first_name']
-                                      : user['email']
+                                  user["first_name"]
+                                      ? user["first_name"]
+                                      : user["email"]
                               }`
-                            : ''}
+                            : ""}
                     </strong>
                 </span>
 
@@ -45,15 +45,14 @@ export class Header extends Component {
                     </button>
                 </li>
                 <li class="dropdown">
-                    <a
-                        href="#"
+                    <span
                         class="nav-link dropdown-toggle"
                         id="navbarDropdown"
                         data-toggle="dropdown"
                         aria-expanded="false"
                     >
                         <FontAwesomeIcon icon={faUser} /> <b class="caret"></b>
-                    </a>
+                    </span>
                     <div class="dropdown-menu dropdown-menu-right">
                         {this.props.auth.is_vendor ? (
                             <div>
@@ -140,10 +139,10 @@ export class Header extends Component {
                                         Add Product
                                     </Link>
                                 ) : (
-                                    ''
+                                    ""
                                 )
                             ) : (
-                                ''
+                                ""
                             )}
                         </div>
                         {isAuthenticated ? authLinks : guestLinks}
@@ -159,4 +158,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, {logout})(Header);
+export default connect(mapStateToProps, { logout })(Header);

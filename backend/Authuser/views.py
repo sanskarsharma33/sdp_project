@@ -259,8 +259,7 @@ def customer_update_view(request):
     serializer = UserUpdateSerializer(user, data=request.data)
 
     if serializer.is_valid():
-        print(serializer.data)
-        # serializer.save()
+        serializer.save()
         data['response'] = "Succesfully updated Customer"
         data['user'] = serializer.data
         token = Token.objects.get(user=user).key
