@@ -2,7 +2,7 @@ import {
     PRODUCT_LOADING,
     PRODUCT_LOADED,
     PRODUCT_LOADING_FAIL,
-    PRODUCT_ADDED, 
+    PRODUCT_ADDED,
     PRODUCT_REMOVED,
     PRODUCT_EDITED,
     PRODUCT_EDIT_FAIL,
@@ -13,10 +13,12 @@ import {
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
     LOGOUT_SUCCESS,
-    PRODUCT_LIST_LOADED,
-  } from '../actions/types';
+    PRODUCT_REVIEWS_LOADED,
+    PRODUCT_REVIEWS_LOADING,
+    PRODUCT_REVIEWS_LOAD_FAIL,
+    PRODUCT_REVIEWS_DELETED,
+} from '../actions/types';
 
-  
 const initialState = {
     isProductLoading: false,
     isProductAdded: false,
@@ -27,9 +29,13 @@ const initialState = {
     areProductImagesUploaded: false,
     areImagesLoading: false,
     areImagesLoaded: false,
-    productImages: null
+    productImages: null,
+    comments: [],
+    isCommentLoading: false,
+    isCommentLoaded: false,
+    commentDeleted: false,
 };
-  
+
 export default function (state = initialState, action) {
     switch (action.type) {
         case PRODUCT_LOADING:
@@ -37,14 +43,16 @@ export default function (state = initialState, action) {
                 ...state,
                 isProductLoading: true,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
             };
         case PRODUCT_LOADED:
-            console.log("LOADED");
+            console.log('LOADED');
             return {
                 ...state,
                 isProductLoaded: true,
                 isProductLoading: false,
                 product: action.payload,
+                isProductAdded: false,
                 areProductImagesUploaded: false,
             };
         case PRODUCT_REMOVED:
@@ -53,6 +61,7 @@ export default function (state = initialState, action) {
                 ...state,
                 product: null,
                 isProductLoaded: false,
+                isProductAdded: false,
                 isProductLoading: false,
                 areProductImagesUploaded: false,
             };
@@ -66,32 +75,37 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
                 isProductUpdated: true,
             };
         case PRODUCT_EDIT_FAIL:
             return {
                 ...state,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
                 isProductUpdated: false,
             };
         case PRODUCT_IMAGES_UPLOADED:
             return {
                 ...state,
+                isProductAdded: false,
                 areProductImagesUploaded: true,
-            }
+            };
         case PRODUCT_IMAGES_LOADING:
-            return{
+            return {
                 ...state,
-                areImagesLoaded:false,
+                isProductAdded: false,
+                areImagesLoaded: false,
                 areImagesLoading: true,
-            }
+            };
         case PRODUCT_IMAGES_LOADED:
-            console.log(action.payload)
-            return{
+            console.log(action.payload);
+            return {
                 ...state,
-                areImagesLoaded:true,
+                areImagesLoaded: true,
                 areImagesLoading: false,
-                productImages: action.payload
+                isProductAdded: false,
+                productImages: action.payload,
             };
         case LOGOUT_SUCCESS:
             return {
@@ -105,13 +119,40 @@ export default function (state = initialState, action) {
                 areProductImagesUploaded: false,
                 areImagesLoading: false,
                 areImagesLoaded: false,
-                productImages: null
+                productImages: null,
             };
-        case PRODUCT_LIST_LOADED:
-            return{
+        case PRODUCT_REVIEWS_LOADED:
+            return {
                 ...state,
-                isProductAdded: false
-            }
+                comments: action.payload,
+                commentDeleted: false,
+                isCommentLoading: false,
+                isCommentLoaded: true,
+            };
+        case PRODUCT_REVIEWS_LOADING:
+            return {
+                ...state,
+                comments: [],
+                isCommentLoading: true,
+                isCommentLoaded: false,
+            };
+        case PRODUCT_REVIEWS_LOAD_FAIL:
+            return {
+                ...state,
+                comments: [],
+                isCommentLoading: false,
+                isCommentLoaded: false,
+            };
+        case PRODUCT_REVIEWS_DELETED:
+            console.log('delete');
+            state.comments.map((item, index) => {
+                if (item.id == action.payload) state.comments.splice(index, 1);
+            });
+            return {
+                ...state,
+                comments: state.comments,
+                commentDeleted: true,
+            };
         default:
             return state;
     }
