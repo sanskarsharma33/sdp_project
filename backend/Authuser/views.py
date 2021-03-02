@@ -257,10 +257,9 @@ def customer_update_view(request):
     except Users.DoesNotExist:
         return HttpResponse(status=404)
     serializer = UserUpdateSerializer(user, data=request.data)
-
     if serializer.is_valid():
-        print(serializer.data)
-        # serializer.save()
+        # print(serializer.data)
+        serializer.save()
         data['response'] = "Succesfully updated Customer"
         data['user'] = serializer.data
         token = Token.objects.get(user=user).key

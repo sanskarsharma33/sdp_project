@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {add_Product} from '../actions/product';
+import store from '../store';
+import {PRODUCT_LOADING_FAIL} from '../actions/types';
 class addProduct extends Component {
     state = {
         title: '',
@@ -37,6 +39,7 @@ class addProduct extends Component {
             quantity,
         } = this.state;
         if (this.props.isProductAdded) {
+            store.dispatch({type: PRODUCT_LOADING_FAIL});
             return <Redirect to="/Home/" />;
         }
         return (

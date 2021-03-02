@@ -10,30 +10,81 @@ import {
     PRODUCT_LOADED,
     PRODUCT_REMOVED,
 } from '../actions/types';
-import {getProduct} from '../actions/product';
+import {
+    getProduct,
+    getComment,
+    postComment,
+    deleteComment,
+} from '../actions/product';
+import CommentList from './Comment/commentList';
+import CommentForm from './Comment/commentForm';
 
 class Product extends Component {
     static propTypes = {
         product: PropTypes.object,
         isProductLoaded: PropTypes.bool,
         isAuthenticated: PropTypes.bool,
+        isCommentloading: PropTypes.bool,
+        comments: PropTypes.object,
+        isCommentloaded: PropTypes.bool,
+        user: PropTypes.object,
+        commentDeleted: PropTypes.bool,
     };
     constructor(props) {
         super(props);
         let id = this.props.match.params.id;
+
         console.log(id);
         store.dispatch(getProduct(id));
+        store.dispatch(getComment(id));
     }
     componentWillUnmount() {
         store.dispatch({type: PRODUCT_REMOVED});
     }
+    commentSubmitHandler = (msg) => {
+        let id = this.props.match.params.id;
+        let obj = {
+            pid: id,
+            description: msg,
+        };
+        this.props.postComment(obj);
+        this.props.getComment(id);
+    };
+    getCommentsProduct = (id) => {
+        store.dispatch(getComment(id));
+    };
+    onDelete = (e) => {
+        let id = this.props.match.params.id;
+        // e.preventDefault();
+        // console.log(e);
+        this.props.deleteComment(e.target.id);
+        this.props.getComment(id);
+    };
+    handler = () => {
+        let id = this.props.match.params.id;
+        store.dispatch(getComment(id));
+    };
     render() {
-        // if (!this.props.isAuthenticated) {
-        //     return <Redirect to="/login" />;
-        // }
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/login" />;
+        }
+        console.log(this.props.comments);
         if (this.props.isProductLoaded) {
             // return <Redirect to="/" />;
-
+            return (
+                <div>
+                    <CommentList
+                        loading={this.props.isCommentloading}
+                        comments={this.props.comments}
+                        onDelete={this.onDelete}
+                        user={this.props.user.email}
+                    ></CommentList>
+                    <CommentForm
+                        disabled={true}
+                        submitHandler={this.commentSubmitHandler}
+                    ></CommentForm>
+                </div>
+            );
             return (
                 <div>
                     <div
@@ -103,6 +154,7 @@ class Product extends Component {
                             <span className="sr-only">Next</span>
                         </a>
                     </div>
+                    {/* comments */}
                 </div>
             );
         }
@@ -174,6 +226,16 @@ const mapStateToProps = (state) => ({
     product: state.product.product,
     isAuthenticated: state.auth.isAuthenticated,
     isProductLoaded: state.product.isProductLoaded,
+    isCommentloading: state.product.isCommentloading,
+    isCommentloaded: state.product.isCommentloaded,
+    comments: state.product.comments,
+    user: state.auth.user,
+    commentDeleted: state.product.commentDeleted,
 });
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps, {
+    getComment,
+    postComment,
+    deleteComment,
+})(Product);
+// export default getCommentsProduct;

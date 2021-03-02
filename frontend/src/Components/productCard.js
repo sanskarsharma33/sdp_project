@@ -17,6 +17,7 @@ class ProductCard extends Component {
         cartUpdated: PropTypes.bool,
         cartItems: PropTypes.object.isRequired,
         isCartLoading: PropTypes.bool,
+        auth: PropTypes.object,
     };
     state = {
         redirect: false,
@@ -28,7 +29,7 @@ class ProductCard extends Component {
     };
     constructor(props) {
         super(props);
-        this.props.getCartItems();
+        if (!this.props.auth.is_vendor) this.props.getCartItems();
         /*this.props.cartItems.forEach((e) => {
       if (e.product.id == this.props.element.id) {
         this.setState({ isInCart: true });
@@ -47,7 +48,7 @@ class ProductCard extends Component {
     }
 
     componentDidUpdate() {
-        if (!this.props.isCartLoading) {
+        if (!this.props.isCartLoading && !this.props.auth.is_vendor) {
             if (this.state.flag) {
                 //console.log(this.props.vendor);
                 this.setState({flag: false});
@@ -189,6 +190,7 @@ const mapStateToProps = (state) => ({
     cartUpdated: state.cart.cartUpdated,
     cartItems: state.cart.cartItems,
     isCartLoading: state.cart.isCartLoading,
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, {

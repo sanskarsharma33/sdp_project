@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {loadVendor} from '../actions/vendor';
 import {Link, Redirect} from 'react-router-dom';
+import {loadUser} from '../actions/auth';
 
 export class VendorProfile extends Component {
     state = {
@@ -22,6 +23,7 @@ export class VendorProfile extends Component {
     constructor(props) {
         super(props);
         this.props.loadVendor();
+        this.props.loadUser();
     }
 
     static propTypes = {
@@ -110,4 +112,4 @@ const mapStateToProps = (state) => ({
     isFetching: state.vendor.isFetching,
 });
 
-export default connect(mapStateToProps, {loadVendor})(VendorProfile);
+export default connect(mapStateToProps, {loadVendor, loadUser})(VendorProfile);

@@ -13,6 +13,10 @@ import {
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOADED,
     LOGOUT_SUCCESS,
+    PRODUCT_REVIEWS_LOADED,
+    PRODUCT_REVIEWS_LOADING,
+    PRODUCT_REVIEWS_LOAD_FAIL,
+    PRODUCT_REVIEWS_DELETED,
 } from '../actions/types';
 
 const initialState = {
@@ -26,6 +30,10 @@ const initialState = {
     areImagesLoading: false,
     areImagesLoaded: false,
     productImages: null,
+    comments: [],
+    isCommentLoading: false,
+    isCommentLoaded: false,
+    commentDeleted: false,
 };
 
 export default function (state = initialState, action) {
@@ -35,6 +43,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isProductLoading: true,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
             };
         case PRODUCT_LOADED:
             console.log('LOADED');
@@ -43,6 +52,7 @@ export default function (state = initialState, action) {
                 isProductLoaded: true,
                 isProductLoading: false,
                 product: action.payload,
+                isProductAdded: false,
                 areProductImagesUploaded: false,
             };
         case PRODUCT_REMOVED:
@@ -51,6 +61,7 @@ export default function (state = initialState, action) {
                 ...state,
                 product: null,
                 isProductLoaded: false,
+                isProductAdded: false,
                 isProductLoading: false,
                 areProductImagesUploaded: false,
             };
@@ -64,22 +75,26 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
                 isProductUpdated: true,
             };
         case PRODUCT_EDIT_FAIL:
             return {
                 ...state,
                 areProductImagesUploaded: false,
+                isProductAdded: false,
                 isProductUpdated: false,
             };
         case PRODUCT_IMAGES_UPLOADED:
             return {
                 ...state,
+                isProductAdded: false,
                 areProductImagesUploaded: true,
             };
         case PRODUCT_IMAGES_LOADING:
             return {
                 ...state,
+                isProductAdded: false,
                 areImagesLoaded: false,
                 areImagesLoading: true,
             };
@@ -89,6 +104,7 @@ export default function (state = initialState, action) {
                 ...state,
                 areImagesLoaded: true,
                 areImagesLoading: false,
+                isProductAdded: false,
                 productImages: action.payload,
             };
         case LOGOUT_SUCCESS:
@@ -104,6 +120,38 @@ export default function (state = initialState, action) {
                 areImagesLoading: false,
                 areImagesLoaded: false,
                 productImages: null,
+            };
+        case PRODUCT_REVIEWS_LOADED:
+            return {
+                ...state,
+                comments: action.payload,
+                commentDeleted: false,
+                isCommentLoading: false,
+                isCommentLoaded: true,
+            };
+        case PRODUCT_REVIEWS_LOADING:
+            return {
+                ...state,
+                comments: [],
+                isCommentLoading: true,
+                isCommentLoaded: false,
+            };
+        case PRODUCT_REVIEWS_LOAD_FAIL:
+            return {
+                ...state,
+                comments: [],
+                isCommentLoading: false,
+                isCommentLoaded: false,
+            };
+        case PRODUCT_REVIEWS_DELETED:
+            console.log('delete');
+            state.comments.map((item, index) => {
+                if (item.id == action.payload) state.comments.splice(index, 1);
+            });
+            return {
+                ...state,
+                comments: state.comments,
+                commentDeleted: true,
             };
         default:
             return state;

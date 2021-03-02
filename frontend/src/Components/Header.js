@@ -7,6 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import store from '../store';
 import {PRODUCT_LOADING_FAIL} from '../actions/types';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export class Header extends Component {
     static propTypes = {
@@ -46,15 +47,15 @@ export class Header extends Component {
                 </li>
                 <li class="dropdown">
                     <a
-                        href="#"
-                        class="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle"
                         id="navbarDropdown"
                         data-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        <FontAwesomeIcon icon={faUser} /> <b class="caret"></b>
+                        <FontAwesomeIcon icon={faUser} />{' '}
+                        <b className="caret"></b>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div className="dropdown-menu dropdown-menu-right">
                         {this.props.auth.is_vendor ? (
                             <div>
                                 <Link to="/update/vendor" className="nav-link">
@@ -84,7 +85,7 @@ export class Header extends Component {
                             </div>
                         )}
 
-                        <div class="dropdown-divider"></div>
+                        <div className="dropdown-divider"></div>
                     </div>
                 </li>
             </ul>
