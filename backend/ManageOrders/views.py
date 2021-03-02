@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 # Rest Framework
 from rest_framework import generics, viewsets, views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.status import (
@@ -20,6 +21,8 @@ from .serializers import CartDetailsSerializer, CartDetailsViewSerializer, Order
 from ManageShops.serializers import ProductSerializer
 from ManageShops.models import Products
 from Authuser.models import User, Address
+import stripe
+
 
 class CartDetails(viewsets.ModelViewSet):
 
@@ -34,15 +37,15 @@ class CartDetails(viewsets.ModelViewSet):
             return CartDetailsViewSerializer
         return CartDetailsSerializer
 
-
     def get_queryset(self):
-        owner_queryset = self.queryset.filter(customer=self.request.user.customers)
+        owner_queryset = self.queryset.filter(
+            customer=self.request.user.customers)
         return owner_queryset
-
 
     def perform_create(self, serializer):
         product = Products.objects.get(pk=self.request.data['pid'])
         serializer.save(customer=self.request.user.customers, product=product)
+
 
 class Orders(viewsets.ModelViewSet):
 
@@ -57,12 +60,30 @@ class Orders(viewsets.ModelViewSet):
             return OrderViewSerializer
         return OrderSerializer
 
-
     def get_queryset(self):
-        owner_queryset = self.queryset.filter(customer=self.request.user.customers)
+        owner_queryset = self.queryset.filter(
+            customer=self.request.user.customers)
         return owner_queryset
-
 
     def perform_create(self, serializer):
         address = Address.objects.get(pk=self.request.data['aid'])
         serializer.save(address=address, customer=self.request.user.customers)
+
+
+@api_view(['POST', ])
+@permission_classes((IsAuthenticated,))
+def charge(request):
+    stripe.api_key = "sk_test_51IMU9iAVVA7u04DhTZCgkKKYw3D30JnMPJOIVaOiDfu53GA4dJ77BZenfHV8odee1wZaWb78iTyyVZOknAUfzgOo006R5IS19o"
+
+    customer = stripe.Customer.create(
+        email=request.data['email'],
+        name=request.data['email'],
+        source=request.data['stripeToken']
+    )
+    charge = stripe.Charge.create(
+        customer=customer,
+        amount=int(request.data['amount'])*100,
+        currency='inr',
+        description='order'
+    )
+    return Response(charge)

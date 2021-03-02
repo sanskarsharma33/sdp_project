@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {updateCustomer} from '../actions/auth';
-import {Redirect} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSpinner} from '@fortawesome/free-solid-svg-icons';
-import {loadUser} from '../actions/auth';
-import store from '../store';
-import {UPDATE_FAIL} from '../actions/types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateCustomer } from "../actions/auth";
+import { Redirect } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { loadUser } from "../actions/auth";
+import store from "../store";
+import { UPDATE_FAIL } from "../actions/types";
 
 export class CustomerUpdate extends Component {
     state = {
-        first_name: '',
-        last_name: '',
-        phone: '',
+        first_name: "",
+        last_name: "",
+        phone: "",
         flag: true,
     };
 
@@ -36,7 +36,7 @@ export class CustomerUpdate extends Component {
     componentDidUpdate() {
         if (this.state.flag) {
             //console.log(this.props.vendor);
-            this.setState({flag: false});
+            this.setState({ flag: false });
             this.UpdateState();
         }
     }
@@ -47,7 +47,7 @@ export class CustomerUpdate extends Component {
     };
 
     onChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     render() {
@@ -55,13 +55,13 @@ export class CustomerUpdate extends Component {
             return <Redirect to="/" />;
         }
         if (this.props.isUpdated) {
-            store.dispatch({type: UPDATE_FAIL});
+            store.dispatch({ type: UPDATE_FAIL });
             return <Redirect to="/profile/customer" />;
         }
         if (this.props.auth.isLoading) {
             return <FontAwesomeIcon icon={faSpinner} />;
         } else {
-            const {first_name, last_name, phone} = this.state;
+            const { first_name, last_name, phone } = this.state;
             return (
                 <div className="col-md-6 m-auto">
                     <div className="card card-body mt-5">
@@ -119,6 +119,6 @@ const mapStateToProps = (state) => ({
     isUpdated: state.vendor.isUpdated,
 });
 
-export default connect(mapStateToProps, {updateCustomer, loadUser})(
+export default connect(mapStateToProps, { updateCustomer, loadUser })(
     CustomerUpdate
 );

@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import 'bootstrap/dist/css/bootstrap.css';
-import '../style/productCard.css';
-import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSpinner} from '@fortawesome/free-solid-svg-icons';
-import {delete_Product} from '../actions/product';
-import {addToCart, getCartItems} from '../actions/cart';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "bootstrap/dist/css/bootstrap.css";
+import "../style/productCard.css";
+import { connect } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { delete_Product } from "../actions/product";
+import { addToCart, getCartItems } from "../actions/cart";
 
 class ProductCard extends Component {
     static propTypes = {
@@ -17,7 +17,7 @@ class ProductCard extends Component {
         cartUpdated: PropTypes.bool,
         cartItems: PropTypes.object.isRequired,
         isCartLoading: PropTypes.bool,
-        auth: PropTypes.object,
+        auth: PropTypes.object.isRequired,
     };
     state = {
         redirect: false,
@@ -29,7 +29,8 @@ class ProductCard extends Component {
     };
     constructor(props) {
         super(props);
-        if (!this.props.auth.is_vendor) this.props.getCartItems();
+        if (!this.props.auth.is_vendor) {
+            this.props.getCartItems();
         /*this.props.cartItems.forEach((e) => {
       if (e.product.id == this.props.element.id) {
         this.setState({ isInCart: true });
@@ -41,8 +42,8 @@ class ProductCard extends Component {
     async UpdateState() {
         await this.props.cartItems.forEach((e) => {
             if (e.product.id === this.props.element.id) {
-                this.setState({isInCart: true});
-                this.setState({quantity: e.quantity});
+                this.setState({ isInCart: true });
+                this.setState({ quantity: e.quantity });
             }
         });
     }
@@ -51,7 +52,7 @@ class ProductCard extends Component {
         if (!this.props.isCartLoading && !this.props.auth.is_vendor) {
             if (this.state.flag) {
                 //console.log(this.props.vendor);
-                this.setState({flag: false});
+                this.setState({ flag: false });
                 this.UpdateState();
             }
         }
@@ -65,14 +66,14 @@ class ProductCard extends Component {
     };
     onClick = (e) => {
         e.preventDefault();
-        this.setState({redirect: true}, () => {
+        this.setState({ redirect: true }, () => {
             this.renderRedirect();
         });
     };
     onEditClick = (e) => {
         e.preventDefault();
-        console.log('Edit');
-        this.setState({Editredirect: true}, () => {
+        console.log("Edit");
+        this.setState({ Editredirect: true }, () => {
             this.renderRedirect();
         });
     };
@@ -90,7 +91,7 @@ class ProductCard extends Component {
     };
     renderRedirect = () => {
         if (this.state.redirect) {
-            console.log('renderRedirect');
+            console.log("renderRedirect");
             return <Redirect to={`/Product/${this.props.element.id}`} />;
         }
         if (this.state.Editredirect)
@@ -104,10 +105,10 @@ class ProductCard extends Component {
                 <div
                     className="product"
                     style={{
-                        minHeight: '30rem',
-                        maxHeight: '35rem',
-                        maxWidth: '25rem',
-                        minWidth: '15rem',
+                        minHeight: "30rem",
+                        maxHeight: "35rem",
+                        maxWidth: "25rem",
+                        minWidth: "15rem",
                     }}
                 >
                     <div className="product__info">
@@ -133,7 +134,7 @@ class ProductCard extends Component {
                             >
                                 <button> Add Images</button>
                             </Link>
-                            <button onClick={this.onEditClick}>Edit</button>{' '}
+                            <button onClick={this.onEditClick}>Edit</button>{" "}
                             <button onClick={this.onDeleteClick}>Delete</button>
                         </div>
                     ) : (

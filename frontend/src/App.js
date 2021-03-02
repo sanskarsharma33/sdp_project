@@ -1,40 +1,41 @@
-import React, {Component, Fragment} from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
 import {
     BrowserRouter as Router,
     Route,
     Switch,
     Redirect,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import {Provider as AlertProvider} from 'react-alert';
-import AlertTemplate from 'react-alert-template-basic';
+import { Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 
-import Login from './Components/Login';
-import Alert from './Components/Alert';
-import CustomerRegister from './Components/CustomerRegister';
-import VendorRegister from './Components/VendorRegister';
-import VendorUpdate from './Components/VendorUpdate';
-import Header from './Components/Header';
-import Home from './Components/Home';
-import {Provider} from 'react-redux';
-import store from './store';
-import {loadUser} from './actions/auth';
-import VendorProfile from './Components/VendorProfile';
-import CustomerUpdate from './Components/CustomerUpdate';
-import CustomerProfile from './Components/CustomerProfile';
-import addProduct from './Components/addProduct';
-import Product from './Components/Product';
-import editProduct from './Components/editProduct';
-import ProductImages from './Components/ProductImages';
-import allProductImages from './Components/allProductImages';
-import Cart from './Components/Cart/Cart';
-import address from './Components/address';
+import Login from "./Components/Login";
+import Alert from "./Components/Alert";
+import CustomerRegister from "./Components/CustomerRegister";
+import VendorRegister from "./Components/VendorRegister";
+import VendorUpdate from "./Components/VendorUpdate";
+import Header from "./Components/Header";
+import Home from "./Components/Home";
+import { Provider } from "react-redux";
+import store from "./store";
+import { loadUser } from "./actions/auth";
+import VendorProfile from "./Components/VendorProfile";
+import CustomerUpdate from "./Components/CustomerUpdate";
+import CustomerProfile from "./Components/CustomerProfile";
+import addProduct from "./Components/addProduct";
+import Product from "./Components/Product";
+import editProduct from "./Components/editProduct";
+import ProductImages from "./Components/ProductImages";
+import allProductImages from "./Components/allProductImages";
+import Cart from "./Components/Cart/Cart";
+import address from "./Components/address";
+import Payment from "./Components/PaymentGateway/Payment";
 
 // Alert Options
 const alertOptions = {
     timeout: 5000,
-    position: 'top center',
+    position: "top center",
 };
 
 export default class App extends Component {
@@ -125,6 +126,11 @@ export default class App extends Component {
                                         exact
                                         path="/cart"
                                         component={Cart}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/paymentGateway/"
+                                        component={Payment}
                                     />
                                 </Switch>
                             </div>

@@ -5,7 +5,7 @@ import {
     UPDATE_FAIL,
     LOGOUT_SUCCESS,
     LOGIN_FAIL,
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
     isFetching: true,
@@ -32,6 +32,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isUpdated: false,
                 isFetching: true,
+                isUpdated: false,
             };
         case FETCHING_COMPLETE:
             return {

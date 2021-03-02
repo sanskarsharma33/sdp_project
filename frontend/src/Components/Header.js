@@ -46,16 +46,15 @@ export class Header extends Component {
                     </button>
                 </li>
                 <li class="dropdown">
-                    <a
-                        className="nav-link dropdown-toggle"
+                    <span
+                        class="nav-link dropdown-toggle"
                         id="navbarDropdown"
                         data-toggle="dropdown"
                         aria-expanded="false"
                     >
-                        <FontAwesomeIcon icon={faUser} />{' '}
-                        <b className="caret"></b>
-                    </a>
-                    <div className="dropdown-menu dropdown-menu-right">
+                        <FontAwesomeIcon icon={faUser} /> <b class="caret"></b>
+                    </span>
+                    <div class="dropdown-menu dropdown-menu-right">
                         {this.props.auth.is_vendor ? (
                             <div>
                                 <Link to="/update/vendor" className="nav-link">

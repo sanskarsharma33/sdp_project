@@ -15,13 +15,15 @@ import {
     ADDRESS_ADDED,
     ADDRESS_ADDING,
     ADDRESS_ADDING_ERROR,
-} from '../actions/types';
+} from "../actions/types";
 
 const initialState = {
     addressLoaded: false,
     addressList: [],
     addressElementDelete: false,
     addressAdded: false,
+    address: null,
+    addressSelected: false,
 };
 
 export default function (state = initialState, action) {
@@ -43,7 +45,7 @@ export default function (state = initialState, action) {
                 addressList: null,
             };
         case ADDRESS_DELETING:
-            console.log('DELETING');
+            console.log("DELETING");
             return {
                 ...state,
                 addressAdded: false,
