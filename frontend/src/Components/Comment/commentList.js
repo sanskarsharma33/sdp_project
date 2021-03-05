@@ -25,6 +25,7 @@ export default function CommentList(props) {
                 <Comment
                     key={index}
                     comment={comment}
+                    prop={props.prop}
                     onDelete={props.onDelete}
                     user={props.user}
                 />

@@ -39,7 +39,11 @@ export default class CommentForm extends Component {
         } else {
             this.setState({error: ''});
             console.log('submit');
-            this.props.submitHandler(this.state.message);
+            this.props.submitHandler(
+                this.state.message,
+                this.props.id,
+                this.props.prop
+            );
             this.setState({
                 ['message']: '',
             });

@@ -10,6 +10,9 @@ import {
     CART_ITEM_DELETION_FAIL,
     CART_ITEM_MODIFIED,
     CART_ITEM_MODIFY_FAIL,
+    ORDERS_LOADED,
+    ORDERS_LOADING,
+    ORDERS_LOAD_FAIL,
 } from './types';
 import cart from '../reducers/cart';
 
@@ -47,6 +50,24 @@ export const getCartItems = () => (dispatch, getState) => {
             console.log(err);
             dispatch({
                 type: CART_LOAD_FAIL,
+            });
+        });
+};
+
+export const getOrderItems = () => (dispatch, getState) => {
+    dispatch({type: ORDERS_LOADING});
+    http.get('ManageOrders/orders/', tokenConfig(getState))
+        .then((res) => {
+            console.log(res.data);
+            dispatch({
+                type: ORDERS_LOADED,
+                payload: res.data,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            dispatch({
+                type: ORDERS_LOAD_FAIL,
             });
         });
 };

@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import store from '../store';
-import {getAllProductList} from '../actions/productList';
+import {getProductList} from '../actions/productList';
 import 'bootstrap/dist/css/bootstrap.css';
 import ProductCard from './productCard';
 import '../style/home.css';
 import {getCartItems} from '../actions/cart';
 
-export class Home extends Component {
+export class ProductByShop extends Component {
     static propTypes = {
         auth: PropTypes.object,
         productList: PropTypes.object,
@@ -20,10 +20,12 @@ export class Home extends Component {
     };
     constructor(props) {
         super(props);
-        store.dispatch(getAllProductList());
+        let id = this.props.match.params.id;
+        store.dispatch(getProductList(id));
     }
     handler() {
-        store.dispatch(getAllProductList());
+        let id = this.props.match.params.id;
+        store.dispatch(getProductList(id));
     }
     render() {
         const productList = this.props.productList;
@@ -88,4 +90,4 @@ const mapStateToProps = (state) => ({
     cartItems: state.cart.cartItems,
     cartUpdated: state.cart.cartUpdated,
 });
-export default connect(mapStateToProps, {getCartItems})(Home);
+export default connect(mapStateToProps, {getCartItems})(ProductByShop);

@@ -14,7 +14,7 @@ import {
 const initialState = {
     isItemAdded: false,
     isCartLoading: false,
-    cartItems: null,
+    cartItems: [],
     cartItemDeleted: false,
     cartUpdated: false,
     totalAmt: 0,
@@ -55,7 +55,7 @@ export default function (state = initialState, action) {
         case CART_ITEM_MODIFY_FAIL:
             return {
                 ...state,
-                cartItems: null,
+                cartItems: [],
                 isCartLoading: false,
             };
         case CART_ITEM_DELETED:

@@ -22,7 +22,12 @@ export class Header extends Component {
             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li className="nav-item">
                     <Link to="/Home/" className="nav-link">
-                        Home
+                        Product
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/" className="nav-link">
+                        Shops
                     </Link>
                 </li>
                 <span className="navbar-text mr-3">
@@ -81,6 +86,9 @@ export class Header extends Component {
                                 <Link to="/cart" className="nav-link">
                                     Cart
                                 </Link>
+                                <Link to="/orders" className="nav-link">
+                                    Orders
+                                </Link>
                             </div>
                         )}
 
@@ -129,7 +137,16 @@ export class Header extends Component {
                             id="navbarTogglerDemo01"
                         >
                             <a className="navbar-brand" href="#">
-                                SDP
+                                <strong
+                                    style={{
+                                        fontFamily: 'Cookie',
+                                        fontSize: '2rem',
+                                        padding: '0px',
+                                        margin: '0px 0px 0px',
+                                    }}
+                                >
+                                    E - Mart
+                                </strong>
                             </a>
                             {isAuthenticated ? (
                                 this.props.auth.is_vendor ? (

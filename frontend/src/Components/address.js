@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { getAddress, deleteAddress, addAddress } from "../actions/order";
-import "bootstrap/dist/css/bootstrap.css";
-import store from "../store";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Link, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getAddress, deleteAddress, addAddress} from '../actions/order';
+import 'bootstrap/dist/css/bootstrap.css';
+import store from '../store';
 
 class addProduct extends Component {
     state = {
-        address_title: "",
-        address: "",
-        pincode: "",
+        address_title: '',
+        address: '',
+        pincode: '',
     };
     static propTypes = {
         addressLoaded: PropTypes.bool,
@@ -28,7 +28,7 @@ class addProduct extends Component {
     };
 
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     selectAddress = (e) => {
@@ -46,7 +46,7 @@ class addProduct extends Component {
         this.props.getAddress(0);
     }
     render() {
-        const { address, address_title, pincode } = this.state;
+        const {address, address_title, pincode} = this.state;
         if (this.props.addressAdded) return <div>{this.handler()}</div>;
         if (this.props.addressElementDelete) {
             return <div>{this.handler()}</div>;
@@ -74,8 +74,8 @@ class addProduct extends Component {
                                 <div
                                     className="card"
                                     style={{
-                                        maxWidth: "15rem",
-                                        margin: "10px 10px 10px",
+                                        maxWidth: '15rem',
+                                        margin: '10px 10px 10px',
                                     }}
                                 >
                                     <div className="card-body">
@@ -88,18 +88,19 @@ class addProduct extends Component {
                                         <p className="card-text">
                                             {item.pincode}
                                         </p>
-                                        <a
-                                            id={item.id}
-                                            onClick={this.selectAddress}
-                                            className="btn btn-primary"
-                                        >
-                                            Select
-                                        </a>
+                                        <Link to={`/paymentGateway/${item.id}`}>
+                                            <button
+                                                id={item.id}
+                                                className="btn btn-primary"
+                                            >
+                                                Select
+                                            </button>
+                                        </Link>
                                         <a
                                             onClick={this.onAddressDelete}
                                             id={item.id}
                                             className="btn btn-danger"
-                                            style={{ margin: "2px 2px 2px" }}
+                                            style={{margin: '2px 2px 2px'}}
                                         >
                                             Delete
                                         </a>

@@ -25,6 +25,24 @@ export const getAllProductList = () => (dispatch, getState) => {
         });
 };
 
+export const getProductList = (id) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({type: PRODUCT_LIST_LOADING});
+    http.get(`/ManageShops/products/all/by_vendor/${id}`, tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type: PRODUCT_LIST_LOADED,
+                payload: res.data,
+            });
+        })
+        .catch((err) => {
+            // dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({
+                type: PRODUCT_LIST_LOADING_FAIL,
+            });
+        });
+};
+
 // Setup config with token - helper function
 export const tokenConfig = (getState) => {
     // Get token from state

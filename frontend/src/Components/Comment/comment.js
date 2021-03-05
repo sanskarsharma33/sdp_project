@@ -4,6 +4,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 export default function Comment(props) {
     const {description, reviewer_email} = props.comment;
     const flag = reviewer_email === props.user;
+    function onDelete(e) {
+        props.onDelete(e, props.prop);
+    }
     return (
         // <div>HIIII</div>
         <div className="media mb-3">
@@ -16,7 +19,7 @@ export default function Comment(props) {
                         className="btn btn-danger"
                         style={{marginLeft: '1000px'}}
                         id={props.comment.id}
-                        onClick={props.onDelete}
+                        onClick={onDelete}
                     >
                         Delete
                     </button>

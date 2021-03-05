@@ -22,6 +22,7 @@ import {
     PRODUCT_REVIEWS_LOAD_FAIL,
     PRODUCT_REVIEWS_ADDED,
     PRODUCT_REVIEWS_DELETED,
+    PRODUCT_REVIEWS_DELETING,
 } from './types';
 // import {getCommentsProduct} from '../Components/Product';
 
@@ -267,6 +268,9 @@ export const postComment = (obj) => (dispatch, getState) => {
 export const deleteComment = (obj) => (dispatch, getState) => {
     // Request Body
     const body = JSON.stringify(obj);
+    dispatch({
+        type: PRODUCT_REVIEWS_DELETING,
+    });
     http.delete(`/ManageReviews/deletereviews/${obj}`, tokenConfig(getState))
         .then((res) => {
             dispatch({
