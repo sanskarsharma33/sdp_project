@@ -23,3 +23,8 @@ class CartDetails(models.Model):
     customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     added_date = models.DateTimeField(auto_now=True, auto_now_add=False)
+    placed = models.BooleanField(default=False)
+    order_date = models.DateTimeField(blank=True, null=True)
+    address = models.ForeignKey(
+        Address, on_delete=models.CASCADE, blank=True, null=True)
+    delivery_date = models.DateTimeField(blank=True, null=True)

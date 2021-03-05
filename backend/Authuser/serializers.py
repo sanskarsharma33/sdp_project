@@ -52,7 +52,7 @@ class VendorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vendors
-        fields = ['user', 'shop_name', 'address',
+        fields = ['id', 'user', 'shop_name', 'address',
                   'location_long', 'location_lat', 'pincode', 'cod_available', 'is_active']
 
     def create(self, validated_data):

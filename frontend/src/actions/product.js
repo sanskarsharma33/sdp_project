@@ -17,7 +17,14 @@ import {
     PRODUCT_IMAGES_LOADED,
     PRODUCT_IMAGES_LOADING,
     PRODUCT_IMAGES_LOAD_FAIL,
+    PRODUCT_REVIEWS_LOADED,
+    PRODUCT_REVIEWS_LOADING,
+    PRODUCT_REVIEWS_LOAD_FAIL,
+    PRODUCT_REVIEWS_ADDED,
+    PRODUCT_REVIEWS_DELETED,
+    PRODUCT_REVIEWS_DELETING,
 } from './types';
+// import {getCommentsProduct} from '../Components/Product';
 
 export const add_Product = (Product) => (dispatch, getState) => {
     // Product List Loading
@@ -216,6 +223,63 @@ export const deleteImages = (obj) => (dispatch, getState) => {
             dispatch({
                 type: PRODUCT_IMAGES_LOAD_FAIL,
             });
+        });
+};
+
+export const getComment = (obj) => (dispatch, getState) => {
+    // Product List Loading
+    dispatch({type: PRODUCT_REVIEWS_LOADING});
+
+    // Request Body
+    const body = JSON.stringify(obj);
+    // console.log(formData)
+    // console.log(obj);
+    http.get(`/ManageReviews/reviews/${obj}`, tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type: PRODUCT_REVIEWS_LOADED,
+                payload: res.data,
+            });
+        })
+        .catch((err) => {
+            // dispatch(returnErrors(err.response.data, err.response.status));
+            // console.log(err)
+            console.log('err');
+            dispatch({
+                type: PRODUCT_REVIEWS_LOAD_FAIL,
+            });
+        });
+};
+export const postComment = (obj) => (dispatch, getState) => {
+    // Request Body
+    const body = JSON.stringify(obj);
+    http.post(`/ManageReviews/reviews/`, body, tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type: PRODUCT_REVIEWS_ADDED,
+                payload: res.data,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+export const deleteComment = (obj) => (dispatch, getState) => {
+    // Request Body
+    const body = JSON.stringify(obj);
+    dispatch({
+        type: PRODUCT_REVIEWS_DELETING,
+    });
+    http.delete(`/ManageReviews/deletereviews/${obj}`, tokenConfig(getState))
+        .then((res) => {
+            dispatch({
+                type: PRODUCT_REVIEWS_DELETED,
+                payload: obj,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
         });
 };
 

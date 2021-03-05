@@ -268,3 +268,9 @@ def customer_update_view(request):
         print(serializer.errors)
         return Response(serializer.errors, HTTP_400_BAD_REQUEST)
     return Response(data)
+
+
+class get_all_vendors(generics.ListCreateAPIView):
+    queryset = Vendors.objects.all()
+    serializer_class = VendorSerializer
+    permission_classes = [IsAuthenticated]

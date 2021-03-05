@@ -30,6 +30,7 @@ export default function (state = initialState, action) {
         case FETCHING_DATA:
             return {
                 ...state,
+                isUpdated: false,
                 isFetching: true,
                 isUpdated: false,
             };

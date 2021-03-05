@@ -1,14 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "bootstrap/dist/css/bootstrap.css";
-import "../style/productCard.css";
-import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { delete_Product } from "../actions/product";
-import { addToCart, getCartItems } from "../actions/cart";
-
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../style/productCard.css';
+import {connect} from 'react-redux';
+import {Link, Redirect} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import {delete_Product} from '../actions/product';
+import {addToCart, getCartItems} from '../actions/cart';
+import {
+    faTrash,
+    faRupeeSign,
+    faPlusCircle,
+    faMinusCircle,
+} from '@fortawesome/free-solid-svg-icons';
 class ProductCard extends Component {
     static propTypes = {
         prop: PropTypes,
@@ -43,21 +48,21 @@ class ProductCard extends Component {
     async UpdateState() {
         await this.props.cartItems.forEach((e) => {
             if (e.product.id === this.props.element.id) {
-                this.setState({ isInCart: true });
-                this.setState({ quantity: e.quantity });
+                this.setState({isInCart: true});
+                this.setState({quantity: e.quantity});
             }
         });
     }
 
-    componentDidUpdate() {
-        if (!this.props.auth.is_vendor && !this.props.isCartLoading) {
+    componentDidUpdate = () => {
+        if (!this.props.isCartLoading && !this.props.auth.is_vendor) {
             if (this.state.flag) {
                 //console.log(this.props.vendor);
-                this.setState({ flag: false });
+                this.setState({flag: false});
                 this.UpdateState();
             }
         }
-    }
+    };
 
     addToCart = (e) => {
         e.preventDefault();
@@ -67,14 +72,14 @@ class ProductCard extends Component {
     };
     onClick = (e) => {
         e.preventDefault();
-        this.setState({ redirect: true }, () => {
+        this.setState({redirect: true}, () => {
             this.renderRedirect();
         });
     };
     onEditClick = (e) => {
         e.preventDefault();
-        console.log("Edit");
-        this.setState({ Editredirect: true }, () => {
+        console.log('Edit');
+        this.setState({Editredirect: true}, () => {
             this.renderRedirect();
         });
     };
@@ -92,13 +97,14 @@ class ProductCard extends Component {
     };
     renderRedirect = () => {
         if (this.state.redirect) {
-            console.log("renderRedirect");
+            console.log('renderRedirect');
             return <Redirect to={`/Product/${this.props.element.id}`} />;
         }
         if (this.state.Editredirect)
             return <Redirect to={`/Product/Edit/${this.props.element.id}`} />;
         if (this.props.isProductDeleted) this.props.handler();
     };
+
     render() {
         return (
             <div>
@@ -106,16 +112,19 @@ class ProductCard extends Component {
                 <div
                     className="product"
                     style={{
-                        minHeight: "30rem",
-                        maxHeight: "35rem",
-                        maxWidth: "25rem",
-                        minWidth: "15rem",
+                        minHeight: '30rem',
+                        maxHeight: '35rem',
+                        maxWidth: '25rem',
+                        minWidth: '20rem',
+                        margin: '20px 20px 20px',
                     }}
                 >
                     <div className="product__info">
                         <p>{this.props.element.title}</p>
                         <p className="product__price">
-                            <small>$</small>
+                            <small>
+                                <FontAwesomeIcon icon={faRupeeSign} />
+                            </small>
                             <strong>{this.props.element.amount}</strong>
                         </p>
                     </div>
@@ -124,31 +133,73 @@ class ProductCard extends Component {
                         alt=""
                     />
                     {this.props.canEdit ? (
-                        <div>
-                            <Link
-                                to={`/Product/Images/${this.props.element.id}`}
-                            >
-                                <button> Images</button>
-                            </Link>
-                            <Link
-                                to={`/Product/UploadImages/${this.props.element.id}`}
-                            >
-                                <button> Add Images</button>
-                            </Link>
-                            <button onClick={this.onEditClick}>Edit</button>{" "}
-                            <button onClick={this.onDeleteClick}>Delete</button>
-                        </div>
+                        <center>
+                            <div>
+                                <Link
+                                    to={`/Product/Images/${this.props.element.id}`}
+                                >
+                                    <button
+                                        className="btn btn-primary"
+                                        style={{
+                                            margin: '10px 10px 10px',
+                                            width: '100px',
+                                        }}
+                                    >
+                                        Images
+                                    </button>
+                                </Link>
+                                <Link
+                                    to={`/Product/UploadImages/${this.props.element.id}`}
+                                >
+                                    <button
+                                        className="btn btn-primary"
+                                        style={{margin: '10px 10px 10px'}}
+                                    >
+                                        Add Images
+                                    </button>
+                                </Link>
+                                <button
+                                    className="btn btn-warning"
+                                    style={{
+                                        margin: '10px 10px 10px',
+                                        width: '100px',
+                                    }}
+                                    onClick={this.onEditClick}
+                                >
+                                    Edit
+                                </button>{' '}
+                                <button
+                                    className="btn btn-danger"
+                                    style={{
+                                        margin: '10px 10px 10px',
+                                        width: '100px',
+                                    }}
+                                    onClick={this.onDeleteClick}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </center>
                     ) : (
                         <div>
                             {this.props.isCartLoading ? (
                                 <FontAwesomeIcon icon={faSpinner} />
                             ) : (
                                 <div>
-                                    <button onClick={this.onClick}>Show</button>
+                                    <button
+                                        className="btn btn-info"
+                                        onClick={this.onClick}
+                                        style={{margin: '10px 10px 10px'}}
+                                    >
+                                        Show
+                                    </button>
                                     {this.state.isInCart ? (
                                         <span>Added To Cart</span>
                                     ) : (
-                                        <button onClick={this.addToCart}>
+                                        <button
+                                            className="btn btn-success"
+                                            onClick={this.addToCart}
+                                        >
                                             Add To Cart
                                         </button>
                                     )}
@@ -159,30 +210,6 @@ class ProductCard extends Component {
                 </div>
             </div>
         );
-        // return (
-        //     <div style={{margin:"20px 10px 10px"}}>
-        //     {this.renderRedirect()}
-        //         <div className="card" style={{maxWidth: "20rem"}}>
-        //             <img className="card-img" src={`http://127.0.0.1:8000${this.props.element.image[0]}`} style={{maxHeight: "20rem", maxWidth: "20rem"}} alt="Vans" ></img>
-        //             <div className="card-img-overlay d-flex justify-content-end">
-        //             <a href="#" className="card-link text-danger like" style={{fontSize: "1.5rem"}}>
-        //                 <i className="fas fa-heart"></i>
-        //             </a>
-        //             </div>
-        //             <div className="card-body">
-        //                 <h4 className="card-title">{this.props.element.title}</h4>
-        //                 {/* <h6 className="card-subtitle mb-2 text-muted">Style: VA33TXRJ5</h6> */}
-        //                 <p className="card-text">
-        //                     {this.props.element.details}
-        //                 </p>
-        //                 <div className="buy d-flex justify-content-between align-items-center">
-        //                     <div className="price text-success"><h5 className="mt-4">${this.props.element.amount}</h5></div>
-        //                     <a href="#" className="btn btn-danger mt-3"><i className="fas fa-shopping-cart"></i> Add to Cart</a>
-        //                 </div>
-        //             </div>
-        //         </div>
-        // </div>
-        // )
     }
 }
 

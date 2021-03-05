@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { logout } from "../actions/auth";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import store from "../store";
-import { PRODUCT_LOADING_FAIL } from "../actions/types";
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {logout} from '../actions/auth';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+import store from '../store';
+import {PRODUCT_LOADING_FAIL} from '../actions/types';
+import 'bootstrap/dist/css/bootstrap.css';
 
 export class Header extends Component {
     static propTypes = {
@@ -15,24 +16,29 @@ export class Header extends Component {
     };
 
     render() {
-        const { isAuthenticated, user, isLoading } = this.props.auth;
+        const {isAuthenticated, user, isLoading} = this.props.auth;
 
         const authLinks = (
             <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                 <li className="nav-item">
                     <Link to="/Home/" className="nav-link">
-                        Home
+                        Product
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/" className="nav-link">
+                        Shops
                     </Link>
                 </li>
                 <span className="navbar-text mr-3">
                     <strong>
                         {user
                             ? `Welcome ${
-                                  user["first_name"]
-                                      ? user["first_name"]
-                                      : user["email"]
+                                  user['first_name']
+                                      ? user['first_name']
+                                      : user['email']
                               }`
-                            : ""}
+                            : ''}
                     </strong>
                 </span>
 
@@ -80,10 +86,13 @@ export class Header extends Component {
                                 <Link to="/cart" className="nav-link">
                                     Cart
                                 </Link>
+                                <Link to="/orders" className="nav-link">
+                                    Orders
+                                </Link>
                             </div>
                         )}
 
-                        <div class="dropdown-divider"></div>
+                        <div className="dropdown-divider"></div>
                     </div>
                 </li>
             </ul>
@@ -128,7 +137,16 @@ export class Header extends Component {
                             id="navbarTogglerDemo01"
                         >
                             <a className="navbar-brand" href="#">
-                                SDP
+                                <strong
+                                    style={{
+                                        fontFamily: 'Cookie',
+                                        fontSize: '2rem',
+                                        padding: '0px',
+                                        margin: '0px 0px 0px',
+                                    }}
+                                >
+                                    E - Mart
+                                </strong>
                             </a>
                             {isAuthenticated ? (
                                 this.props.auth.is_vendor ? (
@@ -139,10 +157,10 @@ export class Header extends Component {
                                         Add Product
                                     </Link>
                                 ) : (
-                                    ""
+                                    ''
                                 )
                             ) : (
-                                ""
+                                ''
                             )}
                         </div>
                         {isAuthenticated ? authLinks : guestLinks}
@@ -158,4 +176,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, {logout})(Header);

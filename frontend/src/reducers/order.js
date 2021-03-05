@@ -15,7 +15,10 @@ import {
     ADDRESS_ADDED,
     ADDRESS_ADDING,
     ADDRESS_ADDING_ERROR,
-} from "../actions/types";
+    ORDERS_LOADING,
+    ORDERS_LOADED,
+    ORDERS_LOAD_FAIL,
+} from '../actions/types';
 
 const initialState = {
     addressLoaded: false,
@@ -23,7 +26,9 @@ const initialState = {
     addressElementDelete: false,
     addressAdded: false,
     address: null,
+    orderItems: [],
     addressSelected: false,
+    isOrderLoading: false,
 };
 
 export default function (state = initialState, action) {
@@ -45,7 +50,7 @@ export default function (state = initialState, action) {
                 addressList: null,
             };
         case ADDRESS_DELETING:
-            console.log("DELETING");
+            console.log('DELETING');
             return {
                 ...state,
                 addressAdded: false,
@@ -66,6 +71,34 @@ export default function (state = initialState, action) {
                 ...state,
                 addressAdded: true,
                 addressList: action.payload,
+            };
+        case ORDERS_LOADING:
+            return {
+                ...state,
+                orderItems: [],
+                isOrderLoading: true,
+            };
+        case ORDERS_LOADED:
+            function compare(a, b) {
+                if (a.order_date < b.order_date) {
+                    return 1;
+                }
+                if (a.order_date > b.order_date) {
+                    return -1;
+                }
+                return 0;
+            }
+            action.payload.sort(compare);
+            return {
+                ...state,
+                orderItems: action.payload,
+                isOrderLoading: false,
+            };
+        case ORDERS_LOAD_FAIL:
+            return {
+                ...state,
+                orderItems: [],
+                isOrderLoading: false,
             };
         default:
             return state;

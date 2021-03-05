@@ -6,6 +6,8 @@ import {Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import store from '../store';
+import {UPDATE_FAIL} from '../actions/types';
 
 export class VendorUpdate extends Component {
     state = {
@@ -66,6 +68,7 @@ export class VendorUpdate extends Component {
             return <Redirect to="/" />;
         }
         if (this.props.isUpdated) {
+            // store.dispatch({type: UPDATE_FAIL});
             return <Redirect to="/profile/vendor" />;
         }
         if (this.props.isFetching) {

@@ -27,6 +27,8 @@ class Cart extends Component {
         this.props.getCartItems();
     }
     render() {
+        console.log(this.props.auth);
+
         if (!this.props.auth.isAuthenticated) {
             console.log(this.props.auth);
             return <Redirect to="/" />;
@@ -81,6 +83,14 @@ class Cart extends Component {
                         Select Address
                     </button>
                 </Link>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
             </div>
         );
     }

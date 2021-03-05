@@ -10,32 +10,104 @@ import {
     PRODUCT_LOADED,
     PRODUCT_REMOVED,
 } from '../actions/types';
-import {getProduct} from '../actions/product';
+import {
+    getProduct,
+    getComment,
+    postComment,
+    deleteComment,
+} from '../actions/product';
+import CommentList from './Comment/commentList';
+import CommentForm from './Comment/commentForm';
+import {getOrderItems} from '../actions/cart';
 
 class Product extends Component {
     static propTypes = {
         product: PropTypes.object,
         isProductLoaded: PropTypes.bool,
         isAuthenticated: PropTypes.bool,
+        isCommentloading: PropTypes.bool,
+        comments: PropTypes.object,
+        isCommentloaded: PropTypes.bool,
+        user: PropTypes.object,
+        commentDeleted: PropTypes.bool,
+        commentDeleting: PropTypes.bool,
+        order: PropTypes.object,
     };
+    prop;
     constructor(props) {
         super(props);
         let id = this.props.match.params.id;
-        console.log(id);
+        this.prop = this.props;
         store.dispatch(getProduct(id));
+        store.dispatch(getComment(id));
+        this.props.getOrderItems();
     }
     componentWillUnmount() {
         store.dispatch({type: PRODUCT_REMOVED});
     }
+    async commentSubmitHandler(msg, id, prop) {
+        // let id = prop.match.params.id;
+        let obj = {
+            pid: id,
+            description: msg,
+        };
+        await prop.postComment(obj);
+        await prop.getComment(id);
+    }
+    getCommentsProduct = (id) => {
+        store.dispatch(getComment(id));
+    };
+    async onDelete(e, prop) {
+        let id = prop.match.params.id;
+        // e.preventDefault();
+        // console.log(e);
+        await prop.deleteComment(e.target.id);
+        await prop.getComment(id);
+    }
+    handler = () => {
+        let id = this.props.match.params.id;
+        store.dispatch(getComment(id));
+    };
     render() {
-        // if (!this.props.isAuthenticated) {
-        //     return <Redirect to="/login" />;
-        // }
+        console.log(this.props.commentDeleting);
+        const orders = this.props.order.orderItems;
+        let flag = false;
+        let id = this.props.match.params.id;
+        if (this.props.commentDeleting) {
+            return <div>DELETING</div>;
+        }
+        orders.forEach((e) => {
+            if (e.product.id == id) {
+                flag = true;
+            }
+        });
+        if (!this.props.isAuthenticated) {
+            return <Redirect to="/login" />;
+        }
         if (this.props.isProductLoaded) {
             // return <Redirect to="/" />;
-
+            // return (
+            //     <div>
+            //         <CommentList
+            //             loading={this.props.isCommentloading}
+            //             comments={this.props.comments}
+            //             onDelete={this.onDelete}
+            //             user={this.props.user.email}
+            //         ></CommentList>
+            //         <CommentForm
+            //             disabled={!flag}
+            //             submitHandler={this.commentSubmitHandler}
+            //         ></CommentForm>
+            //     </div>
+            // );
             return (
                 <div>
+                    <br></br>
+                    <br></br>
+                    <center>
+                        <h1>{this.props.product.title}</h1>
+                    </center>
+                    <br></br>
                     <div
                         id="carouselExampleIndicators"
                         className="carousel slide"
@@ -102,6 +174,22 @@ class Product extends Component {
                             ></span>
                             <span className="sr-only">Next</span>
                         </a>
+                    </div>
+                    {/* comments */}
+                    <div>
+                        <CommentList
+                            loading={this.props.isCommentloading}
+                            comments={this.props.comments}
+                            onDelete={this.onDelete}
+                            prop={this.props}
+                            user={this.props.user.email}
+                        ></CommentList>
+                        <CommentForm
+                            disabled={!flag}
+                            id={id}
+                            prop={this.props}
+                            submitHandler={this.commentSubmitHandler}
+                        ></CommentForm>
                     </div>
                 </div>
             );
@@ -174,6 +262,19 @@ const mapStateToProps = (state) => ({
     product: state.product.product,
     isAuthenticated: state.auth.isAuthenticated,
     isProductLoaded: state.product.isProductLoaded,
+    isCommentloading: state.product.isCommentloading,
+    isCommentloaded: state.product.isCommentloaded,
+    comments: state.product.comments,
+    user: state.auth.user,
+    commentDeleted: state.product.commentDeleted,
+    commentDeleting: state.product.commentDeleting,
+    order: state.order,
 });
 
-export default connect(mapStateToProps)(Product);
+export default connect(mapStateToProps, {
+    getComment,
+    postComment,
+    deleteComment,
+    getOrderItems,
+})(Product);
+// export default getCommentsProduct;

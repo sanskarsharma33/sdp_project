@@ -1,5 +1,5 @@
-import { returnErrors } from "./messages";
-import http from "../http-common";
+import {returnErrors} from './messages';
+import http from '../http-common';
 
 import {
     USER_LOADED,
@@ -14,14 +14,13 @@ import {
     UPDATE_SUCCESS,
     FETCHING_DATA,
     FETCHING_COMPLETE,
-} from "./types";
+} from './types';
 
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispatch, getState) => {
     // User Loading
-    console.log("a");
-    dispatch({ type: USER_LOADING });
-    http.get("/Authuser/get_user", tokenConfig(getState))
+    dispatch({type: USER_LOADING});
+    http.get('/Authuser/get_user', tokenConfig(getState))
         .then((res) => {
             dispatch({
                 type: USER_LOADED,
@@ -42,17 +41,17 @@ export const login = (username, password) => (dispatch) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // Request Body
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify({username, password});
 
-    http.post("/Authuser/signin", body, config)
+    http.post('/Authuser/signin', body, config)
         .then((res) => {
             // console.log(res.data);
-            const { user } = res.data;
+            const {user} = res.data;
             console.log(user);
             dispatch({
                 type: LOGIN_SUCCESS,
@@ -72,13 +71,13 @@ export const registerCustomer = (data) => (dispatch) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // Request Body
     const body = JSON.stringify(data);
-    http.post("/Authuser/customer/register", body, config)
+    http.post('/Authuser/customer/register', body, config)
         .then((res) => {
             dispatch({
                 type: REGISTER_SUCCESS,
@@ -99,13 +98,13 @@ export const registerVendor = (data) => (dispatch) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // Request Body
     const body = JSON.stringify(data);
-    http.post("/Authuser/vendor/register", body, config)
+    http.post('/Authuser/vendor/register', body, config)
         .then((res) => {
             console.log(res);
             dispatch({
@@ -124,7 +123,7 @@ export const registerVendor = (data) => (dispatch) => {
 
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
-    http.get("/Authuser/logout", tokenConfig(getState))
+    http.get('/Authuser/logout', tokenConfig(getState))
         .then((res) => {
             // dispatch({ type: 'CLEAR_LEADS' });
             dispatch({
@@ -144,13 +143,13 @@ export const tokenConfig = (getState) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // If token, add to headers config
     if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
     }
 
     return config;
@@ -160,7 +159,7 @@ export const updateCustomer = (data) => (dispatch, getState) => {
     // Request Body
     const body = JSON.stringify(data);
     console.log(body);
-    http.post("/Authuser/customer/update", body, tokenConfig(getState))
+    http.post('/Authuser/customer/update', body, tokenConfig(getState))
         .then((res) => {
             console.log(res);
             dispatch({

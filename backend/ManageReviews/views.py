@@ -25,7 +25,7 @@ class Reviews(viewsets.ModelViewSet):
 
     queryset = ReviewsModel.objects.all()
     serializer_class = ReviewsSerializer
-    permission_classes = [IsAuthenticated, IsReviewOwner]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -34,13 +34,25 @@ class Reviews(viewsets.ModelViewSet):
             return ReviewsViewSerializer
         return ReviewsSerializer
 
-
     def get_queryset(self):
-        product = Products.objects.get(pk=self.request.data['pid'])
+        product = Products.objects.get(pk=self.kwargs['pid'])
         owner_queryset = self.queryset.filter(product=product)
         return owner_queryset
-
 
     def perform_create(self, serializer):
         product = Products.objects.get(pk=self.request.data['pid'])
         serializer.save(user=self.request.user, product=product)
+
+
+class DeleteReviews(viewsets.ModelViewSet):
+
+    queryset = ReviewsModel.objects.all()
+    serializer_class = ReviewsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ReviewsViewSerializer
+        if self.action == 'retrieve':
+            return ReviewsViewSerializer
+        return ReviewsSerializer
