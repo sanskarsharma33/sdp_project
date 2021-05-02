@@ -108,6 +108,11 @@ class ProductImage(views.APIView):
                 return Response(product_image.errors, status=HTTP_400_BAD_REQUEST)
         return Response(ProductViewSerializer(product).data, status=HTTP_201_CREATED)
 
+    def delete(self, request, pk, format=None):
+        image = ProductImageModel.objects.all().filter(pk=pk)
+        image.delete()
+        return Response("OK")
+
 
 class getProductImage(views.APIView):
     permission_classes = [IsAuthenticated]

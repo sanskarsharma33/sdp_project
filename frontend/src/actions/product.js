@@ -1,5 +1,5 @@
-import { returnErrors } from "./messages";
-import http from "../http-common";
+import {returnErrors} from './messages';
+import http from '../http-common';
 
 import {
     PRODUCT_LOADED,
@@ -23,19 +23,20 @@ import {
     PRODUCT_REVIEWS_ADDED,
     PRODUCT_REVIEWS_DELETED,
     PRODUCT_REVIEWS_DELETING,
-} from "./types";
+    PRODUCT_IMAGES_DELETED,
+} from './types';
 // import {getCommentsProduct} from '../Components/Product';
 
 export const add_Product = (Product) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_ADDING });
+    dispatch({type: PRODUCT_ADDING});
 
     // Request Body
     const body = JSON.stringify(Product);
 
     console.log(body);
 
-    http.post("/ManageShops/products/", body, tokenConfig(getState))
+    http.post('/ManageShops/products/', body, tokenConfig(getState))
         .then((res) => {
             dispatch({
                 type: PRODUCT_ADDED,
@@ -53,7 +54,7 @@ export const add_Product = (Product) => (dispatch, getState) => {
 
 export const edit_Product = (Product) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_ADDING });
+    dispatch({type: PRODUCT_ADDING});
 
     // Request Body
     const body = JSON.stringify(Product);
@@ -82,7 +83,7 @@ export const edit_Product = (Product) => (dispatch, getState) => {
 
 export const getProduct = (id) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(id);
@@ -107,7 +108,7 @@ export const getProduct = (id) => (dispatch, getState) => {
 
 export const delete_Product = (id) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(id);
@@ -132,13 +133,13 @@ export const delete_Product = (id) => (dispatch, getState) => {
 
 export const addImages = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_LOADING });
+    dispatch({type: PRODUCT_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
     const formData = new FormData();
-    obj.images.map((image) => formData.append("images", image));
-    formData.append("pid", obj.pid);
+    obj.images.map((image) => formData.append('images', image));
+    formData.append('pid', obj.pid);
 
     // Get token from state
     const token = getState().auth.token;
@@ -146,16 +147,16 @@ export const addImages = (obj) => (dispatch, getState) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "multipart/form-data",
-            Accept: "application/json",
-            type: "formData",
-            "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'multipart/form-data',
+            Accept: 'application/json',
+            type: 'formData',
+            'Access-Control-Allow-Origin': '*',
         },
     };
 
     // If token, add to headers config
     if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
     }
 
     console.log(formData);
@@ -177,7 +178,7 @@ export const addImages = (obj) => (dispatch, getState) => {
 
 export const getImages = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_IMAGES_LOADING });
+    dispatch({type: PRODUCT_IMAGES_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
@@ -202,19 +203,13 @@ export const getImages = (obj) => (dispatch, getState) => {
 };
 
 export const deleteImages = (obj) => (dispatch, getState) => {
-    // Product List Loading
-    dispatch({ type: PRODUCT_IMAGES_LOADING });
-
-    // Request Body
-    const body = JSON.stringify(obj);
-
-    // console.log(formData)
-    http.get(`/ManageShops/productimage`, body, tokenConfig(getState))
+    console.log('DELETE IMAGES');
+    http.delete(`/ManageShops/productimage/${obj}`, tokenConfig(getState))
         .then((res) => {
             // console.log("PP")
             dispatch({
-                type: PRODUCT_IMAGES_LOADED,
-                payload: res.data,
+                type: PRODUCT_IMAGES_DELETED,
+                payload: obj,
             });
         })
         .catch((err) => {
@@ -228,7 +223,7 @@ export const deleteImages = (obj) => (dispatch, getState) => {
 
 export const getComment = (obj) => (dispatch, getState) => {
     // Product List Loading
-    dispatch({ type: PRODUCT_REVIEWS_LOADING });
+    dispatch({type: PRODUCT_REVIEWS_LOADING});
 
     // Request Body
     const body = JSON.stringify(obj);
@@ -244,7 +239,7 @@ export const getComment = (obj) => (dispatch, getState) => {
         .catch((err) => {
             // dispatch(returnErrors(err.response.data, err.response.status));
             // console.log(err)
-            console.log("err");
+            console.log('err');
             dispatch({
                 type: PRODUCT_REVIEWS_LOAD_FAIL,
             });
@@ -291,13 +286,13 @@ export const tokenConfig = (getState) => {
     // Headers
     const config = {
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
     };
 
     // If token, add to headers config
     if (token) {
-        config.headers["Authorization"] = `Token ${token}`;
+        config.headers['Authorization'] = `Token ${token}`;
     }
 
     return config;

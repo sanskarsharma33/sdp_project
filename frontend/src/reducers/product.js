@@ -18,6 +18,7 @@ import {
     PRODUCT_REVIEWS_LOAD_FAIL,
     PRODUCT_REVIEWS_DELETED,
     PRODUCT_REVIEWS_DELETING,
+    PRODUCT_IMAGES_DELETED,
 } from '../actions/types';
 
 const initialState = {
@@ -98,6 +99,15 @@ export default function (state = initialState, action) {
                 comments: [],
                 commentDeleting: false,
                 isProductUpdated: false,
+            };
+        case PRODUCT_IMAGES_DELETED:
+            console.log(action.payload);
+            state.productImages.map((item, index) => {
+                if (item.id == action.payload) state.comments.splice(index, 1);
+            });
+            return {
+                ...state,
+                productImages: state.productImages,
             };
         case PRODUCT_IMAGES_UPLOADED:
             return {

@@ -29,7 +29,7 @@ export class Home extends Component {
         const productList = this.props.productList;
         const {user} = this.props.auth;
         if (!user) {
-            return <Redirect to="/" />;
+            return <Redirect to="/Login" />;
         }
         if (!user.is_vendor && this.props.cartUpdated) {
             return <div>{this.props.getCartItems()}</div>;

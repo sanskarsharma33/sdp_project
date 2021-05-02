@@ -21,9 +21,13 @@ class allProductImages extends Component {
         this.props.getImages(this.state.pid);
     }
 
-    removeImage(e) {
+    removeImage = (e) => {
         e.preventDefault();
-    }
+
+        this.props.deleteImages(e.target.id);
+        // console.log(this.state.pid);
+        this.props.getImages(this.state.pid);
+    };
     handler() {
         // this.props.getImages(this.state.id)
     }
@@ -55,6 +59,8 @@ class allProductImages extends Component {
                                 src={`http://127.0.0.1:8000${element.image}`}
                                 className="image"
                                 id={element.id}
+                                prop={this.props}
+                                pid={this.state.pid}
                                 style={{
                                     height: '10rem',
                                     margin: '20px 20px 20px',
