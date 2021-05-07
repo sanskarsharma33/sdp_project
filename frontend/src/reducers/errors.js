@@ -1,4 +1,4 @@
-import { GET_ERRORS } from "../actions/types";
+import {GET_ERRORS, PAYMENT_FAIL} from '../actions/types';
 
 const initialState = {
     msg: {},
@@ -12,6 +12,11 @@ export default function (state = initialState, action) {
             return {
                 msg: action.payload.msg,
                 status: action.payload.status,
+            };
+        case PAYMENT_FAIL:
+            return {
+                msg: {payment: true},
+                status: 'payment Error',
             };
         default:
             return state;

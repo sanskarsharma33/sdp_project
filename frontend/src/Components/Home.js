@@ -18,6 +18,15 @@ export class Home extends Component {
         cartItems: PropTypes.object.isRequired,
         cartUpdated: PropTypes.bool,
     };
+    state = {
+        search: '',
+        found: false,
+        productList: [],
+    };
+    onChange = (e) => {
+        console.log(e.target.name);
+        this.setState({[e.target.name]: e.target.value});
+    };
     constructor(props) {
         super(props);
         store.dispatch(getAllProductList());
@@ -25,9 +34,41 @@ export class Home extends Component {
     handler() {
         store.dispatch(getAllProductList());
     }
+    onSearch = () => {
+        // var productlist = this.props.productList.filter((name) => {
+        //     if (
+        //         name.title.toString().toLowerCase() ==
+        //         this.state.search.toString().toLowerCase()
+        //     ) {
+        //         return name;
+        //     }
+        // });
+
+        var productlist = this.props.productList.filter((product) =>
+            product.title
+                .toLowerCase()
+                .includes(this.state.search.toLowerCase())
+        );
+
+        console.log(productlist.length);
+        if (productlist.length == 0) {
+            this.setState({found: false});
+        } else {
+            this.setState({found: true});
+        }
+        this.setState({productList: productlist});
+    };
     render() {
-        const productList = this.props.productList;
+        var productList = this.props.productList;
         const {user} = this.props.auth;
+        if (this.state.found) {
+            console.log('Searched items loaded');
+            console.log(this.state.productList);
+            if (this.state.productList.length == 0)
+                productList = this.props.productList;
+            else productList = this.state.productList;
+            console.log(productList);
+        }
         if (!user) {
             return <Redirect to="/Login" />;
         }
@@ -37,6 +78,29 @@ export class Home extends Component {
         if (this.props.isProductListLoaded && user != null) {
             return (
                 <div>
+                    <br></br>
+                    <div className="input-group">
+                        <div className="form-outline row">
+                            <div>
+                                <input
+                                    type="search"
+                                    name="search"
+                                    className="form-control d-inline"
+                                    value={this.state.search}
+                                    onChange={this.onChange}
+                                />
+                            </div>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
+                            <div>
+                                <button
+                                    className="btn btn-success d-inline"
+                                    onClick={this.onSearch}
+                                >
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div style={{marginTop: '20px'}}>
                         <div className="row" style={{marginTop: '20px'}}>
                             {productList

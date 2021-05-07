@@ -79,20 +79,6 @@ export class VendorProfile extends Component {
                             <label className="form-control"> {address}</label>
                         </div>
                         <div className="form-group">
-                            <label>Location Longitude : </label>
-                            <label className="form-control">
-                                {' '}
-                                {location_long}
-                            </label>
-                        </div>
-                        <div className="form-group">
-                            <label>Location Lattitude : </label>
-                            <label className="form-control">
-                                {' '}
-                                {location_lat}
-                            </label>
-                        </div>
-                        <div className="form-group">
                             <label>Pincode : </label>
                             <label className="form-control"> {pincode}</label>
                         </div>

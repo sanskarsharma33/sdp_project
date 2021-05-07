@@ -21,12 +21,12 @@ class allProductImages extends Component {
         this.props.getImages(this.state.pid);
     }
 
-    removeImage = (e) => {
+    removeImage = async (e) => {
         e.preventDefault();
 
-        this.props.deleteImages(e.target.id);
+        await this.props.deleteImages(e.target.id);
         // console.log(this.state.pid);
-        this.props.getImages(this.state.pid);
+        await this.props.getImages(this.state.pid);
     };
     handler() {
         // this.props.getImages(this.state.id)

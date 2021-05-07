@@ -26,9 +26,15 @@ export class Header extends Component {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/" className="nav-link">
-                        Shops
-                    </Link>
+                    {this.props.auth.is_vendor ? (
+                        <div></div>
+                    ) : (
+                        <div>
+                            <Link to="/" className="nav-link">
+                                Shops
+                            </Link>
+                        </div>
+                    )}
                 </li>
                 <span className="navbar-text mr-3">
                     <strong>

@@ -143,26 +143,6 @@ export class VendorUpdate extends Component {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Location Longitude</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="location_long"
-                                    onChange={this.onChange}
-                                    value={location_long}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Location Lattitude</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    name="location_lat"
-                                    onChange={this.onChange}
-                                    value={location_lat}
-                                />
-                            </div>
-                            <div className="form-group">
                                 <label>Pincode</label>
                                 <input
                                     type="text"
@@ -170,16 +150,6 @@ export class VendorUpdate extends Component {
                                     name="pincode"
                                     onChange={this.onChange}
                                     value={pincode}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Transaction id</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    name="transaction_id"
-                                    onChange={this.onChange}
-                                    value={transaction_id}
                                 />
                             </div>
                             <div className="form-group">

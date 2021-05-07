@@ -18,11 +18,11 @@ export class VendorRegister extends Component {
         password2: '',
         shop_name: '',
         address: '',
-        location_long: null,
-        location_lat: null,
+        location_long: -1,
+        location_lat: -1,
         pincode: '',
         cod_available: true,
-        transaction_id: '',
+        transaction_id: 'not added',
         is_active: false,
     };
 
@@ -121,7 +121,7 @@ export class VendorRegister extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Password2</label>
+                            <label>Confirm Password</label>
                             <input
                                 type="password"
                                 className="form-control"
@@ -160,26 +160,7 @@ export class VendorRegister extends Component {
                                 value={address}
                             />
                         </div>
-                        <div className="form-group">
-                            <label>Location Longitude</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                name="location_long"
-                                onChange={this.onChange}
-                                value={location_long}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Location Lattitude</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                name="location_lat"
-                                onChange={this.onChange}
-                                value={location_lat}
-                            />
-                        </div>
+
                         <div className="form-group">
                             <label>Pincode</label>
                             <input
@@ -190,16 +171,7 @@ export class VendorRegister extends Component {
                                 value={pincode}
                             />
                         </div>
-                        <div className="form-group">
-                            <label>Transaction id</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="transaction_id"
-                                onChange={this.onChange}
-                                value={transaction_id}
-                            />
-                        </div>
+
                         <input
                             hidden
                             name="is_vendor"

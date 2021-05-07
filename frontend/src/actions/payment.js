@@ -1,20 +1,27 @@
-import { tokenConfig } from "./auth";
-import http from "../http-common";
-import { PAYMENT_FAIL, PAYMENT_SUCCESS, PAYMENT_IN_PROCESS } from "./types";
+import {tokenConfig} from './auth';
+import http from '../http-common';
+import {PAYMENT_FAIL, PAYMENT_SUCCESS, PAYMENT_IN_PROCESS} from './types';
 
 export const pay = (data) => (dispatch, getState) => {
-    dispatch({ type: PAYMENT_IN_PROCESS });
+    dispatch({type: PAYMENT_IN_PROCESS});
     const body = JSON.stringify(data);
-    http.post("ManageOrders/pay", body, tokenConfig(getState))
+    http.post('ManageOrders/pay', body, tokenConfig(getState))
         .then((res) => {
+            console.log('PAy Success');
             console.log(res);
-            dispatch({
-                type: PAYMENT_SUCCESS,
-                payload: res.data,
-            });
+            if (res.data == 'Error') {
+                dispatch({
+                    type: PAYMENT_FAIL,
+                });
+            } else {
+                dispatch({
+                    type: PAYMENT_SUCCESS,
+                    payload: res.data,
+                });
+            }
         })
         .catch((err) => {
-            console.log("PAy Error");
+            console.log('PAy Error');
             console.log(err);
             // dispatch(returnErrors(err.response.data, err.response.status));
             dispatch({

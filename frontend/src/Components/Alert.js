@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
-import { withAlert } from "react-alert";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, {Component, Fragment} from 'react';
+import {withAlert} from 'react-alert';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -14,16 +14,20 @@ export class Alerts extends Component {
     };
 
     async componentDidUpdate(prevProps) {
-        const { error, alert, message } = this.props;
+        const {error, alert, message} = this.props;
 
         console.log(message);
         if (error !== prevProps.error) {
+            if (error.msg.payment) {
+                alert.error(`Payment Error! Please check card details`);
+                await sleep(200);
+            }
             if (error.msg.email) {
                 alert.error(`Email: ${error.msg.email.join()}`);
                 await sleep(200);
             }
             if (error.msg.password) {
-                alert.error(`Password: ${error.msg.password.join()}`);
+                alert.error(`Password not Matched`);
                 await sleep(200);
             }
             if (error.msg.phone) {

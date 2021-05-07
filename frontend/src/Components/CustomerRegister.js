@@ -105,7 +105,7 @@ export class CustomerRegister extends Component {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Password2</label>
+                            <label>Confirm Password</label>
                             <input
                                 type="password"
                                 className="form-control"

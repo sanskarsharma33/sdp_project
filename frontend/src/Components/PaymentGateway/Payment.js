@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadUser } from "../../actions/auth";
-import { loadStripe } from "@stripe/stripe-js";
-import { connect } from "react-redux";
-import InjectedCheckout from "./InjectedCheckout";
-import PropTypes from "prop-types";
-import { Link, Redirect } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import "../../style/CardSection.css";
+import React, {Component} from 'react';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadUser} from '../../actions/auth';
+import {loadStripe} from '@stripe/stripe-js';
+import {connect} from 'react-redux';
+import InjectedCheckout from './InjectedCheckout';
+import PropTypes from 'prop-types';
+import {Link, Redirect} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import '../../style/CardSection.css';
 
 export class Payment extends Component {
     static propTypes = {
@@ -23,13 +23,13 @@ export class Payment extends Component {
 
     render() {
         const stripePromise = loadStripe(
-            "pk_test_51IMTY6BVij55aMSVEs6opqQQKrX7dnbXSWX2J6JMW38U8SjdLttuYJWamDYTeHbjw2eu58YT3VF3zUpIkiK1G8Be00EWtqmz5h"
+            'pk_test_51IMTY6BVij55aMSVEs6opqQQKrX7dnbXSWX2J6JMW38U8SjdLttuYJWamDYTeHbjw2eu58YT3VF3zUpIkiK1G8Be00EWtqmz5h'
         );
         let id = this.props.match.params.id;
         console.log(id);
         console.log(this.props);
         if (!this.props.auth) {
-            console.log("a");
+            console.log('a');
             return <Redirect to="/" />;
         }
 
@@ -39,6 +39,10 @@ export class Payment extends Component {
 
         if (!this.props.auth.isAuthenticated) {
             return <Redirect to="/" />;
+        }
+        console.log('Failed? :');
+        console.log(this.props.payment.failed);
+        if (this.props.payment.failed) {
         }
         if (this.props.payment && this.props.payment.success) {
             return (
@@ -67,4 +71,4 @@ const mapStateToProps = (state) => ({
     payment: state.payment,
 });
 
-export default connect(mapStateToProps, { loadUser })(Payment);
+export default connect(mapStateToProps, {loadUser})(Payment);
